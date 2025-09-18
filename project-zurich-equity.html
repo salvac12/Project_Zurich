@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project ZURICH - Oportunidad de Inversión Equity | Alter5</title>
-    <meta name="description" content="Inversión equity €21 M Build to Sale/Hold corto plazo en SOCIMI para construcción vivienda asequible en zona prime Madrid - Valdebebas">
+    <title>Project ZURICH - Senior Financing | Alter5</title>
+    <meta name="description" content="Senior financing structured under a Project Finance scheme for an affordable rental residential asset located in Valdebebas">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,9 +14,555 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/alter5-colors.css">
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background-color: #1F3A8A;
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content */
+        .main-content {
+            margin-top: 60px;
+            padding: 40px 0;
+        }
+        
+        .project-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1F3A8A;
+            margin-bottom: 30px;
+        }
+        
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .project-description {
+            background-color: #F0F9FF;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #1F3A8A;
+        }
+        
+        .project-description p {
+            margin-bottom: 15px;
+            color: #374151;
+            line-height: 1.6;
+        }
+        
+        .hero-image {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .location-tag {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Key metrics */
+        .key-metrics {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .metric-box {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F3A8A;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #6B7280;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        
+        /* Available documentation */
+        .documentation-section {
+            margin: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .doc-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .doc-button {
+            background-color: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 30px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .doc-button:hover {
+            background-color: #1E3A8A;
+            transform: translateY(-2px);
+        }
+        
+        .doc-button i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        /* About developer */
+        .about-developer {
+            margin: 60px 0;
+        }
+        
+        .developer-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-box {
+            background-color: #F0F9FF;
+            border: 1px solid #BFDBFE;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F3A8A;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+        
+        .developer-description {
+            color: #6B7280;
+            line-height: 1.6;
+        }
+        
+        /* Project description section */
+        .project-details {
+            margin: 60px 0;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .detail-column {
+            background-color: #FAFAFA;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .detail-column h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 20px;
+        }
+        
+        .detail-column p {
+            color: #6B7280;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .detail-column ul {
+            margin-left: 20px;
+            color: #6B7280;
+        }
+        
+        .detail-column li {
+            margin-bottom: 10px;
+        }
+        
+        .asset-characteristics .characteristic-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .characteristic-item:last-child {
+            border-bottom: none;
+        }
+        
+        .characteristic-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F3A8A;
+        }
+        
+        .characteristic-label {
+            font-size: 14px;
+            color: #6B7280;
+        }
+        
+        /* Timeline */
+        .timeline-section {
+            margin: 60px 0;
+        }
+        
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .timeline-item {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .timeline-period {
+            font-size: 12px;
+            color: #6B7280;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-description {
+            font-size: 14px;
+            color: #6B7280;
+            line-height: 1.5;
+        }
+        
+        /* Transaction details */
+        .transaction-details {
+            margin: 60px 0;
+        }
+        
+        .transaction-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .transaction-item {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .transaction-label {
+            font-size: 12px;
+            color: #6B7280;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .transaction-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F3A8A;
+        }
+        
+        /* Risk mitigation */
+        .risk-mitigation {
+            margin: 60px 0;
+        }
+        
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .risk-item {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .risk-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #F0F9FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .risk-icon i {
+            font-size: 24px;
+            color: #1F3A8A;
+        }
+        
+        .risk-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 15px;
+        }
+        
+        .risk-description {
+            font-size: 14px;
+            color: #6B7280;
+            line-height: 1.6;
+        }
+        
+        /* Next steps */
+        .next-steps {
+            margin: 60px 0;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .step-item {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1F3A8A;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+        
+        .step-description {
+            font-size: 12px;
+            color: #6B7280;
+            line-height: 1.4;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background-color: #1F3A8A;
+            padding: 60px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: #1F3A8A;
+            border: none;
+            padding: 20px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+        
+        .cta-button:hover {
+            background-color: #F3F4F6;
+        }
+        
+        .cta-disclaimer {
+            font-size: 14px;
+            color: #BFDBFE;
+            font-style: italic;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #374151;
+            padding: 40px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .confidential {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .copyright {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .key-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .doc-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .developer-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .transaction-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .risk-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -24,20 +570,20 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img src="https://www.alter-5.com/alter-logo-white.svg" alt="Alter5 Logo" class="logo-img" onerror="this.style.display='none';" style="background: var(--alter-blue, #1e3a8a); padding: 8px; border-radius: 4px;">
+                    <i class="fas fa-cube"></i> ALTER 5
                 </div>
-                <nav class="nav">
-                    <a href="#" class="nav-link" data-doc="teaser">
+                <nav class="nav-links">
+                    <a href="#" class="nav-link">
                         <i class="fas fa-file-pdf"></i>
-                        <span>Descargar Teaser</span>
+                        Teaser Download
                     </a>
-                    <a href="#" class="nav-link" data-doc="termsheet">
+                    <a href="#" class="nav-link">
                         <i class="fas fa-file-alt"></i>
-                        <span>Descargar Term-Sheet</span>
+                        Term-Sheet Download
                     </a>
-                    <a href="#" class="nav-link" data-doc="modelo">
-                        <i class="fas fa-table"></i>
-                        <span>Descargar Modelo Financiero</span>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        Financial Model Download
                     </a>
                 </nav>
             </div>
@@ -45,468 +591,303 @@
     </header>
 
     <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <div class="hero-left">
-
-                        
-                        <h1 class="hero-title">Project ZURICH</h1>
-                        
-                        <!-- Operation Description -->
-                        <div class="operation-description">
-                            <p>Inversión de EUR 21 M bajo esquema "Build to Sale/Hold", con rentabilidad mínima anual del 10% en SOCIMI (o vehículo ad-hoc para un único inversor) destinada a vivienda asequible en zona prime de Madrid. El activo se beneficia de la Ley 3/2024, que permite reconvertir suelo de oficinas a residencial protegido, aportando valor desde el inicio.</p>
-                            <p>La inversión se canaliza vía SOCIMI, lo que exime de impuesto sobre sociedades las plusvalías de la venta.</p>
-                            <p>Como salida, se prevé venta en 36 meses a un inversor de largo plazo o mantenimiento para capturar Yield en el período protegido y el upside tras la liberalización (año 15). La rentabilidad esperada oscila entre 11% y 13% a 3 años. En caso de venta, el gestor recibirá un carry del 50% sobre el exceso de rentabilidad superior al 13%.</p>
-                        </div>
-                        
-                    </div>
-                    
-                    <div class="hero-right">
-                        <div class="hero-image">
-                            <img src="images/residential-complex.jpg" alt="Modern Residential Complex - Build to Sale/Hold Project" class="building-image">
-                            <div class="image-overlay">
-                                <div class="overlay-content">
-                                    <div class="location-tag">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span>Valdebebas, Madrid</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <main class="main-content">
+        <div class="container">
+            <!-- Project Title -->
+            <h1 class="project-title">Project ZURICH</h1>
             
-                <!-- Key Metrics Section -->
-                <div class="metrics-container">
-                    <div class="metrics-grid">
-                        <div class="metric-item">
-                            <div class="metric-value">EUR 21 M</div>
-                            <div class="metric-label">IMPORTE TOTAL</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-value">36</div>
-                            <div class="metric-label">MESES</div>
-                            <div class="metric-sublabel">CORTO PLAZO</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-value">10%-13%</div>
-                            <div class="metric-label">TIR ESPERADA</div>
-                            <div class="metric-sublabel">3 AÑOS</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-value">SOCIMI</div>
-                            <div class="metric-label">ESTRUCTURA</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-value">PRIME</div>
-                            <div class="metric-label">UBICACIÓN</div>
-                        </div>
-                    </div>
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="project-description">
+                    <p>Senior financing structured under a Project Finance scheme for an affordable rental residential asset located in Valdebebas, one of Madrid's most dynamic areas. The operation is expected by a protective and adaptive plan from DSCR thanks to regulated rents and an expected occupancy rate exceeding 97% during the protection period.</p>
+                    
+                    <p>The loan is structured for 30 years with a 3-year principal grace period. Senior financing will contribute financial complement (DSCR) to ensure sound protection.</p>
                 </div>
                 
-                <div class="content-wrapper">
-                    <div class="content-left">
-
-                    <!-- Document Downloads -->
-                    <div class="documents-section">
-                        <h3 class="documents-title">Documentación Disponible</h3>
-                        <div class="documents-grid">
-                            <button class="document-btn" data-doc="teaser">
-                                <i class="fas fa-file-pdf"></i>
-                                <span>Teaser</span>
-                            </button>
-                            <button class="document-btn" data-doc="termsheet">
-                                <i class="fas fa-file-alt"></i>
-                                <span>Term-Sheet</span>
-                            </button>
-                            <button class="document-btn" data-doc="modelo">
-                                <i class="fas fa-table"></i>
-                                <span>Modelo Financiero</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Developer Info -->
-                    <div class="developer-section">
-                        <h3 class="section-subtitle">Acerca del Promotor</h3>
-                        <div class="developer-content-compact">
-                            <div class="developer-stats-compact">
-                                <div class="stat-item-compact">
-                                    <div class="stat-number-compact">+20</div>
-                                    <div class="stat-label-compact">Años de experiencia</div>
-                                </div>
-                                <div class="stat-item-compact">
-                                    <div class="stat-number-compact">€1.1B</div>
-                                    <div class="stat-label-compact">Inversión inmobiliaria gestionada</div>
-                                </div>
-                                <div class="stat-item-compact">
-                                    <div class="stat-number-compact">+1,000</div>
-                                    <div class="stat-label-compact">Unidades residenciales entregadas</div>
-                                </div>
-                                <div class="stat-item-compact">
-                                    <div class="stat-number-compact">+10</div>
-                                    <div class="stat-label-compact">Desarrollos residenciales</div>
-                                </div>
-                            </div>
-                            <div class="developer-text-compact">
-                                <p>El proyecto es promovido por un grupo promotor con más de 20 años de experiencia en el sector inmobiliario español, especializado en el desarrollo y gestión de activos residenciales en ubicaciones prime y en expansión.</p>
-                                <p>Su sólido track record incluye la entrega de más de 1,000 unidades residenciales y gestión integral de proyectos bajo diferentes formatos, siempre con altos estándares de calidad y cumplimiento de plazos de ejecución.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Project Details -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Descripción del Proyecto</h2>
-                </div>
-                <div class="content-grid">
-                    <div class="content-card">
-                        <h3>Estructura de Inversión</h3>
-                        <p>Inversión de EUR 21 M "Build to Sale/Hold" con una rentabilidad prevista mínima anual del 10% en SOCIMI (o vehículo ad-hoc a requerimiento de un único inversor para todo el ticket) para proyecto de construcción de vivienda asequible en zona prime de Madrid - Valdebebas.</p>
-                        <ul>
-                            <li>Estructura SOCIMI con beneficios fiscales en plusvalías</li>
-                            <li>Rentabilidad esperada: 11%-13% TIR para salida a 3 años</li>
-                            <li>Máximo €21 M disponible para inversión</li>
-                            <li>Carry del 50% para el equipo gestor sobre rentabilidad >13%</li>
-                        </ul>
-                        
-                        <h4>Estrategia de Salida:</h4>
-                        <p>Los inversores podrán optar por corto plazo (36 meses) con la venta del activo a un inversor de largo plazo o bien mantenerlo capturando el Yield durante el período protegido y el upside en la fase de liberalización del activo (año 15 de explotación).</p>
-                    </div>
-                    <div class="content-card">
-                        <h3>Beneficios del Marco Legal</h3>
-                        <p>El activo se beneficia de la Ley 3/2024, que permite reconvertir suelo de oficinas a residencial protegido, generando valor desde el inicio.</p>
-                        <div class="housing-breakdown">
-                            <div class="housing-item">
-                                <span class="housing-number">LEY</span>
-                                <span class="housing-type">Cumplimiento 3/2024</span>
-                            </div>
-                            <div class="housing-item">
-                                <span class="housing-number">PRIME</span>
-                                <span class="housing-type">Ubicación Valdebebas</span>
-                            </div>
-                            <div class="housing-item">
-                                <span class="housing-number">10%-13%</span>
-                                <span class="housing-type">TIR Esperada 3 años</span>
-                            </div>
-                        </div>
-                        <p class="annexes-note">Zona con mayor crecimiento y revalorización de Madrid</p>
-                        
-                        <!-- Project Image -->
-                        <div class="project-image-container">
-                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Valdebebas Madrid Development Area" class="project-detail-image">
-                        </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Valdebebas Madrid Residential Complex">
+                    <div class="location-tag">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Valdebebas, Madrid
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Timeline -->
-        <section class="timeline-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Cronograma del Proyecto</h2>
+            
+            <!-- Key Metrics -->
+            <div class="key-metrics">
+                <div class="metric-box">
+                    <div class="metric-value">EUR 42M</div>
+                    <div class="metric-label">TOTAL AMOUNT</div>
                 </div>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-date">Meses 1-24</div>
-                        <div class="timeline-content">
-                            <h4>Fase de Construcción</h4>
-                            <p>Desarrollo y construcción del proyecto de vivienda asequible</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Meses 25-36</div>
-                        <div class="timeline-content">
-                            <h4>Período de Estabilización</h4>
-                            <p>Estabilización del activo y decisión de estrategia de salida</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-date">Mes 36 / Año 15</div>
-                        <div class="timeline-content">
-                            <h4>Opciones de Salida</h4>
-                            <p>Venta corto plazo (36 meses) o mantenimiento largo plazo (15 años)</p>
-                        </div>
-                    </div>
+                <div class="metric-box">
+                    <div class="metric-value">30</div>
+                    <div class="metric-label">MONTHS</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">3</div>
+                    <div class="metric-label">YEARS</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">70%</div>
+                    <div class="metric-label">LTC</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">251</div>
+                    <div class="metric-label">HOUSING UNITS</div>
                 </div>
             </div>
-        </section>
-
-        <!-- Transaction Details -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Detalles de la Transacción</h2>
+            
+            <!-- Available Documentation -->
+            <div class="documentation-section">
+                <h2 class="section-title">Available Documentation</h2>
+                <div class="doc-buttons">
+                    <button class="doc-button">
+                        <i class="fas fa-file-pdf"></i>
+                        TEASER
+                    </button>
+                    <button class="doc-button">
+                        <i class="fas fa-file-alt"></i>
+                        TERM-SHEET
+                    </button>
+                    <button class="doc-button">
+                        <i class="fas fa-chart-line"></i>
+                        FINANCIAL MODEL
+                    </button>
                 </div>
+            </div>
+
+            <!-- About the Developer -->
+            <div class="about-developer">
+                <h2 class="section-title">About the Developer</h2>
+                <div class="developer-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">+20</div>
+                        <div class="stat-label">Years of experience</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">€1.1B</div>
+                        <div class="stat-label">Real estate investment managed</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">+1,000</div>
+                        <div class="stat-label">Residential units delivered</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">+10</div>
+                        <div class="stat-label">Residential developments</div>
+                    </div>
+                </div>
+                <div class="developer-description">
+                    <p>The project is pioneered by a development group with more than 20 years of experience in the Spanish real estate sector, specializing in the development and management of residential assets in prime and expanding locations.</p>
+                    <p>Their solid track record includes the delivery of more than 1,000 residential units and comprehensive project management under different formats, always with high quality standards and compliance with execution deadlines.</p>
+                </div>
+            </div>
+
+            <!-- Project Description -->
+            <div class="project-details">
+                <h2 class="section-title">Project Description</h2>
                 <div class="details-grid">
-                    <div class="detail-card">
-                        <div class="detail-label">Estructura de Inversión</div>
-                        <div class="detail-value">Inversión equity en SOCIMI</div>
+                    <div class="detail-column">
+                        <h3>Financial Structure</h3>
+                        <p>Senior financing structured under a Project Finance scheme for an affordable rental residential asset located in Valdebebas, one of Madrid's most dynamic areas.</p>
+                        <ul>
+                            <li>30-year structured loan with 3-year principal grace period</li>
+                            <li>Incorporation of financial covenants (DSCR) for lender protection</li>
+                            <li>70% LTC ensuring ample equity coverage</li>
+                        </ul>
                     </div>
-                    <div class="detail-card">
-                        <div class="detail-label">Importe de Inversión</div>
-                        <div class="detail-value">€21,000,000</div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-label">Importe Disponible</div>
-                        <div class="detail-value">€21,000,000</div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-label">Tipo de Inversión</div>
-                        <div class="detail-value">Build to Sale/Hold - Corto Plazo</div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-label">Plazo</div>
-                        <div class="detail-value">36 meses</div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-label">Ubicación</div>
-                        <div class="detail-value">Valdebebas, Madrid</div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-label">Marco Legal</div>
-                        <div class="detail-value">Beneficios Ley 3/2024</div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-label">Estructura Fiscal</div>
-                        <div class="detail-value">SOCIMI - Exención plusvalías</div>
+                    <div class="detail-column asset-characteristics">
+                        <h3>Asset Characteristics</h3>
+                        <p>Total of 251 housing units distributed across different typologies adapted to Madrid market demand.</p>
+                        
+                        <div class="characteristic-item">
+                            <div class="characteristic-number">50</div>
+                            <div class="characteristic-label">1-bedroom housing units</div>
+                        </div>
+                        <div class="characteristic-item">
+                            <div class="characteristic-number">186</div>
+                            <div class="characteristic-label">2-bedroom housing units</div>
+                        </div>
+                        <div class="characteristic-item">
+                            <div class="characteristic-number">15</div>
+                            <div class="characteristic-label">3-bedroom housing units</div>
+                        </div>
+                        
+                        <p style="font-size: 12px; color: #9CA3AF; margin-top: 15px;">Includes parking spaces, storage rooms and landscaped common areas.</p>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Risk Mitigation -->
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Aspectos Destacados de la Inversión</h2>
+            <!-- Project Timeline -->
+            <div class="timeline-section">
+                <h2 class="section-title">Project Timeline</h2>
+                <div class="timeline-grid">
+                    <div class="timeline-item">
+                        <div class="timeline-period">JANUARY 2024 - MARCH 2026</div>
+                        <div class="timeline-title">Construction</div>
+                        <div class="timeline-description">Complete execution of the residential project</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-period">APRIL 2026 - SEPTEMBER 2026</div>
+                        <div class="timeline-title">Rental Stabilization</div>
+                        <div class="timeline-description">Target occupancy >97% during protection period</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-period">FEBRUARY 2029</div>
+                        <div class="timeline-title">Repayment Start</div>
+                        <div class="timeline-description">Beginning of principal repayment period</div>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Transaction Details -->
+            <div class="transaction-details">
+                <h2 class="section-title">Transaction Details</h2>
+                <div class="transaction-grid">
+                    <div class="transaction-item">
+                        <div class="transaction-label">SPONSOR</div>
+                        <div class="transaction-value">SPV ("AssetCo") grouping all assets</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">DEBT AMOUNT</div>
+                        <div class="transaction-value">€42,000,000</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">STRUCTURE</div>
+                        <div class="transaction-value">Senior secured loan with 36-month grace period</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">LTC</div>
+                        <div class="transaction-value">70%</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">REFERENCE RATE</div>
+                        <div class="transaction-value">3m Euribor (% IRS to be determined)</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">CREDIT MARGIN</div>
+                        <div class="transaction-value">125 bps</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">TERM</div>
+                        <div class="transaction-value">30 years</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">GRACE PERIOD</div>
+                        <div class="transaction-value">3 years</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Mitigation Factors -->
+            <div class="risk-mitigation">
+                <h2 class="section-title">Risk Mitigation Factors</h2>
                 <div class="risk-grid">
-                    <div class="risk-card">
+                    <div class="risk-item">
                         <div class="risk-icon">
-                            <i class="fas fa-building"></i>
+                            <i class="fas fa-shield-alt"></i>
                         </div>
-                        <h4>Beneficios de Ubicación Prime</h4>
-                        <p>Valdebebas combina infraestructura moderna, excelente conectividad y demanda estructuralmente mayor que la oferta en zona prime de Madrid.</p>
+                        <div class="risk-title">High Equity Coverage</div>
+                        <div class="risk-description">The investment vehicle (SOCIMI) contributes approx. €20M of equity, absorbing the first loss and ensuring alignment of interests.</div>
                     </div>
-                    <div class="risk-card">
+                    <div class="risk-item">
                         <div class="risk-icon">
-                            <i class="fas fa-gavel"></i>
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <h4>Ventaja del Marco Legal</h4>
-                        <p>El proyecto se beneficia de la Ley 3/2024 que permite convertir suelo de oficinas a residencial protegido, generando valor desde el inicio.</p>
+                        <div class="risk-title">Strategic Location</div>
+                        <div class="risk-description">Valdebebas combines modern infrastructure, excellent connectivity and structurally higher demand than supply.</div>
                     </div>
-                    <div class="risk-card">
+                    <div class="risk-item">
+                        <div class="risk-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div class="risk-title">Urban Planning Risk Eliminated</div>
+                        <div class="risk-description">Land acquired with granted license and approved project in accordance with Law 3/2024 (conversion of office land to protected residential).</div>
+                    </div>
+                    <div class="risk-item">
                         <div class="risk-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
-                        <h4>Estructura Fiscal SOCIMI</h4>
-                        <p>Inversión canalizada a través de estructura SOCIMI proporcionando exención fiscal en plusvalías de venta del activo.</p>
-                    </div>
-                    <div class="risk-card">
-                        <div class="risk-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h4>Estrategia de Corto Plazo</h4>
-                        <p>Modelo Build to Sale/Hold con horizonte de inversión de 36 meses para opción corto plazo o mantenimiento a largo plazo (15 años) para capturar upside en liberalización.</p>
+                        <div class="risk-title">Predictable Cash Flows</div>
+                        <div class="risk-description">Affordable rental with expected occupancy >97% during the protection period.</div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Next Steps -->
-        <section class="next-steps">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Próximos Pasos</h2>
-                </div>
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h2 class="section-title">Next Steps</h2>
                 <div class="steps-grid">
                     <div class="step-item">
                         <div class="step-number">01</div>
-                        <div class="step-content">
-                            <h4>Confirmación de Interés</h4>
-                            <p>Antes del 30 de septiembre de 2025</p>
-                        </div>
+                        <div class="step-title">Interest Confirmation</div>
+                        <div class="step-description">Before September 30, 2025</div>
                     </div>
                     <div class="step-item">
                         <div class="step-number">02</div>
-                        <div class="step-content">
-                            <h4>Firma del NDA</h4>
-                            <p>Requerido para revisión detallada de documentos</p>
-                        </div>
+                        <div class="step-title">NDA Signature</div>
+                        <div class="step-description">Required for detailed document review</div>
                     </div>
                     <div class="step-item">
                         <div class="step-number">03</div>
-                        <div class="step-content">
-                            <h4>Acceso a Data Room</h4>
-                            <p>Modelo financiero completo y documentación detallada</p>
-                        </div>
+                        <div class="step-title">Data Room Access</div>
+                        <div class="step-description">Complete financial model and detailed documentation</div>
                     </div>
                     <div class="step-item">
                         <div class="step-number">04</div>
-                        <div class="step-content">
-                            <h4>Cierre Objetivo</h4>
-                            <p>15 de noviembre de 2025</p>
-                        </div>
+                        <div class="step-title">Target Closing</div>
+                        <div class="step-description">November 15, 2025</div>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Final CTA Section -->
-        <section class="final-cta-section">
-            <div class="container">
-                <div class="final-cta-content">
-                    <div class="cta-section">
-                        <button class="btn-primary" id="accessBtn">
-                            FIRMAR NDA Y ACCEDER A DETALLES DE INVERSIÓN
-                        </button>
-                        <p class="cta-disclaimer">Confirmación de interés requerida antes del 30 de septiembre de 2025</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
     </main>
-
-
+    
+    <!-- Call to Action Section -->
+    <div class="cta-section">
+        <div class="container">
+            <button class="cta-button">SIGN NDA AND ACCESS INVESTMENT DETAILS</button>
+            <div class="cta-disclaimer">Interest confirmation required before September 30, 2025</div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="confidential-notice">
-                    <p><strong>CONFIDENCIAL</strong> - Este documento contiene información confidencial y privilegiada. Su distribución está restringida únicamente a inversores institucionales cualificados.</p>
-                </div>
-                <div class="footer-links">
-                    <span>© 2025 Alter5. Todos los derechos reservados.</span>
-                </div>
+            <div class="confidential">
+                <strong>CONFIDENTIAL</strong> - This document contains confidential and privileged information. Its distribution is restricted solely to qualified institutional investors.
+            </div>
+            <div class="copyright">
+                © 2025 Alter5. All rights reserved.
             </div>
         </div>
     </footer>
 
-    <!-- Modal NDA -->
-    <div id="ndaModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="modal-header">
-                <h3>Acceso a la Inversión</h3>
-            </div>
-            <div class="modal-body">
-                <div class="nda-content">
-                    <i class="fas fa-file-signature modal-icon"></i>
-                    <h4>Proceder con la Firma del NDA</h4>
-                    <p>Para acceder a información detallada sobre el Project ZURICH y proceder con la inversión, es necesario completar el Acuerdo de Confidencialidad (NDA).</p>
-                    <div class="nda-benefits">
-                        <ul>
-                            <li>Acceso completo al Data Room</li>
-                            <li>Modelo financiero detallado</li>
-                            <li>Documentación legal completa</li>
-                            <li>Información de due diligence</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn-secondary" id="cancelNda">Cancelar</button>
-                    <button class="btn-primary" id="proceedNda">Proceder con NDA</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notification -->
-    <div id="notification" class="notification">
-        <div class="notification-content">
-            <span id="notificationText"></span>
-            <button class="notification-close">&times;</button>
-        </div>
-    </div>
-
-    <!-- Analytics and Configuration -->
-    <script src="js/config.js"></script>
-    <script src="js/debug-visitor-tracking.js"></script>
-    <script src="js/visitor-lookup.js"></script>
-    <script src="js/vercel-analytics.js"></script>
-    
-    <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Force access without any authentication
-            console.log('Project ZURICH Equity - FULL ACCESS MODE');
+            // Simple button interactions
+            const docButtons = document.querySelectorAll('.doc-button');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const ctaButton = document.querySelector('.cta-button');
             
-            // Get token if provided (for logging purposes only)
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-            
-            if (token) {
-                console.log('Visitor token detected:', token);
-            }
-            
-            // All functionality without restrictions
-            const accessBtn = document.getElementById('accessBtn');
-            const ndaModal = document.getElementById('ndaModal');
-            const closeModal = document.querySelector('.close');
-            const cancelNda = document.getElementById('cancelNda');
-            const proceedNda = document.getElementById('proceedNda');
-            const documentBtns = document.querySelectorAll('.document-btn, .nav-link[data-doc]');
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            const notificationClose = document.querySelector('.notification-close');
-
-            function openNDAModal() {
-                ndaModal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeNDAModal() {
-                ndaModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-
-            function showNotification(message, type = 'info') {
-                notificationText.textContent = message;
-                notification.className = `notification show ${type}`;
-                setTimeout(() => notification.classList.remove('show'), 4000);
-            }
-
-            // Event listeners
-            accessBtn?.addEventListener('click', openNDAModal);
-            closeModal?.addEventListener('click', closeNDAModal);
-            cancelNda?.addEventListener('click', closeNDAModal);
-            
-            proceedNda?.addEventListener('click', function() {
-                showNotification('¡Gracias por su interés! Nuestro equipo se pondrá en contacto con usted.', 'success');
-                closeNDAModal();
-            });
-
-            documentBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const docType = this.getAttribute('data-doc');
-                    showNotification(`Documento ${docType} - Contacte con nuestro equipo de inversión para acceder.`, 'info');
+            // Handle documentation buttons
+            docButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('Please contact our investment team to access documentation.');
                 });
             });
-
-            notificationClose?.addEventListener('click', () => notification.classList.remove('show'));
-
-            // Smooth scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+            
+            // Handle navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    alert('Please contact our investment team to access documentation.');
                 });
+            });
+            
+            // Handle CTA button
+            ctaButton?.addEventListener('click', function() {
+                alert('Thank you for your interest! Our investment team will contact you shortly.');
             });
         });
     </script>

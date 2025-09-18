@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Analytics - Project ZURICH | Alter5</title>
+    <link rel="stylesheet" href="css/alter5-colors.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .chart-container {
+            height: 400px;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, var(--alter-blue) 0%, var(--alter-blue-dark) 100%);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-gray-900">Analytics Dashboard</h1>
+                    <span class="ml-3 px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                        Project ZURICH - Alter5
+                    </span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <select id="projectFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                        <option value="all">Todos los proyectos</option>
+                        <option value="senior_financing">Financiación Senior</option>
+                        <option value="equity_investment">Inversión Equity</option>
+                    </select>
+                    <select id="timeFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                        <option value="7">Últimos 7 días</option>
+                        <option value="30" selected>Últimos 30 días</option>
+                        <option value="90">Últimos 90 días</option>
+                        <option value="all">Todo el tiempo</option>
+                    </select>
+                    <button id="refreshBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        Actualizar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Métricas principales -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="metric-card text-white p-6 rounded-lg shadow">
+                <h3 class="text-sm font-medium text-blue-100">Visitantes Únicos</h3>
+                <p id="totalVisitors" class="text-3xl font-bold mt-2">-</p>
+                <p id="visitorsChange" class="text-sm text-blue-100 mt-1">-</p>
+            </div>
+            
+            <div class="metric-card text-white p-6 rounded-lg shadow">
+                <h3 class="text-sm font-medium text-blue-100">Total Descargas</h3>
+                <p id="totalDownloads" class="text-3xl font-bold mt-2">-</p>
+                <p id="downloadsChange" class="text-sm text-blue-100 mt-1">-</p>
+            </div>
+            
+            <div class="metric-card text-white p-6 rounded-lg shadow">
+                <h3 class="text-sm font-medium text-blue-100">Solicitudes NDA</h3>
+                <p id="totalNDARequests" class="text-3xl font-bold mt-2">-</p>
+                <p id="ndaChange" class="text-sm text-blue-100 mt-1">-</p>
+            </div>
+            
+            <div class="metric-card text-white p-6 rounded-lg shadow">
+                <h3 class="text-sm font-medium text-blue-100">Tiempo Promedio</h3>
+                <p id="avgTimeOnSite" class="text-3xl font-bold mt-2">-</p>
+                <p id="timeChange" class="text-sm text-blue-100 mt-1">-</p>
+            </div>
+        </div>
+
+        <!-- Gráficos principales -->
+        <div class="stats-grid mb-8">
+            <!-- Gráfico de descargas por tipo -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Descargas por Tipo de Archivo</h3>
+                <div class="chart-container">
+                    <canvas id="downloadsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico de visitantes por tiempo -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Visitantes por Día</h3>
+                <div class="chart-container">
+                    <canvas id="visitorsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tablas detalladas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Top visitantes -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Visitantes Más Activos</h3>
+                </div>
+                <div class="p-6">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="border-b border-gray-200">
+                                    <th class="text-left py-2 text-sm font-medium text-gray-500">Visitante</th>
+                                    <th class="text-left py-2 text-sm font-medium text-gray-500">Descargas</th>
+                                    <th class="text-left py-2 text-sm font-medium text-gray-500">Tiempo</th>
+                                    <th class="text-left py-2 text-sm font-medium text-gray-500">NDA</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topVisitorsTable">
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-gray-500">Cargando datos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Archivos más descargados -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Archivos Más Descargados</h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3" id="topFilesContainer">
+                        <div class="text-center py-4 text-gray-500">Cargando datos...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Análisis detallado -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Análisis Detallado por Visitante</h3>
+                <p class="text-sm text-gray-500 mt-1">Información completa de comportamiento e interacciones</p>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">Email</th>
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">Empresa</th>
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">Proyecto</th>
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">Último Acceso</th>
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">Term Sheet</th>
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">Teaser</th>
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">Modelo Financiero</th>
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">NDA</th>
+                                <th class="text-left py-3 text-sm font-medium text-gray-500">Tiempo Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailedAnalysisTable">
+                            <tr>
+                                <td colspan="9" class="text-center py-8 text-gray-500">Cargando análisis detallado...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas en tiempo real -->
+        <div class="mt-8 bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Actividad en Tiempo Real</h3>
+                <p class="text-sm text-gray-500 mt-1">Visitantes activos y eventos recientes</p>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-green-600" id="activeVisitors">0</p>
+                        <p class="text-sm text-gray-500">Visitantes Activos</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-blue-600" id="recentDownloads">0</p>
+                        <p class="text-sm text-gray-500">Descargas (Última Hora)</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-3xl font-bold text-purple-600" id="recentNDAs">0</p>
+                        <p class="text-sm text-gray-500">NDAs (Última Hora)</p>
+                    </div>
+                </div>
+                
+                <!-- Log de eventos recientes -->
+                <div class="mt-6">
+                    <h4 class="text-sm font-medium text-gray-900 mb-3">Eventos Recientes</h4>
+                    <div class="space-y-2 max-h-48 overflow-y-auto" id="recentEventsLog">
+                        <div class="text-sm text-gray-500">Cargando eventos...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/supabase-client.js"></script>
+    <script>
+        // Dashboard Analytics Controller
+        class AnalyticsDashboard {
+            constructor() {
+                this.charts = {};
+                this.refreshInterval = null;
+                this.init();
+            }
+
+            async init() {
+                this.setupEventListeners();
+                await this.loadDashboard();
+                this.startRealTimeUpdates();
+            }
+
+            setupEventListeners() {
+                document.getElementById('refreshBtn').addEventListener('click', () => {
+                    this.loadDashboard();
+                });
+
+                document.getElementById('projectFilter').addEventListener('change', () => {
+                    this.loadDashboard();
+                });
+
+                document.getElementById('timeFilter').addEventListener('change', () => {
+                    this.loadDashboard();
+                });
+            }
+
+            async loadDashboard() {
+                try {
+                    await Promise.all([
+                        this.loadMainMetrics(),
+                        this.loadDownloadsChart(),
+                        this.loadVisitorsChart(),
+                        this.loadTopVisitors(),
+                        this.loadTopFiles(),
+                        this.loadDetailedAnalysis()
+                    ]);
+                } catch (error) {
+                    console.error('Error loading dashboard:', error);
+                }
+            }
+
+            async loadMainMetrics() {
+                // Simulated data - en producción vendría de Supabase
+                document.getElementById('totalVisitors').textContent = '23';
+                document.getElementById('visitorsChange').textContent = '+15% vs mes anterior';
+                
+                document.getElementById('totalDownloads').textContent = '47';
+                document.getElementById('downloadsChange').textContent = '+32% vs mes anterior';
+                
+                document.getElementById('totalNDARequests').textContent = '8';
+                document.getElementById('ndaChange').textContent = '+12% vs mes anterior';
+                
+                document.getElementById('avgTimeOnSite').textContent = '4:23';
+                document.getElementById('timeChange').textContent = '+8% vs mes anterior';
+            }
+
+            async loadDownloadsChart() {
+                const ctx = document.getElementById('downloadsChart').getContext('2d');
+                
+                if (this.charts.downloads) {
+                    this.charts.downloads.destroy();
+                }
+
+                this.charts.downloads = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Term Sheet', 'Teaser', 'Modelo Financiero', 'NDA'],
+                        datasets: [{
+                            data: [15, 20, 8, 4],
+                            backgroundColor: [
+                                'var(--alter-blue)',
+                                'var(--alter-green)',
+                                '#f59e0b',
+                                '#8b5cf6'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+
+            async loadVisitorsChart() {
+                const ctx = document.getElementById('visitorsChart').getContext('2d');
+                
+                if (this.charts.visitors) {
+                    this.charts.visitors.destroy();
+                }
+
+                // Simulated data for the last 30 days
+                const labels = [];
+                const data = [];
+                for (let i = 29; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    labels.push(date.toLocaleDateString('es-ES', { month: 'short', day: 'numeric' }));
+                    data.push(Math.floor(Math.random() * 5) + 1);
+                }
+
+                this.charts.visitors = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Visitantes',
+                            data: data,
+                            borderColor: 'var(--alter-blue)',
+                            backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            async loadTopVisitors() {
+                const mockData = [
+                    { name: 'Juan García', email: 'j.garcia@***.com', company: 'InvestCorp', downloads: 5, time: '12:30', nda: 'Sí' },
+                    { name: 'María López', email: 'm.lopez@***.com', company: 'Capital Partners', downloads: 3, time: '8:45', nda: 'Pendiente' },
+                    { name: 'Pedro Martín', email: 'p.martin@***.com', company: 'Equity Fund', downloads: 4, time: '6:20', nda: 'Sí' }
+                ];
+
+                const tbody = document.getElementById('topVisitorsTable');
+                tbody.innerHTML = mockData.map(visitor => `
+                    <tr class="border-b border-gray-100">
+                        <td class="py-3">
+                            <div class="text-sm font-medium text-gray-900">${visitor.name}</div>
+                            <div class="text-sm text-gray-500">${visitor.company}</div>
+                        </td>
+                        <td class="py-3 text-sm text-gray-900">${visitor.downloads}</td>
+                        <td class="py-3 text-sm text-gray-900">${visitor.time}</td>
+                        <td class="py-3">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${visitor.nda === 'Sí' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                                ${visitor.nda}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            async loadTopFiles() {
+                const mockFiles = [
+                    { name: 'Project ZURICH - Term Sheet', downloads: 15, type: 'term-sheet' },
+                    { name: 'Investment Teaser', downloads: 20, type: 'teaser' },
+                    { name: 'Financial Model', downloads: 8, type: 'financial-model' },
+                    { name: 'NDA Agreement', downloads: 4, type: 'nda' }
+                ];
+
+                const container = document.getElementById('topFilesContainer');
+                container.innerHTML = mockFiles.map(file => `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-2 h-2 rounded-full mr-3" style="background-color: ${this.getFileTypeColor(file.type)}"></div>
+                            <span class="text-sm font-medium text-gray-900">${file.name}</span>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-600">${file.downloads}</span>
+                    </div>
+                `).join('');
+            }
+
+            async loadDetailedAnalysis() {
+                const mockAnalysis = [
+                    { 
+                        email: 'j.garcia@investcorp.com', 
+                        company: 'InvestCorp', 
+                        project: 'Senior', 
+                        lastAccess: '2024-01-15 14:30', 
+                        termSheet: 2, 
+                        teaser: 1, 
+                        financial: 1, 
+                        nda: 'Firmado', 
+                        totalTime: '25:30' 
+                    },
+                    { 
+                        email: 'm.lopez@capital.com', 
+                        company: 'Capital Partners', 
+                        project: 'Equity', 
+                        lastAccess: '2024-01-14 16:45', 
+                        termSheet: 1, 
+                        teaser: 2, 
+                        financial: 0, 
+                        nda: 'Pendiente', 
+                        totalTime: '18:22' 
+                    }
+                ];
+
+                const tbody = document.getElementById('detailedAnalysisTable');
+                tbody.innerHTML = mockAnalysis.map(row => `
+                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                        <td class="py-3 text-sm text-gray-900">${row.email}</td>
+                        <td class="py-3 text-sm text-gray-900">${row.company}</td>
+                        <td class="py-3">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.project === 'Senior' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}">
+                                ${row.project}
+                            </span>
+                        </td>
+                        <td class="py-3 text-sm text-gray-900">${row.lastAccess}</td>
+                        <td class="py-3 text-sm text-center text-gray-900">${row.termSheet}</td>
+                        <td class="py-3 text-sm text-center text-gray-900">${row.teaser}</td>
+                        <td class="py-3 text-sm text-center text-gray-900">${row.financial}</td>
+                        <td class="py-3">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.nda === 'Firmado' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                                ${row.nda}
+                            </span>
+                        </td>
+                        <td class="py-3 text-sm text-gray-900">${row.totalTime}</td>
+                    </tr>
+                `).join('');
+            }
+
+            startRealTimeUpdates() {
+                // Actualizar métricas en tiempo real cada 30 segundos
+                this.refreshInterval = setInterval(() => {
+                    this.updateRealTimeMetrics();
+                }, 30000);
+
+                // Cargar métricas iniciales
+                this.updateRealTimeMetrics();
+            }
+
+            updateRealTimeMetrics() {
+                // Simular datos en tiempo real
+                document.getElementById('activeVisitors').textContent = Math.floor(Math.random() * 8) + 1;
+                document.getElementById('recentDownloads').textContent = Math.floor(Math.random() * 5);
+                document.getElementById('recentNDAs').textContent = Math.floor(Math.random() * 3);
+
+                // Log de eventos recientes
+                this.updateRecentEvents();
+            }
+
+            updateRecentEvents() {
+                const events = [
+                    { time: '14:32', event: 'Descarga: Term Sheet', user: 'j.garcia@***.com' },
+                    { time: '14:28', event: 'Solicitud NDA', user: 'm.lopez@***.com' },
+                    { time: '14:15', event: 'Nuevo visitante', user: 'p.martin@***.com' },
+                    { time: '14:02', event: 'Descarga: Teaser', user: 'a.rodriguez@***.com' }
+                ];
+
+                const container = document.getElementById('recentEventsLog');
+                container.innerHTML = events.map(event => `
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-900">${event.event}</span>
+                        <span class="text-gray-500">${event.time}</span>
+                    </div>
+                    <div class="text-xs text-gray-400 mb-2">${event.user}</div>
+                `).join('');
+            }
+
+            getFileTypeColor(type) {
+                const colors = {
+                    'term-sheet': 'var(--alter-blue)',
+                    'teaser': 'var(--alter-green)',
+                    'financial-model': '#f59e0b',
+                    'nda': '#8b5cf6'
+                };
+                return colors[type] || '#6b7280';
+            }
+
+            destroy() {
+                if (this.refreshInterval) {
+                    clearInterval(this.refreshInterval);
+                }
+                
+                Object.values(this.charts).forEach(chart => {
+                    if (chart) chart.destroy();
+                });
+            }
+        }
+
+        // Inicializar dashboard
+        let dashboardInstance;
+        document.addEventListener('DOMContentLoaded', function() {
+            dashboardInstance = new AnalyticsDashboard();
+        });
+
+        // Limpiar al salir
+        window.addEventListener('beforeunload', () => {
+            if (dashboardInstance) {
+                dashboardInstance.destroy();
+            }
+        });
+    </script>
+</body>
+</html>

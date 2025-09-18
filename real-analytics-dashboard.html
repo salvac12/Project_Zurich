@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - DATOS REALES | Project ZURICH Alter5</title>
+    <link rel="stylesheet" href="css/alter5-colors.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .metric-card {
+            background: linear-gradient(135deg, var(--alter-blue) 0%, var(--alter-blue-dark) 100%);
+        }
+        .chart-container { height: 300px; }
+        .notification {
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .real-data-indicator {
+            background: linear-gradient(45deg, #10b981, #059669);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-gray-900">Analytics Dashboard</h1>
+                    <span id="dataTypeIndicator" class="ml-3 px-3 py-1 real-data-indicator text-white text-sm font-medium rounded-full">
+                        📊 DATOS REALES
+                    </span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <select id="dataSource" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+                        <option value="real">Datos Reales</option>
+                        <option value="demo">Datos Demo</option>
+                    </select>
+                    <button id="refreshBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        🔄 Actualizar
+                    </button>
+                    <button id="exportBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                        📊 Exportar CSV
+                    </button>
+                    <button id="clearDataBtn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                        🗑️ Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Estado de conexión -->
+        <div id="connectionStatus" class="mb-6 p-4 rounded-lg border-l-4">
+            <div class="flex items-center">
+                <div id="statusIndicator" class="w-3 h-3 rounded-full mr-3"></div>
+                <span id="statusText" class="font-medium">Conectando a API...</span>
+                <span id="eventCounter" class="ml-4 text-sm text-gray-600"></span>
+            </div>
+        </div>
+
+        <!-- Métricas principales -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="metric-card text-white p-6 rounded-lg shadow">
+                <h3 class="text-sm font-medium text-blue-100">Visitantes Únicos</h3>
+                <p id="totalVisitors" class="text-3xl font-bold mt-2">0</p>
+                <p class="text-sm text-blue-100 mt-1">Total capturados</p>
+            </div>
+            
+            <div class="metric-card text-white p-6 rounded-lg shadow">
+                <h3 class="text-sm font-medium text-blue-100">Total Descargas</h3>
+                <p id="totalDownloads" class="text-3xl font-bold mt-2">0</p>
+                <p class="text-sm text-blue-100 mt-1">Archivos descargados</p>
+            </div>
+            
+            <div class="metric-card text-white p-6 rounded-lg shadow">
+                <h3 class="text-sm font-medium text-blue-100">Solicitudes NDA</h3>
+                <p id="totalNDAs" class="text-3xl font-bold mt-2">0</p>
+                <p class="text-sm text-blue-100 mt-1">NDAs solicitadas</p>
+            </div>
+            
+            <div class="metric-card text-white p-6 rounded-lg shadow">
+                <h3 class="text-sm font-medium text-blue-100">Eventos Totales</h3>
+                <p id="totalEvents" class="text-3xl font-bold mt-2">0</p>
+                <p class="text-sm text-blue-100 mt-1">Interacciones</p>
+            </div>
+        </div>
+
+        <!-- Información de inicio -->
+        <div id="noDataMessage" class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-blue-700">
+                        <strong>¡Sistema listo para capturar datos!</strong> 
+                        Para ver analytics reales, navega por tu sitio, haz clic en descargas o solicita NDAs. 
+                        Los datos aparecerán aquí automáticamente.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Gráfico de descargas -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">📁 Descargas por Tipo (Real)</h3>
+                <div class="chart-container">
+                    <canvas id="downloadsChart"></canvas>
+                </div>
+                <div id="noDownloadsMessage" class="text-center text-gray-500 py-8">
+                    <p>No hay descargas registradas aún</p>
+                    <p class="text-sm">Haz clic en los enlaces de descarga para ver datos aquí</p>
+                </div>
+            </div>
+
+            <!-- Gráfico de actividad -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">📈 Actividad por Día (Real)</h3>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+                <div id="noActivityMessage" class="text-center text-gray-500 py-8">
+                    <p>No hay actividad registrada aún</p>
+                    <p class="text-sm">La actividad aparecerá automáticamente</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de visitantes -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">👥 Visitantes Reales</h3>
+                <p class="text-sm text-gray-500 mt-1">Datos capturados en tiempo real desde tu sitio web</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email / Token</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Proyecto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Descargas</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">NDA</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sesiones</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Última Actividad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visitorsTableBody" class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                                <p class="text-lg">👻 No hay visitantes registrados aún</p>
+                                <p class="text-sm mt-2">Los visitantes aparecerán cuando naveguen con tokens únicos</p>
+                                <p class="text-xs mt-2 text-blue-600">Prueba visitando: tu-sitio.com/?token=test123</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Log de eventos en tiempo real -->
+        <div class="mt-8 bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">🔴 Eventos en Tiempo Real</h3>
+                <p class="text-sm text-gray-500 mt-1">Últimas interacciones capturadas automáticamente</p>
+            </div>
+            <div class="p-6">
+                <div id="eventsLog" class="space-y-3 max-h-64 overflow-y-auto">
+                    <div class="text-sm text-gray-500 italic text-center py-4">
+                        <p>🎯 Esperando eventos...</p>
+                        <p class="text-xs mt-1">Los eventos aparecerán automáticamente cuando interactúes con el sitio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class RealAnalyticsDashboard {
+            constructor() {
+                this.charts = {};
+                this.updateInterval = null;
+                this.currentDataSource = 'real';
+                this.init();
+            }
+
+            async init() {
+                this.setupEventListeners();
+                await this.loadDashboard();
+                this.startRealTimeUpdates();
+            }
+
+            setupEventListeners() {
+                document.getElementById('refreshBtn').addEventListener('click', () => {
+                    this.loadDashboard();
+                });
+
+                document.getElementById('exportBtn').addEventListener('click', () => {
+                    this.exportToCSV();
+                });
+
+                document.getElementById('clearDataBtn').addEventListener('click', () => {
+                    this.clearAllData();
+                });
+
+                document.getElementById('dataSource').addEventListener('change', (e) => {
+                    this.currentDataSource = e.target.value;
+                    this.updateDataSourceIndicator();
+                    this.loadDashboard();
+                });
+            }
+
+            updateDataSourceIndicator() {
+                const indicator = document.getElementById('dataTypeIndicator');
+                if (this.currentDataSource === 'real') {
+                    indicator.textContent = '📊 DATOS REALES';
+                    indicator.className = 'ml-3 px-3 py-1 real-data-indicator text-white text-sm font-medium rounded-full';
+                } else {
+                    indicator.textContent = '🎭 DATOS DEMO';
+                    indicator.className = 'ml-3 px-3 py-1 bg-yellow-500 text-white text-sm font-medium rounded-full';
+                }
+            }
+
+            async loadDashboard() {
+                try {
+                    this.updateConnectionStatus('connecting');
+                    
+                    // Elegir API según fuente de datos
+                    const apiUrl = this.currentDataSource === 'real' ? '/api/analytics-real' : '/api/analytics';
+                    const response = await fetch(apiUrl);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.updateConnectionStatus('connected');
+                        this.populateDashboard(data);
+                        
+                        // Actualizar contador de eventos
+                        if (data.stats?.totalEvents !== undefined) {
+                            document.getElementById('eventCounter').textContent = 
+                                `${data.stats.totalEvents} eventos capturados`;
+                        }
+                    } else {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                } catch (error) {
+                    console.error('Error loading dashboard:', error);
+                    this.updateConnectionStatus('error');
+                    
+                    if (this.currentDataSource === 'real') {
+                        this.showNoDataState();
+                    }
+                }
+            }
+
+            updateConnectionStatus(status) {
+                const indicator = document.getElementById('statusIndicator');
+                const text = document.getElementById('statusText');
+                const container = document.getElementById('connectionStatus');
+
+                switch (status) {
+                    case 'connecting':
+                        indicator.className = 'w-3 h-3 rounded-full mr-3 bg-yellow-400';
+                        text.textContent = 'Conectando con API...';
+                        container.className = 'mb-6 p-4 rounded-lg border-l-4 border-yellow-400 bg-yellow-50';
+                        break;
+                    case 'connected':
+                        indicator.className = 'w-3 h-3 rounded-full mr-3 bg-green-400';
+                        text.textContent = `Conectado - API ${this.currentDataSource === 'real' ? 'Real' : 'Demo'} ✅`;
+                        container.className = 'mb-6 p-4 rounded-lg border-l-4 border-green-400 bg-green-50';
+                        break;
+                    case 'error':
+                        indicator.className = 'w-3 h-3 rounded-full mr-3 bg-red-400';
+                        text.textContent = 'Error de conexión - Verificar API 🔧';
+                        container.className = 'mb-6 p-4 rounded-lg border-l-4 border-red-400 bg-red-50';
+                        break;
+                }
+            }
+
+            populateDashboard(data) {
+                // Actualizar métricas principales
+                document.getElementById('totalVisitors').textContent = data.summary.totalVisitors || 0;
+                document.getElementById('totalDownloads').textContent = data.summary.totalDownloads || 0;
+                document.getElementById('totalNDAs').textContent = data.summary.totalNDARequests || 0;
+                document.getElementById('totalEvents').textContent = data.stats?.totalEvents || 0;
+
+                // Mostrar/ocultar mensaje de no datos
+                const hasData = data.summary.totalVisitors > 0 || data.summary.totalDownloads > 0;
+                document.getElementById('noDataMessage').style.display = hasData ? 'none' : 'block';
+
+                // Actualizar gráficos
+                this.updateDownloadsChart(data.downloads || []);
+                this.updateActivityChart(data.dailyStats || []);
+
+                // Actualizar tabla de visitantes
+                this.updateVisitorsTable(data.visitors || []);
+
+                // Actualizar log de eventos
+                this.updateEventsLog(data.recentEvents || []);
+            }
+
+            showNoDataState() {
+                // Mostrar estado sin datos
+                document.getElementById('totalVisitors').textContent = '0';
+                document.getElementById('totalDownloads').textContent = '0';
+                document.getElementById('totalNDAs').textContent = '0';
+                document.getElementById('totalEvents').textContent = '0';
+                document.getElementById('noDataMessage').style.display = 'block';
+                
+                // Limpiar gráficos
+                if (this.charts.downloads) this.charts.downloads.destroy();
+                if (this.charts.activity) this.charts.activity.destroy();
+            }
+
+            updateDownloadsChart(downloads) {
+                const ctx = document.getElementById('downloadsChart').getContext('2d');
+                const noDownloadsMsg = document.getElementById('noDownloadsMessage');
+                
+                if (this.charts.downloads) {
+                    this.charts.downloads.destroy();
+                }
+
+                const hasDownloads = downloads.some(d => d.count > 0);
+                
+                if (!hasDownloads) {
+                    noDownloadsMsg.style.display = 'block';
+                    ctx.canvas.style.display = 'none';
+                    return;
+                }
+
+                noDownloadsMsg.style.display = 'none';
+                ctx.canvas.style.display = 'block';
+
+                const labels = downloads.map(d => this.getFileTypeLabel(d.type));
+                const data = downloads.map(d => d.count);
+                const colors = downloads.map(d => this.getFileTypeColor(d.type));
+
+                this.charts.downloads = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: colors,
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { padding: 20 }
+                            }
+                        }
+                    }
+                });
+            }
+
+            updateActivityChart(dailyStats) {
+                const ctx = document.getElementById('activityChart').getContext('2d');
+                const noActivityMsg = document.getElementById('noActivityMessage');
+                
+                if (this.charts.activity) {
+                    this.charts.activity.destroy();
+                }
+
+                const hasActivity = dailyStats.some(s => s.visitors > 0 || s.downloads > 0);
+
+                if (!hasActivity) {
+                    noActivityMsg.style.display = 'block';
+                    ctx.canvas.style.display = 'none';
+                    return;
+                }
+
+                noActivityMsg.style.display = 'none';
+                ctx.canvas.style.display = 'block';
+
+                const labels = dailyStats.map(stat => {
+                    const date = new Date(stat.date);
+                    return date.toLocaleDateString('es-ES', { month: 'short', day: 'numeric' });
+                });
+
+                this.charts.activity = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Visitantes',
+                                data: dailyStats.map(s => s.visitors),
+                                borderColor: 'var(--alter-blue)',
+                                backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                                tension: 0.4,
+                                fill: true
+                            },
+                            {
+                                label: 'Descargas',
+                                data: dailyStats.map(s => s.downloads),
+                                borderColor: 'var(--alter-green)',
+                                backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                                tension: 0.4,
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            updateVisitorsTable(visitors) {
+                const tbody = document.getElementById('visitorsTableBody');
+                
+                if (visitors.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                                <p class="text-lg">👻 No hay visitantes registrados aún</p>
+                                <p class="text-sm mt-2">Los visitantes aparecerán cuando naveguen con tokens únicos</p>
+                                <p class="text-xs mt-2 text-blue-600">Prueba visitando: tu-sitio.com/?token=test123</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = visitors.map(visitor => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">${visitor.email || 'Sin email'}</div>
+                            <div class="text-xs text-gray-500 font-mono">${visitor.token ? visitor.token.slice(0, 8) + '...' : 'Sin token'}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                visitor.project === 'senior_financing' 
+                                    ? 'bg-blue-100 text-blue-800' 
+                                    : 'bg-green-100 text-green-800'
+                            }">
+                                ${visitor.project === 'senior_financing' ? 'Senior' : 'Equity'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900">
+                            📄 ${visitor.downloads['term-sheet'] || 0} | 
+                            📊 ${visitor.downloads['teaser'] || 0} | 
+                            💼 ${visitor.downloads['financial-model'] || 0}
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                visitor.ndaStatus === 'signed' 
+                                    ? 'bg-green-100 text-green-800' 
+                                    : visitor.ndaStatus === 'requested'
+                                    ? 'bg-yellow-100 text-yellow-800'
+                                    : 'bg-gray-100 text-gray-800'
+                            }">
+                                ${visitor.ndaStatus === 'signed' ? '✅ Firmado' : 
+                                  visitor.ndaStatus === 'requested' ? '⏳ Pendiente' : '➖ Ninguno'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${visitor.visits || 0}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">${this.formatDate(visitor.lastAccess)}</td>
+                    </tr>
+                `).join('');
+            }
+
+            updateEventsLog(events) {
+                const container = document.getElementById('eventsLog');
+                
+                if (events.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-sm text-gray-500 italic text-center py-4">
+                            <p>🎯 Esperando eventos...</p>
+                            <p class="text-xs mt-1">Los eventos aparecerán automáticamente cuando interactúes con el sitio</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = events.map(event => `
+                    <div class="notification flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <span class="text-lg mr-3">${this.getEventIcon(event.type)}</span>
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">${this.getEventDescription(event)}</div>
+                                <div class="text-xs text-gray-500">${event.visitor}</div>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-400">${this.formatTime(event.timestamp)}</div>
+                    </div>
+                `).join('');
+            }
+
+            startRealTimeUpdates() {
+                // Actualizar cada 10 segundos para datos reales
+                this.updateInterval = setInterval(() => {
+                    if (this.currentDataSource === 'real') {
+                        this.loadDashboard();
+                    }
+                }, 10000);
+            }
+
+            async clearAllData() {
+                if (confirm('¿Estás seguro de que quieres limpiar todos los datos de analytics?')) {
+                    localStorage.clear();
+                    alert('Datos locales limpiados. La API de Vercel mantendrá sus datos hasta el próximo despliegue.');
+                    this.loadDashboard();
+                }
+            }
+
+            exportToCSV() {
+                const csvContent = this.generateCSV();
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `analytics_real_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+            }
+
+            generateCSV() {
+                return `Fecha,Visitantes,Descargas,NDAs,Eventos
+${new Date().toISOString().split('T')[0]},${document.getElementById('totalVisitors').textContent},${document.getElementById('totalDownloads').textContent},${document.getElementById('totalNDAs').textContent},${document.getElementById('totalEvents').textContent}`;
+            }
+
+            // Funciones auxiliares
+            getFileTypeLabel(type) {
+                const labels = {
+                    'term-sheet': 'Term Sheet',
+                    'teaser': 'Teaser',
+                    'financial-model': 'Modelo Financiero',
+                    'nda': 'NDA'
+                };
+                return labels[type] || type;
+            }
+
+            getFileTypeColor(type) {
+                const colors = {
+                    'term-sheet': 'var(--alter-blue)',
+                    'teaser': 'var(--alter-green)',
+                    'financial-model': '#f59e0b',
+                    'nda': '#8b5cf6'
+                };
+                return colors[type] || '#6b7280';
+            }
+
+            getEventIcon(type) {
+                const icons = {
+                    'download': '📥',
+                    'nda_request': '📋',
+                    'page_visit': '👁️',
+                    'click': '🖱️'
+                };
+                return icons[type] || '📊';
+            }
+
+            getEventDescription(event) {
+                switch (event.type) {
+                    case 'download': return `Descarga: ${event.file}`;
+                    case 'nda_request': return 'Solicitud de NDA';
+                    case 'page_visit': return 'Visita a página';
+                    default: return event.type;
+                }
+            }
+
+            formatTime(timestamp) {
+                return new Date(timestamp).toLocaleTimeString('es-ES');
+            }
+
+            formatDate(dateString) {
+                return new Date(dateString).toLocaleString('es-ES');
+            }
+
+            destroy() {
+                if (this.updateInterval) {
+                    clearInterval(this.updateInterval);
+                }
+                Object.values(this.charts).forEach(chart => {
+                    if (chart) chart.destroy();
+                });
+            }
+        }
+
+        // Inicializar dashboard
+        let dashboardInstance;
+        document.addEventListener('DOMContentLoaded', function() {
+            dashboardInstance = new RealAnalyticsDashboard();
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (dashboardInstance) {
+                dashboardInstance.destroy();
+            }
+        });
+    </script>
+</body>
+</html>

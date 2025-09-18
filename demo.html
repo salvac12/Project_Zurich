@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZURICH - System Demo</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #6b7280;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .demo-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .demo-card h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .demo-card p {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #000000;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: #d1fae5;
+            color: #059669;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: #4b5563;
+        }
+
+        .feature-list i {
+            color: #059669;
+            width: 16px;
+        }
+
+        .instructions {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .instructions h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step-number {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .step-content p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .demo-links {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .demo-links h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .link-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .link-info {
+            flex: 1;
+        }
+
+        .link-email {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 14px;
+        }
+
+        .link-url {
+            font-family: monospace;
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .link-action {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            border: 1px solid #e5e7eb;
+        }
+
+        .btn-small:hover {
+            background-color: #e5e7eb;
+            color: #1a1a1a;
+        }
+
+        @media (max-width: 768px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .container {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Project ZURICH Analytics System</h1>
+            <p>Complete demonstration of the unique link generation and visitor tracking system</p>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h2><i class="fas fa-cogs"></i> Admin Dashboard</h2>
+                <div class="status-indicator">
+                    <i class="fas fa-check-circle"></i>
+                    Ready to Use
+                </div>
+                <p>Generate unique tracking links for your investor email lists and monitor engagement in real-time.</p>
+                
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Email list import (paste or CSV)</li>
+                    <li><i class="fas fa-check"></i> Unique token generation</li>
+                    <li><i class="fas fa-check"></i> Real-time analytics dashboard</li>
+                    <li><i class="fas fa-check"></i> Email template generator</li>
+                    <li><i class="fas fa-check"></i> CSV export functionality</li>
+                </ul>
+
+                <a href="admin-simple.html" class="btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Open Admin Dashboard
+                </a>
+            </div>
+
+            <div class="demo-card">
+                <h2><i class="fas fa-chart-line"></i> Investment Page</h2>
+                <div class="status-indicator">
+                    <i class="fas fa-eye"></i>
+                    Tracking Active
+                </div>
+                <p>The main Project ZURICH presentation page with invisible tracking for visitors using unique links.</p>
+                
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Professional investment presentation</li>
+                    <li><i class="fas fa-check"></i> Document download tracking</li>
+                    <li><i class="fas fa-check"></i> Scroll and time engagement</li>
+                    <li><i class="fas fa-check"></i> NDA conversion monitoring</li>
+                    <li><i class="fas fa-check"></i> Session analytics</li>
+                </ul>
+
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-external-link-alt"></i>
+                    View Investment Page
+                </a>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>🎯 How to Use the System</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Generate Unique Links</h4>
+                    <p>Go to the Admin Dashboard and paste your investor email list. The system will generate unique tracking links for each recipient.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Send Personalized Emails</h4>
+                    <p>Use the email template feature to create professional outreach emails with each recipient's unique tracking link.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Monitor Engagement</h4>
+                    <p>When investors click their unique links, the system tracks their engagement: time on page, documents downloaded, NDA initiation, etc.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Analyze & Follow Up</h4>
+                    <p>Use the analytics dashboard to identify hot leads and prioritize your follow-up activities based on actual engagement data.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-links">
+            <h3>🔗 Demo Tracking Links</h3>
+            <p>Try these sample links to see the tracking system in action:</p>
+            
+            <div class="link-item">
+                <div class="link-info">
+                    <div class="link-email">john@pension-fund.com</div>
+                    <div class="link-url">index.html?token=zrch_demo_pension_fund_001</div>
+                </div>
+                <div class="link-action">
+                    <button class="btn-small" onclick="copyLink('index.html?token=zrch_demo_pension_fund_001')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <a href="index.html?token=zrch_demo_pension_fund_001" class="btn-small">
+                        <i class="fas fa-eye"></i> Visit
+                    </a>
+                </div>
+            </div>
+
+            <div class="link-item">
+                <div class="link-info">
+                    <div class="link-email">jane@family-office.com</div>
+                    <div class="link-url">index.html?token=zrch_demo_family_office_002</div>
+                </div>
+                <div class="link-action">
+                    <button class="btn-small" onclick="copyLink('index.html?token=zrch_demo_family_office_002')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <a href="index.html?token=zrch_demo_family_office_002" class="btn-small">
+                        <i class="fas fa-eye"></i> Visit
+                    </a>
+                </div>
+            </div>
+
+            <div class="link-item">
+                <div class="link-info">
+                    <div class="link-email">bob@insurance-company.com</div>
+                    <div class="link-url">index.html?token=zrch_demo_insurance_co_003</div>
+                </div>
+                <div class="link-action">
+                    <button class="btn-small" onclick="copyLink('index.html?token=zrch_demo_insurance_co_003')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <a href="index.html?token=zrch_demo_insurance_co_003" class="btn-small">
+                        <i class="fas fa-eye"></i> Visit
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 32px;">
+            <h3 style="color: #1a1a1a; margin-bottom: 16px;">Ready to Start?</h3>
+            <p style="color: #6b7280; margin-bottom: 24px;">Begin generating unique tracking links for your investment presentations</p>
+            <a href="admin-simple.html" class="btn" style="font-size: 16px; padding: 16px 32px;">
+                <i class="fas fa-rocket"></i>
+                Launch Admin Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function copyLink(link) {
+            const fullLink = window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + link;
+            navigator.clipboard.writeText(fullLink).then(() => {
+                // Show temporary success message
+                const button = event.target.closest('button');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check"></i> Copied';
+                button.style.background = '#059669';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = '';
+                    button.style.color = '';
+                }, 2000);
+            }).catch(() => {
+                alert('Could not copy link. Please copy manually: ' + fullLink);
+            });
+        }
+    </script>
+</body>
+</html>

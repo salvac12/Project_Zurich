@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZURICH - Link Generator</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Alter5 Colors */
+            --alter-blue: #1e3a8a;
+            --alter-blue-dark: #1e293b;
+            --alter-green: #059669;
+            --alter-green-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #ffffff;
+            color: var(--alter-blue-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--alter-blue);
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: var(--alter-blue-dark);
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid var(--alter-green);
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--alter-blue);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--alter-green);
+            border-radius: 8px;
+            font-family: 'Inter', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            margin-bottom: 16px;
+            min-height: 150px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--alter-blue);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .email-info {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 16px;
+            text-align: right;
+        }
+
+        .btn-generate {
+            background-color: var(--alter-blue);
+            color: #ffffff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+
+        .btn-generate:hover {
+            background-color: var(--alter-blue-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+        }
+
+        .btn-action {
+            background-color: #1F3A8A;
+            color: #ffffff;
+            border: 1px solid #1F3A8A;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .btn-action:hover {
+            background-color: #e5e7eb;
+            color: #1a1a1a;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .results-header h3 {
+            color: #059669;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .results-table th {
+            background-color: #f8fafc;
+            color: #4b5563;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .results-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 14px;
+        }
+
+        .results-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .link-cell {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: monospace;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .token-cell {
+            font-family: monospace;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: #d1fae5;
+            color: #059669;
+        }
+
+        .analytics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background-color: #059669;
+        }
+
+        .notification.error {
+            background-color: #dc2626;
+        }
+
+        .example-section {
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 16px;
+        }
+
+        .example-section h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .example-section pre {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 8px 0;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .analytics {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .results-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><strong>ALTER5</strong> Link Generator</h1>
+            <p>Generate unique tracking links for Project ZURICH investment presentations</p>
+        </div>
+
+        <!-- Analytics Overview -->
+        <div class="analytics">
+            <div class="stat-card">
+                <div class="stat-number" id="totalLinks">0</div>
+                <div class="stat-label">Total Links Generated</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalVisits">0</div>
+                <div class="stat-label">Total Visits Tracked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalDownloads">0</div>
+                <div class="stat-label">Total Downloads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="ndaStarts">0</div>
+                <div class="stat-label">NDA Processes Started</div>
+            </div>
+        </div>
+
+        <!-- Email Input -->
+        <div class="card">
+            <h2><i class="fas fa-envelope"></i> Generate Unique Links</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--alter-blue);">Select Project:</label>
+                <select id="projectSelector" style="width: 100%; padding: 12px; border: 1px solid var(--alter-green); border-radius: 6px; font-size: 14px; background: white;">
+                    <option value="index.html">Project ZURICH - Senior Financing (€42M)</option>
+                    <option value="project-zurich-equity.html">Project ZURICH - Equity Investment (€21M)</option>
+                </select>
+            </div>
+            
+            <div class="example-section">
+                <h4>Method 1: Simple Email List (newlines or commas)</h4>
+                <pre>john@investor.com
+jane@pension-fund.com,
+bob@capital-group.com</pre>
+            </div>
+            
+            <textarea 
+                id="emailList" 
+                placeholder="Paste emails here (one per line or separated by commas):&#10;john@investor.com,&#10;jane@pension-fund.com,&#10;bob@capital-group.com"
+                rows="8"
+            ></textarea>
+            <div class="email-info" id="emailCount">0 emails detected</div>
+            
+            <div class="example-section">
+                <h4>Method 2: Detailed Format (Optional)</h4>
+                <pre>john@investor.com,John Smith,ABC Capital
+jane@pension-fund.com,Jane Doe,Pension Fund XYZ</pre>
+            </div>
+            
+            <textarea 
+                id="detailedList" 
+                placeholder="Format: email,name,company (one per line)&#10;john@investor.com,John Smith,ABC Capital&#10;jane@pension-fund.com,Jane Doe,Pension Fund XYZ"
+                rows="4"
+            ></textarea>
+            
+            <button class="btn-generate" id="generateBtn">
+                <i class="fas fa-magic"></i>
+                Generate Unique Links
+            </button>
+        </div>
+
+        <!-- Results -->
+        <div class="card results" id="resultsCard">
+            <div class="results-header">
+                <h3><i class="fas fa-check-circle"></i> Generated Links</h3>
+                <div>
+                    <button class="btn-action" id="copyAllBtn">
+                        <i class="fas fa-copy"></i>
+                        Copy All Links
+                    </button>
+                    <button class="btn-action" id="downloadCsvBtn">
+                        <i class="fas fa-download"></i>
+                        Download CSV
+                    </button>
+                    <button class="btn-action" id="showTemplateBtn">
+                        <i class="fas fa-envelope"></i>
+                        Email Template
+                    </button>
+                </div>
+            </div>
+            
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Unique Link</th>
+                        <th>Token</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Analytics Data -->
+        <div class="card" id="analyticsCard" style="display: none;">
+            <h2><i class="fas fa-chart-bar"></i> Visitor Analytics</h2>
+            <div id="analyticsContent">
+                <p>Analytics data will appear here once visitors start accessing the links.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Template Modal -->
+    <div id="templateModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000;">
+        <div style="background: white; margin: 5% auto; padding: 32px; border-radius: 12px; max-width: 800px; max-height: 80vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #e5e7eb; padding-bottom: 16px;">
+                <h3>Email Template</h3>
+                <span id="closeModal" style="font-size: 24px; cursor: pointer; color: #6b7280;">&times;</span>
+            </div>
+            <div>
+                <h4>Professional Email Template</h4>
+                <div id="templateContent" style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 16px 0; font-family: monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap;"></div>
+                <button class="btn-action" id="copyTemplateBtn">
+                    <i class="fas fa-copy"></i>
+                    Copy Template
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // State management
+        let generatedLinks = [];
+        let analytics = {
+            totalLinks: 0,
+            totalVisits: 0,
+            totalDownloads: 0,
+            ndaStarts: 0
+        };
+
+        // DOM elements
+        const emailList = document.getElementById('emailList');
+        const detailedList = document.getElementById('detailedList');
+        const emailCount = document.getElementById('emailCount');
+        const generateBtn = document.getElementById('generateBtn');
+        const resultsCard = document.getElementById('resultsCard');
+        const resultsBody = document.getElementById('resultsBody');
+        const copyAllBtn = document.getElementById('copyAllBtn');
+        const downloadCsvBtn = document.getElementById('downloadCsvBtn');
+        const showTemplateBtn = document.getElementById('showTemplateBtn');
+        const templateModal = document.getElementById('templateModal');
+        const closeModal = document.getElementById('closeModal');
+        const templateContent = document.getElementById('templateContent');
+        const copyTemplateBtn = document.getElementById('copyTemplateBtn');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+
+        // Initialize
+        function init() {
+            loadSavedData();
+            updateAnalytics();
+            bindEvents();
+        }
+
+        function bindEvents() {
+            emailList.addEventListener('input', updateEmailCount);
+            detailedList.addEventListener('input', updateEmailCount);
+            generateBtn.addEventListener('click', generateLinks);
+            copyAllBtn.addEventListener('click', copyAllLinks);
+            downloadCsvBtn.addEventListener('click', downloadCsv);
+            showTemplateBtn.addEventListener('click', showTemplate);
+            closeModal.addEventListener('click', hideTemplate);
+            copyTemplateBtn.addEventListener('click', copyTemplate);
+            
+            // Close modal on outside click
+            templateModal.addEventListener('click', function(e) {
+                if (e.target === templateModal) hideTemplate();
+            });
+        }
+
+        function updateEmailCount() {
+            let count = 0;
+            
+            if (detailedList.value.trim()) {
+                const lines = detailedList.value.trim().split('\\n').filter(line => line.trim());
+                count = lines.filter(line => line.includes('@')).length;
+            } else if (emailList.value.trim()) {
+                // Split by both newlines and commas, then clean up
+                const allEmails = emailList.value.trim()
+                    .split(/[\\n,]/)
+                    .map(email => email.trim())
+                    .filter(email => email && email.includes('@'));
+                count = allEmails.length;
+            }
+            
+            emailCount.textContent = `${count} emails detected`;
+        }
+
+        function generateToken() {
+            return 'zrch_' + Math.random().toString(36).substring(2, 15) + 
+                   Math.random().toString(36).substring(2, 15);
+        }
+
+        function generateLinks() {
+            const visitors = [];
+            
+            // Parse input
+            if (detailedList.value.trim()) {
+                const lines = detailedList.value.trim().split('\\n');
+                lines.forEach(line => {
+                    const parts = line.split(',').map(p => p.trim());
+                    if (parts.length >= 1 && parts[0].includes('@')) {
+                        visitors.push({
+                            email: parts[0],
+                            name: parts[1] || '',
+                            company: parts[2] || '',
+                            token: generateToken(),
+                            status: 'active',
+                            created: new Date().toISOString()
+                        });
+                    }
+                });
+            } else if (emailList.value.trim()) {
+                // Split by both newlines and commas, then clean up
+                const emails = emailList.value.trim()
+                    .split(/[\\n,]/)
+                    .map(email => email.trim().replace(/,$/, ''))  // Remove trailing commas
+                    .filter(email => email && email.includes('@'));
+                
+                emails.forEach(email => {
+                    // Clean up spaces within the email
+                    email = email.replace(/\\s+/g, '');
+                    if (email.includes('@') && email.includes('.')) {
+                        visitors.push({
+                            email: email,
+                            name: '',
+                            company: '',
+                            token: generateToken(),
+                            status: 'active',
+                            created: new Date().toISOString()
+                        });
+                    }
+                });
+            }
+            
+            if (visitors.length === 0) {
+                showNotification('Please enter at least one valid email address', 'error');
+                return;
+            }
+
+            // Generate links
+            const baseURL = 'https://project-zurich-alter5.vercel.app/';
+            const selectedProject = document.getElementById('projectSelector').value;
+            generatedLinks = visitors.map(visitor => ({
+                ...visitor,
+                link: `${baseURL}${selectedProject}?token=${visitor.token}`
+            }));
+
+            // Save visitors to database
+            saveVisitorsToDatabase(visitors);
+
+            // Save to localStorage
+            saveData();
+            
+            // Update analytics
+            analytics.totalLinks += visitors.length;
+            updateAnalytics();
+            
+            // Display results
+            displayResults();
+            showNotification(`Successfully generated ${visitors.length} unique links!`, 'success');
+            
+            // Clear inputs
+            emailList.value = '';
+            detailedList.value = '';
+            updateEmailCount();
+        }
+
+        function displayResults() {
+            resultsBody.innerHTML = '';
+            
+            generatedLinks.forEach(link => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${link.email}</td>
+                    <td>${link.name || '-'}</td>
+                    <td>${link.company || '-'}</td>
+                    <td class="link-cell" title="${link.link}">${link.link}</td>
+                    <td class="token-cell">${link.token}</td>
+                    <td><span class="status-badge">${link.status}</span></td>
+                    <td>
+                        <button class="btn-action" onclick="copyLink('${link.link}')">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </td>
+                `;
+                resultsBody.appendChild(row);
+            });
+            
+            resultsCard.classList.add('show');
+        }
+
+        function copyAllLinks() {
+            const linkText = generatedLinks.map(link => 
+                `${link.email}: ${link.link}`
+            ).join('\\n');
+
+            navigator.clipboard.writeText(linkText).then(() => {
+                showNotification('All links copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy links', 'error');
+            });
+        }
+
+        function downloadCsv() {
+            const csvContent = [
+                ['Email', 'Name', 'Company', 'Token', 'Link', 'Status', 'Created'],
+                ...generatedLinks.map(link => [
+                    link.email,
+                    link.name || '',
+                    link.company || '',
+                    link.token,
+                    link.link,
+                    link.status,
+                    new Date(link.created).toLocaleString()
+                ])
+            ].map(row => row.map(field => `"${field}"`).join(',')).join('\\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const selectedProject = document.getElementById('projectSelector').value;
+            const projectName = selectedProject === 'index.html' ? 'senior-financing' : 'equity-investment';
+            a.download = `project-zurich-${projectName}-links-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showNotification('CSV file downloaded!', 'success');
+        }
+
+        function showTemplate() {
+            const selectedProject = document.getElementById('projectSelector').value;
+            const isSeniorFinancing = selectedProject === 'index.html';
+            
+            const template = isSeniorFinancing ? 
+            `Subject: Exclusive Investment Opportunity - Project ZURICH €42M Senior Financing
+
+Dear [NAME],
+
+I hope this message finds you well. I am pleased to present an exclusive investment opportunity in Project ZURICH, a €42 million senior financing for affordable housing development in Madrid's prime Valdebebas area.
+
+Investment Highlights:
+• €42M total investment amount
+• 30-year term with 3-year grace period
+• 70% LTC with strong equity coverage
+• 251 housing units in prime location
+• Predictable cash flows with 97%+ expected occupancy
+• Backed by developer with 20+ years track record
+
+Your personalized access link:
+[UNIQUE_LINK]
+
+This confidential link provides complete access to:
+✓ Detailed project teaser
+✓ Term-sheet with full financial structure
+✓ Complete financial model
+✓ NDA process for due diligence access
+
+Interest confirmation deadline: September 30, 2025
+
+We remain at your disposal for any questions or to schedule a personalized presentation.
+
+Best regards,
+
+[YOUR NAME]
+[YOUR TITLE]
+ALTER5 Investment Team
+[YOUR EMAIL] | [YOUR PHONE]
+
+---
+INSTRUCTIONS:
+1. Replace [NAME] with recipient's name
+2. Replace [UNIQUE_LINK] with their specific tracking link
+3. Replace [YOUR NAME], [YOUR TITLE], [YOUR EMAIL], [YOUR PHONE] with your details
+4. Personalize based on recipient type (pension fund, family office, etc.)` :
+            
+            `Subject: Exclusive Investment Opportunity - Project ZURICH €21M Equity Investment
+
+Dear [NAME],
+
+I hope this message finds you well. I am pleased to present an exclusive equity investment opportunity in Project ZURICH, a €21 million Build to Sale/Hold investment for affordable housing development in Madrid's prime Valdebebas area.
+
+Investment Highlights:
+• €21M equity investment with 10% minimum annual return
+• Build to Sale/Hold strategy with dual exit options
+• 36-month short-term or 15-year long-term holding
+• Expected TIR: 11%-13% for 3-year exit
+• SOCIMI structure with capital gains tax exemption
+• Prime location in Valdebebas, Madrid's fastest-growing area
+
+Your personalized access link:
+[UNIQUE_LINK]
+
+This confidential link provides complete access to:
+✓ Detailed project teaser
+✓ Term-sheet with full financial structure
+✓ Complete financial model
+✓ NDA process for due diligence access
+
+Interest confirmation deadline: September 30, 2025
+
+We remain at your disposal for any questions or to schedule a personalized presentation.
+
+Best regards,
+
+[YOUR NAME]
+[YOUR TITLE]
+ALTER5 Investment Team
+[YOUR EMAIL] | [YOUR PHONE]
+
+---
+INSTRUCTIONS:
+1. Replace [NAME] with recipient's name
+2. Replace [UNIQUE_LINK] with their specific tracking link
+3. Replace [YOUR NAME], [YOUR TITLE], [YOUR EMAIL], [YOUR PHONE] with your details
+4. Personalize based on recipient type (pension fund, family office, etc.)`;
+
+            templateContent.textContent = template;
+            templateModal.style.display = 'block';
+        }
+
+        function hideTemplate() {
+            templateModal.style.display = 'none';
+        }
+
+        function copyTemplate() {
+            navigator.clipboard.writeText(templateContent.textContent).then(() => {
+                showNotification('Email template copied to clipboard!', 'success');
+                hideTemplate();
+            }).catch(() => {
+                showNotification('Failed to copy template', 'error');
+            });
+        }
+
+        // Global function for copy buttons
+        window.copyLink = function(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                showNotification('Link copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy link', 'error');
+            });
+        };
+
+        function updateAnalytics() {
+            document.getElementById('totalLinks').textContent = analytics.totalLinks;
+            document.getElementById('totalVisits').textContent = analytics.totalVisits;
+            document.getElementById('totalDownloads').textContent = analytics.totalDownloads;
+            document.getElementById('ndaStarts').textContent = analytics.ndaStarts;
+        }
+
+        // Save visitors to database
+        async function saveVisitorsToDatabase(visitors) {
+            try {
+                for (const visitor of visitors) {
+                    const visitorData = {
+                        email: visitor.email,
+                        token: visitor.token,
+                        name: visitor.name || '',
+                        company: visitor.company || '',
+                        status: 'active',
+                        first_access: null,
+                        last_access: null,
+                        access_count: 0
+                    };
+
+                    const response = await fetch('/api/tables/visitors', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(visitorData)
+                    });
+
+                    if (!response.ok) {
+                        console.error('Failed to save visitor:', visitor.email);
+                    }
+                }
+            } catch (error) {
+                console.error('Error saving visitors to database:', error);
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('zurich_links', JSON.stringify(generatedLinks));
+            localStorage.setItem('zurich_analytics', JSON.stringify(analytics));
+        }
+
+        function loadSavedData() {
+            const savedLinks = localStorage.getItem('zurich_links');
+            const savedAnalytics = localStorage.getItem('zurich_analytics');
+            
+            if (savedLinks) {
+                generatedLinks = JSON.parse(savedLinks);
+                if (generatedLinks.length > 0) {
+                    displayResults();
+                }
+            }
+            
+            if (savedAnalytics) {
+                analytics = JSON.parse(savedAnalytics);
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            notificationText.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Initialize app
+        init();
+    </script>
+</body>
+</html>

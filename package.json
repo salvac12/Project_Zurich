@@ -1,0 +1,13 @@
+{
+  "name": "project-zurich-alter5",
+  "version": "1.0.0",
+  "description": "Project ZURICH - €42M Senior Long-term Financing Platform",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static build complete'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["investment", "real-estate", "analytics", "alter5"],
+  "author": "Alter5 Investment Team",
+  "license": "Private"
+}

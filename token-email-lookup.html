@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Token-Email | Alter5 Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .copy-btn:hover { transform: scale(1.05); }
+        .token-highlight { background: linear-gradient(45deg, #3b82f6, #1e40af); color: white; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">
+                    <i class="fas fa-search mr-3 text-blue-600"></i>
+                    Consulta Token-Email
+                </h1>
+                <p class="text-gray-600">Encuentra qué email corresponde a cada token de visitante</p>
+            </div>
+            <button onclick="loadAllData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-refresh mr-2"></i>Actualizar
+            </button>
+        </div>
+
+        <!-- Búsqueda rápida -->
+        <div class="bg-blue-50 p-4 rounded-lg mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Token o Email:</label>
+            <div class="flex gap-3">
+                <input type="text" id="searchInput" placeholder="Ej: 5v0c o investor@email.com" 
+                       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <button onclick="quickSearch()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-search mr-2"></i>Buscar
+                </button>
+            </div>
+        </div>
+
+        <!-- Resultado de búsqueda -->
+        <div id="searchResult" class="hidden mb-6">
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                <h3 class="text-lg font-semibold text-green-800 mb-2">
+                    <i class="fas fa-check-circle mr-2"></i>Resultado encontrado:
+                </h3>
+                <div id="resultContent"></div>
+            </div>
+        </div>
+
+        <!-- Tabla completa -->
+        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div class="bg-gray-50 px-6 py-3 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800">
+                    <i class="fas fa-table mr-2 text-blue-600"></i>
+                    Tabla Completa Token-Email
+                </h3>
+            </div>
+
+            <!-- Loading state -->
+            <div id="loadingState" class="p-8 text-center">
+                <i class="fas fa-spinner fa-spin text-blue-600 text-2xl mb-3"></i>
+                <p class="text-gray-600">Cargando datos...</p>
+            </div>
+
+            <!-- Error state -->
+            <div id="errorState" class="p-8 text-center hidden">
+                <i class="fas fa-exclamation-triangle text-red-500 text-2xl mb-3"></i>
+                <p class="text-red-600 mb-4">Error al cargar los datos</p>
+                <button onclick="loadAllData()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                    Reintentar
+                </button>
+            </div>
+
+            <!-- Data table -->
+            <div id="dataTable" class="hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Token
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Email
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nombre
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Empresa
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Último Acceso
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Los datos se cargarán aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Empty state -->
+            <div id="emptyState" class="p-8 text-center hidden">
+                <i class="fas fa-inbox text-gray-400 text-4xl mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-500 mb-2">No hay datos disponibles</h3>
+                <p class="text-gray-400 mb-4">Aún no se han registrado visitantes con tokens.</p>
+                <a href="admin-simple.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg inline-block">
+                    <i class="fas fa-plus mr-2"></i>Generar Enlaces
+                </a>
+            </div>
+        </div>
+
+        <!-- Estadísticas resumidas -->
+        <div id="statsSection" class="mt-6 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-users text-blue-600 text-xl mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-600">Total Visitantes</p>
+                            <p class="text-xl font-semibold text-blue-800" id="totalVisitors">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-eye text-green-600 text-xl mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-600">Con Actividad</p>
+                            <p class="text-xl font-semibold text-green-800" id="activeVisitors">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-orange-50 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-clock text-orange-600 text-xl mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-600">Hoy</p>
+                            <p class="text-xl font-semibold text-orange-800" id="todayVisitors">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-download text-purple-600 text-xl mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-600">Con Descargas</p>
+                            <p class="text-xl font-semibold text-purple-800" id="downloadVisitors">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enlaces útiles -->
+        <div class="mt-6 flex justify-center space-x-4">
+            <a href="admin-simple.html" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-cog mr-2"></i>Panel Admin
+            </a>
+            <a href="analytics-dashboard.html" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-chart-bar mr-2"></i>Analytics Completo
+            </a>
+            <a href="index.html" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-home mr-2"></i>Página Principal
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+let allVisitors = [];
+
+// Cargar todos los datos
+async function loadAllData() {
+    try {
+        showLoadingState();
+        
+        const response = await fetch('tables/visitors?limit=1000&sort=last_access');
+        const result = await response.json();
+        
+        if (result.data && result.data.length > 0) {
+            allVisitors = result.data;
+            displayTable(allVisitors);
+            updateStats(allVisitors);
+            showDataState();
+        } else {
+            showEmptyState();
+        }
+        
+    } catch (error) {
+        console.error('Error loading data:', error);
+        showErrorState();
+    }
+}
+
+// Mostrar tabla
+function displayTable(visitors) {
+    const tableBody = document.getElementById('tableBody');
+    
+    tableBody.innerHTML = visitors.map(visitor => {
+        const lastAccess = visitor.last_access ? 
+            new Date(visitor.last_access).toLocaleString('es-ES') : 
+            'Nunca';
+        
+        const tokenShort = visitor.token ? visitor.token.substring(0, 6) : 'N/A';
+        const status = getStatusBadge(visitor);
+        
+        return `
+            <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <span class="token-highlight px-3 py-1 rounded-full text-sm font-mono">
+                            ${tokenShort}
+                        </span>
+                        <button onclick="copyToClipboard('${visitor.token}')" 
+                                class="copy-btn ml-2 text-gray-400 hover:text-blue-600 transition-colors">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm font-medium text-gray-900">
+                        ${visitor.email || 'Sin email'}
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm text-gray-900">
+                        ${visitor.name || 'Sin nombre'}
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm text-gray-900">
+                        ${visitor.company || 'Sin empresa'}
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm text-gray-900">
+                        ${lastAccess}
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="flex space-x-2">
+                        ${status}
+                        <button onclick="viewAnalytics('${visitor.token}')" 
+                                class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded text-xs">
+                            <i class="fas fa-chart-line mr-1"></i>Ver Analytics
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// Obtener badge de estado
+function getStatusBadge(visitor) {
+    if (visitor.access_count > 0) {
+        return `<span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">
+                    <i class="fas fa-check mr-1"></i>Activo
+                </span>`;
+    } else {
+        return `<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">
+                    <i class="fas fa-clock mr-1"></i>Pendiente
+                </span>`;
+    }
+}
+
+// Búsqueda rápida
+function quickSearch() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+    
+    if (!searchTerm) {
+        alert('Por favor ingresa un token o email para buscar');
+        return;
+    }
+    
+    const found = allVisitors.find(visitor => {
+        const token = visitor.token ? visitor.token.toLowerCase() : '';
+        const email = visitor.email ? visitor.email.toLowerCase() : '';
+        
+        return token.includes(searchTerm) || email.includes(searchTerm);
+    });
+    
+    if (found) {
+        showSearchResult(found, searchTerm);
+    } else {
+        showNoResultFound(searchTerm);
+    }
+}
+
+// Mostrar resultado de búsqueda
+function showSearchResult(visitor, searchTerm) {
+    const resultDiv = document.getElementById('searchResult');
+    const contentDiv = document.getElementById('resultContent');
+    
+    contentDiv.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <strong>Token:</strong> 
+                <span class="token-highlight px-2 py-1 rounded font-mono text-sm ml-2">
+                    ${visitor.token}
+                </span>
+                <button onclick="copyToClipboard('${visitor.token}')" 
+                        class="ml-2 text-green-600 hover:text-green-800">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            <div>
+                <strong>Email:</strong> 
+                <span class="ml-2">${visitor.email || 'Sin email'}</span>
+            </div>
+            <div>
+                <strong>Nombre:</strong> 
+                <span class="ml-2">${visitor.name || 'Sin nombre'}</span>
+            </div>
+            <div>
+                <strong>Empresa:</strong> 
+                <span class="ml-2">${visitor.company || 'Sin empresa'}</span>
+            </div>
+            <div>
+                <strong>Accesos:</strong> 
+                <span class="ml-2">${visitor.access_count || 0}</span>
+            </div>
+            <div>
+                <strong>Último acceso:</strong> 
+                <span class="ml-2">${visitor.last_access ? new Date(visitor.last_access).toLocaleString('es-ES') : 'Nunca'}</span>
+            </div>
+        </div>
+        
+        <div class="mt-4 flex space-x-3">
+            <button onclick="viewAnalytics('${visitor.token}')" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-chart-bar mr-2"></i>Ver Analytics Detallado
+            </button>
+            <button onclick="generateLink('${visitor.email}')" 
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                <i class="fas fa-link mr-2"></i>Generar Enlace
+            </button>
+        </div>
+    `;
+    
+    resultDiv.classList.remove('hidden');
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Mostrar sin resultados
+function showNoResultFound(searchTerm) {
+    const resultDiv = document.getElementById('searchResult');
+    const contentDiv = document.getElementById('resultContent');
+    
+    contentDiv.innerHTML = `
+        <div class="text-center py-4">
+            <i class="fas fa-search text-gray-400 text-2xl mb-3"></i>
+            <p class="text-gray-600 mb-4">No se encontraron resultados para: <strong>${searchTerm}</strong></p>
+            <button onclick="document.getElementById('searchResult').classList.add('hidden')" 
+                    class="text-gray-500 hover:text-gray-700">
+                Cerrar
+            </button>
+        </div>
+    `;
+    
+    resultDiv.classList.remove('hidden');
+}
+
+// Actualizar estadísticas
+function updateStats(visitors) {
+    document.getElementById('totalVisitors').textContent = visitors.length;
+    
+    const activeVisitors = visitors.filter(v => v.access_count > 0).length;
+    document.getElementById('activeVisitors').textContent = activeVisitors;
+    
+    const today = new Date().toDateString();
+    const todayVisitors = visitors.filter(v => {
+        if (!v.last_access) return false;
+        return new Date(v.last_access).toDateString() === today;
+    }).length;
+    document.getElementById('todayVisitors').textContent = todayVisitors;
+    
+    // Para calcular visitantes con descargas, necesitarías consultar la tabla analytics
+    document.getElementById('downloadVisitors').textContent = '?';
+    
+    document.getElementById('statsSection').classList.remove('hidden');
+}
+
+// Copiar al portapapeles
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        // Mostrar confirmación visual
+        const btn = event.target;
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check text-green-600"></i>';
+        setTimeout(() => {
+            btn.innerHTML = originalHTML;
+        }, 1000);
+    });
+}
+
+// Ver analytics detallado
+function viewAnalytics(token) {
+    window.open(`analytics-dashboard.html?token=${token}`, '_blank');
+}
+
+// Generar enlace
+function generateLink(email) {
+    window.open(`admin-simple.html?email=${email}`, '_blank');
+}
+
+// Estados de la UI
+function showLoadingState() {
+    document.getElementById('loadingState').classList.remove('hidden');
+    document.getElementById('errorState').classList.add('hidden');
+    document.getElementById('dataTable').classList.add('hidden');
+    document.getElementById('emptyState').classList.add('hidden');
+    document.getElementById('statsSection').classList.add('hidden');
+}
+
+function showDataState() {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('errorState').classList.add('hidden');
+    document.getElementById('dataTable').classList.remove('hidden');
+    document.getElementById('emptyState').classList.add('hidden');
+}
+
+function showEmptyState() {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('errorState').classList.add('hidden');
+    document.getElementById('dataTable').classList.add('hidden');
+    document.getElementById('emptyState').classList.remove('hidden');
+    document.getElementById('statsSection').classList.add('hidden');
+}
+
+function showErrorState() {
+    document.getElementById('loadingState').classList.add('hidden');
+    document.getElementById('errorState').classList.remove('hidden');
+    document.getElementById('dataTable').classList.add('hidden');
+    document.getElementById('emptyState').classList.add('hidden');
+    document.getElementById('statsSection').classList.add('hidden');
+}
+
+// Búsqueda en tiempo real
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        quickSearch();
+    }
+});
+
+// Cargar datos al iniciar
+document.addEventListener('DOMContentLoaded', loadAllData);
+</script>
+
+</body>
+</html>

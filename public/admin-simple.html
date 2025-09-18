@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZURICH - Admin Panel | Alter5</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        .admin-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #059669 100%);
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .generate-btn {
+            background: linear-gradient(135deg, #1e3a8a 0%, #059669 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .generate-btn:hover {
+            background: linear-gradient(135deg, #1e293b 0%, #047857 100%);
+            transform: translateY(-1px);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .notification.error {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .token-display {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<!-- Header -->
+<header class="admin-gradient text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center py-6">
+            <div class="flex items-center">
+                <h1 class="text-3xl font-bold">ALTER5 Admin Panel</h1>
+                <span class="ml-4 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                    <i class="fas fa-cogs mr-1"></i>Project ZURICH
+                </span>
+            </div>
+            <nav class="flex items-center space-x-4">
+                <a href="analytics-dashboard.html" 
+                   class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors">
+                    <i class="fas fa-chart-bar mr-2"></i>Analytics
+                </a>
+                <a href="index.html" 
+                   class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors">
+                    <i class="fas fa-home mr-2"></i>Main Site
+                </a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Analytics Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="metric-card rounded-lg p-6 text-center">
+            <div class="text-2xl font-bold text-blue-900 mb-1" id="totalLinks">0</div>
+            <div class="text-gray-600 text-sm font-medium">Links Generated</div>
+        </div>
+        <div class="metric-card rounded-lg p-6 text-center">
+            <div class="text-2xl font-bold text-green-600 mb-1" id="totalVisits">0</div>
+            <div class="text-gray-600 text-sm font-medium">Total Visits</div>
+        </div>
+        <div class="metric-card rounded-lg p-6 text-center">
+            <div class="text-2xl font-bold text-orange-600 mb-1" id="totalDownloads">0</div>
+            <div class="text-gray-600 text-sm font-medium">Downloads</div>
+        </div>
+        <div class="metric-card rounded-lg p-6 text-center">
+            <div class="text-2xl font-bold text-purple-600 mb-1" id="ndaRequests">0</div>
+            <div class="text-gray-600 text-sm font-medium">NDA Requests</div>
+        </div>
+    </div>
+
+    <!-- Link Generator -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900">
+                    <i class="fas fa-link mr-3 text-blue-600"></i>Generate Investor Links
+                </h2>
+                <p class="text-gray-600 mt-1">Create unique tracking URLs for investor outreach</p>
+            </div>
+            <div class="text-sm text-gray-500">
+                <i class="fas fa-info-circle mr-1"></i>
+                Each link tracks visitor behavior automatically
+            </div>
+        </div>
+        
+        <!-- Project Selector -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Select Investment Project:</label>
+            <select id="projectSelector" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="index.html">Project ZURICH - Senior Financing (€42M)</option>
+                <option value="project-zurich-equity.html">Project ZURICH - Equity Investment (€21M)</option>
+            </select>
+        </div>
+        
+        <!-- Email Input Methods -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Method 1: Simple Email List -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Method 1: Email List</h3>
+                <div class="bg-gray-50 rounded-lg p-4 mb-3">
+                    <h4 class="text-sm font-medium text-gray-700 mb-2">Format Examples:</h4>
+                    <pre class="text-xs text-gray-600">john@investor.com
+jane@pension-fund.com,
+bob@capital-group.com</pre>
+                </div>
+                <textarea 
+                    id="emailList" 
+                    placeholder="Paste emails here (one per line or comma-separated)..."
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical"
+                    rows="6"
+                ></textarea>
+                <div class="text-sm text-gray-500 mt-2 text-right" id="emailCount">0 emails detected</div>
+            </div>
+            
+            <!-- Method 2: Detailed Format -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Method 2: Detailed Format</h3>
+                <div class="bg-gray-50 rounded-lg p-4 mb-3">
+                    <h4 class="text-sm font-medium text-gray-700 mb-2">Format: email,name,company</h4>
+                    <pre class="text-xs text-gray-600">john@investor.com,John Smith,ABC Capital
+jane@pension-fund.com,Jane Doe,Pension XYZ</pre>
+                </div>
+                <textarea 
+                    id="detailedList" 
+                    placeholder="Format: email,name,company (one per line)..."
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical"
+                    rows="6"
+                ></textarea>
+                <div class="text-sm text-gray-500 mt-2">Use this format for personalized tracking</div>
+            </div>
+        </div>
+        
+        <!-- Generate Button -->
+        <div class="mt-8">
+            <button id="generateBtn" class="generate-btn text-white px-8 py-4 rounded-lg font-semibold text-lg w-full md:w-auto">
+                <i class="fas fa-magic mr-2"></i>
+                Generate Unique Links
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="resultsSection" class="bg-white rounded-lg shadow-sm border border-gray-200 p-8" style="display: none;">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-check-circle text-green-600 mr-3"></i>Generated Links
+            </h2>
+            <div class="flex space-x-3">
+                <button id="copyAllBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
+                    <i class="fas fa-copy mr-1"></i>Copy All
+                </button>
+                <button id="downloadCsvBtn" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors">
+                    <i class="fas fa-download mr-1"></i>Export CSV
+                </button>
+                <button id="emailTemplateBtn" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition-colors">
+                    <i class="fas fa-envelope mr-1"></i>Email Template
+                </button>
+            </div>
+        </div>
+        
+        <!-- Results Table -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-user mr-1"></i>Investor
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-building mr-1"></i>Company
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-link mr-1"></i>Unique Link
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-key mr-1"></i>Token
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <i class="fas fa-cog mr-1"></i>Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTableBody" class="bg-white divide-y divide-gray-200">
+                    <!-- Results will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Quick Analytics Preview -->
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-clock text-blue-600 mr-2"></i>Recent Activity
+            </h3>
+            <div id="recentActivity" class="space-y-3">
+                <div class="text-center text-gray-500 py-8">
+                    <i class="fas fa-chart-line text-2xl mb-2 opacity-50"></i>
+                    <p>Generate links to see visitor activity</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-chart-pie text-green-600 mr-2"></i>Quick Statistics
+            </h3>
+            <div id="quickStats" class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Active Links</span>
+                    <span class="font-semibold text-gray-900" id="activeLinksCount">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Total Visitors</span>
+                    <span class="font-semibold text-gray-900" id="totalVisitorsCount">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Conversion Rate</span>
+                    <span class="font-semibold text-gray-900" id="conversionRate">0%</span>
+                </div>
+                <div class="pt-3 border-t border-gray-200">
+                    <a href="analytics-dashboard.html" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        View Full Analytics →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Email Template Modal -->
+<div id="emailTemplateModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-screen overflow-y-auto">
+            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-900">Email Template</h3>
+                <button id="closeModalBtn" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="mb-4">
+                    <h4 class="font-semibold text-gray-900 mb-2">Professional Investor Email Template</h4>
+                    <p class="text-sm text-gray-600">Copy and customize this template for your investor outreach</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <pre id="emailTemplateContent" class="text-sm text-gray-800 whitespace-pre-wrap font-mono leading-relaxed"></pre>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button id="copyTemplateBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">
+                        <i class="fas fa-copy mr-2"></i>Copy Template
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification -->
+<div id="notification" class="notification">
+    <span id="notificationText"></span>
+</div>
+
+<!-- JavaScript -->
+<script>
+// State management
+let generatedLinks = [];
+let analytics = {
+    totalLinks: 0,
+    totalVisits: 0,
+    totalDownloads: 0,
+    ndaRequests: 0
+};
+
+// DOM elements
+const emailList = document.getElementById('emailList');
+const detailedList = document.getElementById('detailedList');
+const emailCount = document.getElementById('emailCount');
+const generateBtn = document.getElementById('generateBtn');
+const resultsSection = document.getElementById('resultsSection');
+const resultsTableBody = document.getElementById('resultsTableBody');
+const copyAllBtn = document.getElementById('copyAllBtn');
+const downloadCsvBtn = document.getElementById('downloadCsvBtn');
+const emailTemplateBtn = document.getElementById('emailTemplateBtn');
+const emailTemplateModal = document.getElementById('emailTemplateModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const copyTemplateBtn = document.getElementById('copyTemplateBtn');
+const emailTemplateContent = document.getElementById('emailTemplateContent');
+const notification = document.getElementById('notification');
+const notificationText = document.getElementById('notificationText');
+
+// Initialize
+function init() {
+    bindEvents();
+    updateAnalytics();
+    loadSavedData();
+}
+
+function bindEvents() {
+    emailList.addEventListener('input', updateEmailCount);
+    detailedList.addEventListener('input', updateEmailCount);
+    generateBtn.addEventListener('click', generateLinks);
+    copyAllBtn.addEventListener('click', copyAllLinks);
+    downloadCsvBtn.addEventListener('click', downloadCsv);
+    emailTemplateBtn.addEventListener('click', showEmailTemplate);
+    closeModalBtn.addEventListener('click', hideEmailTemplate);
+    copyTemplateBtn.addEventListener('click', copyTemplate);
+    
+    // Close modal on outside click
+    emailTemplateModal.addEventListener('click', function(e) {
+        if (e.target === emailTemplateModal) hideEmailTemplate();
+    });
+}
+
+function updateEmailCount() {
+    let count = 0;
+    
+    if (detailedList.value.trim()) {
+        const lines = detailedList.value.trim().split('\\n').filter(line => line.trim());
+        count = lines.filter(line => line.includes('@')).length;
+    } else if (emailList.value.trim()) {
+        const allEmails = emailList.value.trim()
+            .split(/[\\n,]/)
+            .map(email => email.trim())
+            .filter(email => email && email.includes('@'));
+        count = allEmails.length;
+    }
+    
+    emailCount.textContent = `${count} emails detected`;
+}
+
+function generateToken() {
+    return 'zrch_' + Math.random().toString(36).substring(2, 15) + 
+           Math.random().toString(36).substring(2, 15);
+}
+
+async function generateLinks() {
+    const visitors = [];
+    
+    try {
+        // Parse input
+        if (detailedList.value.trim()) {
+            const lines = detailedList.value.trim().split('\\n');
+            lines.forEach(line => {
+                const parts = line.split(',').map(p => p.trim());
+                if (parts.length >= 1 && parts[0].includes('@')) {
+                    visitors.push({
+                        email: parts[0],
+                        name: parts[1] || '',
+                        company: parts[2] || '',
+                        token: generateToken(),
+                        status: 'active',
+                        created: new Date().toISOString()
+                    });
+                }
+            });
+        } else if (emailList.value.trim()) {
+            const emails = emailList.value.trim()
+                .split(/[\\n,]/)
+                .map(email => email.trim().replace(/,$/, ''))
+                .filter(email => email && email.includes('@'));
+            
+            emails.forEach(email => {
+                email = email.replace(/\\s+/g, '');
+                if (email.includes('@') && email.includes('.')) {
+                    visitors.push({
+                        email: email,
+                        name: '',
+                        company: '',
+                        token: generateToken(),
+                        status: 'active',
+                        created: new Date().toISOString()
+                    });
+                }
+            });
+        }
+        
+        if (visitors.length === 0) {
+            showNotification('Please enter at least one valid email address', 'error');
+            return;
+        }
+
+        // Generate links with production URL
+        const baseURL = 'https://project-zurich-alter5.vercel.app/';
+        const selectedProject = document.getElementById('projectSelector').value;
+        
+        generatedLinks = visitors.map(visitor => ({
+            ...visitor,
+            link: `${baseURL}${selectedProject}?token=${visitor.token}`
+        }));
+
+        // Save visitors to database
+        showNotification('Creating visitors in database...', 'success');
+        await saveVisitorsToDatabase(visitors);
+
+        // Save to localStorage
+        saveData();
+        
+        // Update analytics
+        analytics.totalLinks += visitors.length;
+        updateAnalytics();
+        
+        // Display results
+        displayResults();
+        showNotification(`Successfully generated ${visitors.length} unique links!`, 'success');
+        
+        // Clear inputs
+        emailList.value = '';
+        detailedList.value = '';
+        updateEmailCount();
+        
+    } catch (error) {
+        console.error('Error generating links:', error);
+        showNotification('Error generating links. Please try again.', 'error');
+    }
+}
+
+async function saveVisitorsToDatabase(visitors) {
+    try {
+        for (const visitor of visitors) {
+            const visitorData = {
+                email: visitor.email,
+                token: visitor.token,
+                name: visitor.name || '',
+                company: visitor.company || '',
+                status: 'active',
+                first_access: null,
+                last_access: null,
+                access_count: 0
+            };
+
+            const response = await fetch('/api/tables/visitors', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(visitorData)
+            });
+
+            if (!response.ok) {
+                console.error('Failed to save visitor:', visitor.email, response.status);
+            } else {
+                console.log('✅ Visitor saved:', visitor.email);
+            }
+        }
+    } catch (error) {
+        console.error('Error saving visitors to database:', error);
+        throw error;
+    }
+}
+
+function displayResults() {
+    resultsTableBody.innerHTML = '';
+    
+    generatedLinks.forEach((link, index) => {
+        const row = document.createElement('tr');
+        row.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+        
+        row.innerHTML = `
+            <td class="px-6 py-4">
+                <div class="flex flex-col">
+                    <div class="text-sm font-medium text-gray-900">${link.email}</div>
+                    <div class="text-sm text-gray-500">${link.name || 'No name'}</div>
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <div class="text-sm text-gray-900">${link.company || '-'}</div>
+            </td>
+            <td class="px-6 py-4">
+                <div class="text-sm text-gray-900 font-mono max-w-xs truncate" title="${link.link}">
+                    ${link.link}
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <span class="token-display">${link.token.substring(0, 12)}...</span>
+            </td>
+            <td class="px-6 py-4">
+                <button onclick="copyLink('${link.link}')" 
+                        class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-md font-medium transition-colors">
+                    <i class="fas fa-copy mr-1"></i>Copy
+                </button>
+            </td>
+        `;
+        resultsTableBody.appendChild(row);
+    });
+    
+    resultsSection.style.display = 'block';
+    resultsSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyAllLinks() {
+    const linkText = generatedLinks.map(link => 
+        `${link.email}: ${link.link}`
+    ).join('\\n');
+
+    navigator.clipboard.writeText(linkText).then(() => {
+        showNotification('All links copied to clipboard!', 'success');
+    }).catch(() => {
+        showNotification('Failed to copy links', 'error');
+    });
+}
+
+function downloadCsv() {
+    const csvContent = [
+        ['Email', 'Name', 'Company', 'Token', 'Link', 'Created'],
+        ...generatedLinks.map(link => [
+            link.email,
+            link.name || '',
+            link.company || '',
+            link.token,
+            link.link,
+            new Date(link.created).toLocaleString()
+        ])
+    ].map(row => row.map(field => `"${field}"`).join(',')).join('\\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `project-zurich-links-${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+
+    showNotification('CSV file downloaded!', 'success');
+}
+
+function showEmailTemplate() {
+    const selectedProject = document.getElementById('projectSelector').value;
+    const isSeniorFinancing = selectedProject === 'index.html';
+    
+    const template = isSeniorFinancing ? 
+`Subject: Exclusive Investment Opportunity - Project ZURICH €42M Senior Financing
+
+Dear [NAME],
+
+I hope this message finds you well. I am pleased to present an exclusive investment opportunity in Project ZURICH, a €42 million senior financing for affordable housing development in Madrid's prime Valdebebas area.
+
+Investment Highlights:
+• €42M total investment amount
+• 30-year term with 3-year grace period  
+• 70% LTC with strong equity coverage
+• 251 housing units in prime location
+• Predictable cash flows with 97%+ expected occupancy
+• Backed by developer with 20+ years track record
+
+Your personalized access link:
+[UNIQUE_LINK]
+
+This confidential link provides complete access to:
+✓ Detailed project teaser
+✓ Term-sheet with full financial structure
+✓ Complete financial model  
+✓ NDA process for due diligence access
+
+Interest confirmation deadline: October 31, 2024
+
+We remain at your disposal for any questions or to schedule a personalized presentation.
+
+Best regards,
+
+[YOUR NAME]
+[YOUR TITLE]
+ALTER5 Investment Team
+[YOUR EMAIL] | [YOUR PHONE]
+
+---
+INSTRUCTIONS:
+1. Replace [NAME] with recipient's name
+2. Replace [UNIQUE_LINK] with their specific tracking link  
+3. Replace [YOUR NAME], [YOUR TITLE], [YOUR EMAIL], [YOUR PHONE] with your details
+4. Personalize based on recipient type (pension fund, family office, etc.)` :
+
+`Subject: Exclusive Investment Opportunity - Project ZURICH €21M Equity Investment
+
+Dear [NAME],
+
+I hope this message finds you well. I am pleased to present an exclusive equity investment opportunity in Project ZURICH, a €21 million Build to Sale/Hold investment for affordable housing development in Madrid's prime Valdebebas area.
+
+Investment Highlights:
+• €21M equity investment with 10% minimum annual return
+• Build to Sale/Hold strategy with dual exit options
+• 36-month short-term or 15-year long-term holding
+• Expected TIR: 11%-13% for 3-year exit
+• SOCIMI structure with capital gains tax exemption  
+• Prime location in Valdebebas, Madrid's fastest-growing area
+
+Your personalized access link:
+[UNIQUE_LINK]
+
+This confidential link provides complete access to:
+✓ Detailed project teaser
+✓ Term-sheet with full financial structure  
+✓ Complete financial model
+✓ NDA process for due diligence access
+
+Interest confirmation deadline: October 31, 2024
+
+We remain at your disposal for any questions or to schedule a personalized presentation.
+
+Best regards,
+
+[YOUR NAME]
+[YOUR TITLE] 
+ALTER5 Investment Team
+[YOUR EMAIL] | [YOUR PHONE]
+
+---
+INSTRUCTIONS:
+1. Replace [NAME] with recipient's name
+2. Replace [UNIQUE_LINK] with their specific tracking link
+3. Replace [YOUR NAME], [YOUR TITLE], [YOUR EMAIL], [YOUR PHONE] with your details  
+4. Personalize based on recipient type (pension fund, family office, etc.)`;
+
+    emailTemplateContent.textContent = template;
+    emailTemplateModal.classList.remove('hidden');
+}
+
+function hideEmailTemplate() {
+    emailTemplateModal.classList.add('hidden');
+}
+
+function copyTemplate() {
+    navigator.clipboard.writeText(emailTemplateContent.textContent).then(() => {
+        showNotification('Email template copied to clipboard!', 'success');
+        hideEmailTemplate();
+    }).catch(() => {
+        showNotification('Failed to copy template', 'error');
+    });
+}
+
+// Global function for copy buttons
+window.copyLink = function(link) {
+    navigator.clipboard.writeText(link).then(() => {
+        showNotification('Link copied to clipboard!', 'success');
+    }).catch(() => {
+        showNotification('Failed to copy link', 'error');
+    });
+};
+
+function updateAnalytics() {
+    document.getElementById('totalLinks').textContent = analytics.totalLinks;
+    document.getElementById('totalVisits').textContent = analytics.totalVisits;
+    document.getElementById('totalDownloads').textContent = analytics.totalDownloads;
+    document.getElementById('ndaRequests').textContent = analytics.ndaRequests;
+    
+    // Update quick stats
+    document.getElementById('activeLinksCount').textContent = generatedLinks.length;
+    document.getElementById('totalVisitorsCount').textContent = analytics.totalVisits;
+    const conversionRate = analytics.totalVisits > 0 ? Math.round((analytics.totalDownloads / analytics.totalVisits) * 100) : 0;
+    document.getElementById('conversionRate').textContent = conversionRate + '%';
+}
+
+function saveData() {
+    localStorage.setItem('zurich_links', JSON.stringify(generatedLinks));
+    localStorage.setItem('zurich_analytics', JSON.stringify(analytics));
+}
+
+function loadSavedData() {
+    const savedLinks = localStorage.getItem('zurich_links');
+    const savedAnalytics = localStorage.getItem('zurich_analytics');
+    
+    if (savedLinks) {
+        try {
+            generatedLinks = JSON.parse(savedLinks);
+            if (generatedLinks.length > 0) {
+                displayResults();
+            }
+        } catch (e) {
+            console.error('Error loading saved links:', e);
+        }
+    }
+    
+    if (savedAnalytics) {
+        try {
+            analytics = { ...analytics, ...JSON.parse(savedAnalytics) };
+        } catch (e) {
+            console.error('Error loading saved analytics:', e);
+        }
+    }
+}
+
+function showNotification(message, type = 'info') {
+    notificationText.textContent = message;
+    notification.className = `notification ${type}`;
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 4000);
+}
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>

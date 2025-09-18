@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+  command = "echo 'Static site ready for deployment'"
+
+[[redirects]]
+  from = "/api/tables/*"
+  to = "https://tu-proyecto.supabase.co/rest/v1/:splat"
+  status = 200
+  headers = {X-Custom-Header = "Alter5 Project"}
+
+[context.production.environment]
+  NODE_ENV = "production"

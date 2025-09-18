@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZURICH - Admin Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="header-content">
+                <h1><span class="logo-text">ALTER5</span> Admin Dashboard</h1>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Active Links</span>
+                        <span class="stat-value" id="activeLinks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Views</span>
+                        <span class="stat-value" id="totalViews">0</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Email Import Section -->
+            <section class="admin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-link"></i> Generate Unique Links</h2>
+                    <p>Import email list to generate personalized access links for Project ZURICH</p>
+                </div>
+                
+                <div class="import-container">
+                    <div class="import-method">
+                        <h3>Method 1: Paste Email List</h3>
+                        <div class="textarea-container">
+                            <textarea 
+                                id="emailList" 
+                                placeholder="Paste emails here, one per line:&#10;john@company.com&#10;jane@investor.fund&#10;..."
+                                rows="8"
+                            ></textarea>
+                            <div class="textarea-info">
+                                <span id="emailCount">0 emails detected</span>
+                            </div>
+                        </div>
+                        
+                        <div class="optional-fields">
+                            <h4>Optional: Include Names and Companies</h4>
+                            <p>Format: email,name,company (one per line)</p>
+                            <textarea 
+                                id="detailedList" 
+                                placeholder="john@company.com,John Smith,ABC Capital&#10;jane@fund.com,Jane Doe,XYZ Investments"
+                                rows="4"
+                            ></textarea>
+                        </div>
+                        
+                        <button class="btn-generate" id="generateLinks">
+                            <i class="fas fa-magic"></i>
+                            Generate Unique Links
+                        </button>
+                    </div>
+                    
+                    <div class="import-method">
+                        <h3>Method 2: Upload CSV File</h3>
+                        <div class="file-upload">
+                            <input type="file" id="csvFile" accept=".csv" hidden>
+                            <div class="file-drop-zone" id="fileDropZone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drop CSV file here or <span class="upload-link">click to browse</span></p>
+                                <small>Columns: email, name (optional), company (optional)</small>
+                            </div>
+                        </div>
+                        
+                        <button class="btn-generate secondary" id="uploadCSV">
+                            <i class="fas fa-upload"></i>
+                            Process CSV File
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Generated Links Display -->
+                <div class="results-container" id="resultsContainer" style="display: none;">
+                    <div class="results-header">
+                        <h3><i class="fas fa-check-circle"></i> Generated Links</h3>
+                        <div class="results-actions">
+                            <button class="btn-action" id="copyAllLinks">
+                                <i class="fas fa-copy"></i>
+                                Copy All Links
+                            </button>
+                            <button class="btn-action" id="downloadCSV">
+                                <i class="fas fa-download"></i>
+                                Download CSV
+                            </button>
+                            <button class="btn-action" id="emailTemplate">
+                                <i class="fas fa-envelope"></i>
+                                Email Template
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="results-table-container">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Company</th>
+                                    <th>Unique Link</th>
+                                    <th>Token</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody">
+                                <!-- Generated links will appear here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Overview -->
+            <section class="admin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Analytics Overview</h2>
+                    <p>Real-time tracking of visitor engagement</p>
+                </div>
+                
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Unique Visitors</h3>
+                            <div class="card-value" id="uniqueVisitors">0</div>
+                            <div class="card-change">+0 today</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Avg. Session Time</h3>
+                            <div class="card-value" id="avgSessionTime">0m 0s</div>
+                            <div class="card-change">+0% vs last week</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <div class="card-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Document Downloads</h3>
+                            <div class="card-value" id="totalDownloads">0</div>
+                            <div class="card-change">Most popular: Teaser</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <div class="card-icon">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>NDA Conversion</h3>
+                            <div class="card-value" id="ndaConversion">0%</div>
+                            <div class="card-change">0 initiated</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list" id="activityList">
+                        <div class="activity-item placeholder">
+                            <i class="fas fa-info-circle"></i>
+                            <span>No recent activity. Generate links and share them to see analytics here.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visitor Management -->
+            <section class="admin-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users-cog"></i> Visitor Management</h2>
+                    <p>Manage generated links and visitor access</p>
+                </div>
+                
+                <div class="visitor-controls">
+                    <div class="search-container">
+                        <input type="text" id="visitorSearch" placeholder="Search by email, name, or company...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    
+                    <div class="filter-controls">
+                        <select id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="expired">Expired</option>
+                            <option value="blocked">Blocked</option>
+                        </select>
+                        
+                        <button class="btn-action" id="refreshVisitors">
+                            <i class="fas fa-sync"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="visitors-table-container">
+                    <table class="visitors-table">
+                        <thead>
+                            <tr>
+                                <th>Visitor</th>
+                                <th>Company</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Last Access</th>
+                                <th>Access Count</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="visitorsTableBody">
+                            <tr class="placeholder">
+                                <td colspan="7">No visitors found. Generate some links first.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Email Template Modal -->
+    <div id="emailTemplateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Email Template</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="template-preview">
+                    <h4>Personalized Email Template</h4>
+                    <div class="template-content">
+                        <p><strong>Subject:</strong> Exclusive Investment Opportunity - Project ZURICH</p>
+                        <div class="email-body">
+                            <p>Dear [NAME],</p>
+                            <p>We are pleased to present an exclusive investment opportunity in <strong>Project ZURICH</strong> - a €42M senior financing opportunity for affordable housing development in Madrid's prime Valdebebas area.</p>
+                            
+                            <p><strong>Key Investment Highlights:</strong></p>
+                            <ul>
+                                <li>€42M total investment amount</li>
+                                <li>30-year term with 3-year grace period</li>
+                                <li>70% LTC with strong equity coverage</li>
+                                <li>251 housing units in prime location</li>
+                                <li>Predictable cash flows with 97%+ expected occupancy</li>
+                            </ul>
+                            
+                            <p>Please use your personalized link to access the complete investment documentation:</p>
+                            <div class="link-placeholder">
+                                <strong>[UNIQUE_LINK]</strong>
+                            </div>
+                            
+                            <p>This confidential link provides access to:</p>
+                            <ul>
+                                <li>Detailed project teaser</li>
+                                <li>Term-sheet with full financial structure</li>
+                                <li>Complete financial model</li>
+                                <li>NDA process for due diligence access</li>
+                            </ul>
+                            
+                            <p>Interest confirmation is required before <strong>September 30, 2025</strong>.</p>
+                            
+                            <p>For any questions, please don't hesitate to contact us.</p>
+                            
+                            <p>Best regards,<br>
+                            ALTER5 Investment Team</p>
+                        </div>
+                    </div>
+                    
+                    <div class="template-actions">
+                        <button class="btn-action" id="copyTemplate">
+                            <i class="fas fa-copy"></i>
+                            Copy Template
+                        </button>
+                        <button class="btn-action" id="customizeTemplate">
+                            <i class="fas fa-edit"></i>
+                            Customize Template
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <span id="notificationText"></span>
+            <button class="notification-close">&times;</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/admin.js"></script>
+</body>
+</html>

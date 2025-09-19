@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Test Page</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            text-align: center; 
+            padding: 50px; 
+            background: red; 
+            color: white; 
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔴 DEPLOYMENT TEST - WORKING!</h1>
+    <p>Time: <span id="time"></span></p>
+    <p>If you see this RED page, the deployment is working!</p>
+    <script>
+        document.getElementById('time').innerHTML = new Date().toISOString();
+    </script>
+</body>
+</html>

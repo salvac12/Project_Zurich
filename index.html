@@ -1,59 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 TEST - Project ZURICH Working!</title>
+    <title>🚨 EMERGENCY DEPLOYMENT TEST 🚨</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            color: white;
-            min-height: 100vh;
             margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #FF0000, #00FF00, #0000FF);
+            animation: rainbow 3s linear infinite;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0,0,0,0.8);
+            padding: 60px;
             border-radius: 20px;
+            border: 5px solid white;
+            box-shadow: 0 0 50px rgba(255,255,255,0.5);
         }
+        
         h1 {
-            font-size: 4em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 4rem;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 6px black;
+            animation: pulse 1s infinite;
         }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
         .status {
-            font-size: 2em;
-            margin: 30px 0;
-            padding: 20px;
+            font-size: 2rem;
             background: #00FF00;
-            color: #000;
+            color: black;
+            padding: 20px;
             border-radius: 10px;
+            margin: 20px 0;
             font-weight: bold;
+            border: 3px solid white;
+        }
+        
+        .time {
+            font-size: 1.5rem;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚀 DEPLOYMENT WORKING!</h1>
+        <h1>🚨 VERCEL IS WORKING! 🚨</h1>
         <div class="status">
-            ✅ NEW VERSION DEPLOYED SUCCESSFULLY
+            ✅ DEPLOYMENT SUCCESSFUL ✅
         </div>
-        <p>Build Time: <span id="buildTime"></span></p>
-        <p>If you see this colorful page, Vercel deployment is working correctly!</p>
-        <p><strong>This means the issue was with the complex HTML - we can now fix it!</strong></p>
-        
-        <div style="margin-top: 40px;">
-            <a href="test-simple.html" style="color: yellow; font-size: 1.2em;">Test Simple Page</a>
+        <div class="time">
+            Build Time: <span id="currentTime"></span>
         </div>
+        <p style="font-size: 1.3rem;">
+            If you see this ANIMATED RAINBOW page,<br>
+            Vercel deployment is 100% working!
+        </p>
+        <p style="font-size: 1.1rem; margin-top: 30px;">
+            We can now restore the Investment Hub!
+        </p>
     </div>
 
     <script>
-        document.getElementById('buildTime').innerHTML = new Date().toISOString();
+        function updateTime() {
+            document.getElementById('currentTime').textContent = new Date().toISOString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
 </body>
 </html>

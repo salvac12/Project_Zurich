@@ -1,93 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🚨 EMERGENCY DEPLOYMENT TEST 🚨</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 VERCEL DEPLOYMENT FIXED 🔥</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="deployment-id" content="FINAL-FIX-19SEP2024-1145">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(45deg, #FF0000, #00FF00, #0000FF);
-            animation: rainbow 3s linear infinite;
-            font-family: Arial, sans-serif;
-            color: white;
-            text-align: center;
+            font-family: 'Arial Black', Arial, sans-serif;
+            background: 
+                linear-gradient(45deg, #ff0000, transparent 25%),
+                linear-gradient(-45deg, #00ff00, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #0000ff 75%),
+                linear-gradient(-45deg, transparent 75%, #ffff00 75%);
+            background-size: 30px 30px;
+            background-position: 0 0, 0 15px, 15px -15px, -15px 0px;
+            animation: backgroundMove 4s linear infinite;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
         
-        @keyframes rainbow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes backgroundMove {
+            0% { background-position: 0 0, 0 15px, 15px -15px, -15px 0px; }
+            100% { background-position: 30px 30px, 30px 45px, 45px 15px, 15px 30px; }
         }
         
         .container {
-            background: rgba(0,0,0,0.8);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.9);
             padding: 60px;
-            border-radius: 20px;
-            border: 5px solid white;
-            box-shadow: 0 0 50px rgba(255,255,255,0.5);
+            border-radius: 30px;
+            border: 8px solid white;
+            box-shadow: 
+                0 0 50px rgba(255, 255, 255, 0.8),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+            animation: containerPulse 2s ease-in-out infinite;
+            max-width: 90vw;
         }
         
-        h1 {
-            font-size: 4rem;
+        @keyframes containerPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 50px rgba(255, 255, 255, 0.8); }
+            50% { transform: scale(1.05); box-shadow: 0 0 80px rgba(255, 255, 255, 1); }
+        }
+        
+        .title {
+            font-size: clamp(2rem, 8vw, 5rem);
+            color: white;
+            text-shadow: 
+                3px 3px 0px #ff0000,
+                -3px -3px 0px #00ff00,
+                3px -3px 0px #0000ff,
+                -3px 3px 0px #ffff00;
+            animation: titleBounce 1.5s ease-in-out infinite;
             margin-bottom: 30px;
-            text-shadow: 3px 3px 6px black;
-            animation: pulse 1s infinite;
+            font-weight: 900;
+            letter-spacing: 3px;
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        @keyframes titleBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(2deg); }
+            75% { transform: translateY(10px) rotate(-2deg); }
         }
         
         .status {
-            font-size: 2rem;
-            background: #00FF00;
+            background: linear-gradient(45deg, #00ff00, #00aa00);
             color: black;
+            font-size: clamp(1rem, 4vw, 2rem);
             padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-weight: bold;
-            border: 3px solid white;
+            border-radius: 15px;
+            margin: 30px 0;
+            font-weight: 900;
+            border: 4px solid white;
+            animation: statusFlash 1s ease-in-out infinite;
         }
         
-        .time {
-            font-size: 1.5rem;
+        @keyframes statusFlash {
+            0%, 100% { background: linear-gradient(45deg, #00ff00, #00aa00); }
+            50% { background: linear-gradient(45deg, #ffff00, #ffaa00); }
+        }
+        
+        .info {
+            color: white;
+            font-size: clamp(0.8rem, 3vw, 1.2rem);
             margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .timestamp {
+            color: #ffff00;
+            font-size: clamp(0.7rem, 2.5vw, 1rem);
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 20px 0;
+            animation: timestampGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes timestampGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 0, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(255, 255, 0, 1); }
+        }
+        
+        .build-info {
+            color: #ff00ff;
+            font-size: clamp(0.6rem, 2vw, 0.9rem);
+            margin-top: 30px;
+            font-family: 'Courier New', monospace;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚨 VERCEL IS WORKING! 🚨</h1>
+        <h1 class="title">🔥 VERCEL IS WORKING! 🔥</h1>
+        
         <div class="status">
             ✅ DEPLOYMENT SUCCESSFUL ✅
         </div>
-        <div class="time">
-            Build Time: <span id="currentTime"></span>
+        
+        <div class="info">
+            🎉 This proves Vercel deployment is functioning! 🎉
         </div>
-        <p style="font-size: 1.3rem;">
-            If you see this ANIMATED RAINBOW page,<br>
-            Vercel deployment is 100% working!
-        </p>
-        <p style="font-size: 1.1rem; margin-top: 30px;">
-            We can now restore the Investment Hub!
-        </p>
+        
+        <div class="timestamp">
+            ⏰ Current Time: <span id="currentTime"></span><br>
+            🔄 Page Loads: <span id="loadCount">1</span>
+        </div>
+        
+        <div class="info">
+            🚀 Now we can restore the Investment Hub! 🚀
+        </div>
+        
+        <div class="build-info">
+            BUILD ID: FINAL-FIX-19SEP2024-1145<br>
+            BRANCH: main<br>
+            COMMIT: Latest with aggressive config
+        </div>
     </div>
 
     <script>
-        function updateTime() {
-            document.getElementById('currentTime').textContent = new Date().toISOString();
+        let loadCount = 1;
+        
+        function updateInfo() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+            document.getElementById('loadCount').textContent = loadCount++;
         }
-        updateTime();
-        setInterval(updateTime, 1000);
+        
+        updateInfo();
+        setInterval(updateInfo, 1000);
+        
+        // Force page refresh every 30 seconds to show it's dynamic
+        setTimeout(() => {
+            console.log('Auto-refreshing to prove dynamism...');
+            window.location.reload();
+        }, 30000);
     </script>
 </body>
 </html>

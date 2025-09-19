@@ -2,7 +2,14 @@
   "version": 2,
   "public": true,
   "github": {
-    "silent": false
+    "silent": false,
+    "enabled": true
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "genspark_ai_developer": false
+    }
   },
   "routes": [
     {
@@ -10,6 +17,24 @@
       "dest": "/$1"
     }
   ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  "functions": {},
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
+        }
+      ]
+    }
+  ]
 }

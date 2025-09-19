@@ -1,7 +1,0 @@
-# Netlify/Vercel redirects for HTML files
-/debt_investment    /debt_investment.html    200
-/equity_investment  /equity_investment.html  200
-/directory         /directory.html          200
-/project-zurich    /project-zurich-equity.html  200
-/admin            /admin-simple.html       200
-/analytics        /analytics-dashboard.html 200

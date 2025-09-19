@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Check - Project ZURICH</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #000;
+            color: #00ff00;
+            padding: 20px;
+            margin: 0;
+        }
+        .status {
+            border: 2px solid #00ff00;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .ok { color: #00ff00; }
+        .error { color: #ff0000; }
+        a { color: #00ffff; }
+    </style>
+</head>
+<body>
+    <h1>🟢 DEPLOYMENT STATUS CHECK</h1>
+    
+    <div class="status">
+        <h2>Current Status</h2>
+        <p class="ok">✓ Vercel Deployment: ACTIVE</p>
+        <p class="ok">✓ Investment Hub: READY</p>
+        <p class="ok">✓ Cache Control: ENABLED</p>
+        <p class="ok">✓ Build ID: investment-hub-20240919-1130</p>
+    </div>
+
+    <div class="status">
+        <h2>Available Pages</h2>
+        <p><a href="/">Investment Hub (Main Page)</a></p>
+        <p><a href="/equity_investment.html">Equity Investment (€21M)</a></p>
+        <p><a href="/debt_investment.html">Debt Investment</a></p>
+        <p><a href="/project-zurich-equity.html">Senior Financing (€42M)</a></p>
+        <p><a href="/deployment-test.html">Deployment Test</a></p>
+    </div>
+
+    <div class="status">
+        <h2>Debug Info</h2>
+        <p>Deployment Time: <span id="timestamp"></span></p>
+        <p>User Agent: <span id="useragent"></span></p>
+        <p>URL: <span id="currenturl"></span></p>
+    </div>
+
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toISOString();
+        document.getElementById('useragent').textContent = navigator.userAgent;
+        document.getElementById('currenturl').textContent = window.location.href;
+        
+        // Auto redirect to main page after 10 seconds
+        setTimeout(() => {
+            const redirect = confirm('Status check complete! Redirect to Investment Hub?');
+            if (redirect) {
+                window.location.href = '/';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

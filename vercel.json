@@ -2,22 +2,8 @@
   "version": 2,
   "public": true,
   "github": {
-    "silent": false,
-    "enabled": true
+    "silent": false
   },
-  "git": {
-    "deploymentEnabled": {
-      "main": true,
-      "genspark_ai_developer": false
-    }
-  },
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "functions": {},
   "headers": [
     {
       "source": "/(.*)",
@@ -27,7 +13,7 @@
           "value": "no-cache, no-store, must-revalidate"
         },
         {
-          "key": "Pragma",
+          "key": "Pragma", 
           "value": "no-cache"
         },
         {

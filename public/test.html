@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vercel Test Page</title>
+</head>
+<body>
+    <h1>🧪 Vercel Test - This page works!</h1>
+    <p>If you can see this page, Vercel is serving files correctly from the public directory.</p>
+    
+    <h2>📄 Available Pages:</h2>
+    <ul>
+        <li><a href="/index.html">🏠 Investment Hub (index.html)</a></li>
+        <li><a href="/debt_investment.html">🏦 Debt Investment</a></li>
+        <li><a href="/equity_investment.html">💰 Equity Investment</a></li>
+        <li><a href="/project-zurich-equity.html">🏗️ Project ZURICH Senior</a></li>
+        <li><a href="/directory.html">📁 Directory</a></li>
+        <li><a href="/admin-simple.html">⚙️ Admin Panel</a></li>
+        <li><a href="/analytics-dashboard.html">📊 Analytics</a></li>
+    </ul>
+    
+    <h2>🔍 Debug Info:</h2>
+    <p>Timestamp: <span id="timestamp"></span></p>
+    <p>User Agent: <span id="userAgent"></span></p>
+    
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toISOString();
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+    </script>
+</body>
+</html>

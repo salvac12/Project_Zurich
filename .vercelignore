@@ -1,7 +1,16 @@
-# Ignore files that shouldn't be deployed
 node_modules
 .git
+.env
 *.log
-supervisord.*
-webserver.*
+*.md
+temp/
+css/
+js/
+api/
+images/
+documents/
+supervisor*
+webserver*
 server.log
+package*.json
+netlify.toml

@@ -1,0 +1,166 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/http/server.py", line 1314, in <module>
+    test(
+  File "/usr/local/lib/python3.12/http/server.py", line 1261, in test
+    with ServerClass(addr, HandlerClass) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/http/server.py", line 1308, in server_bind
+    return super().server_bind()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/http/server.py", line 1314, in <module>
+    test(
+  File "/usr/local/lib/python3.12/http/server.py", line 1261, in test
+    with ServerClass(addr, HandlerClass) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/http/server.py", line 1308, in server_bind
+    return super().server_bind()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/http/server.py", line 1314, in <module>
+    test(
+  File "/usr/local/lib/python3.12/http/server.py", line 1261, in test
+    with ServerClass(addr, HandlerClass) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/http/server.py", line 1308, in server_bind
+    return super().server_bind()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/http/server.py", line 1314, in <module>
+    test(
+  File "/usr/local/lib/python3.12/http/server.py", line 1261, in test
+    with ServerClass(addr, HandlerClass) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/http/server.py", line 1308, in server_bind
+    return super().server_bind()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/http/server.py", line 1314, in <module>
+    test(
+  File "/usr/local/lib/python3.12/http/server.py", line 1261, in test
+    with ServerClass(addr, HandlerClass) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/http/server.py", line 1308, in server_bind
+    return super().server_bind()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/http/server.py", line 1314, in <module>
+    test(
+  File "/usr/local/lib/python3.12/http/server.py", line 1261, in test
+    with ServerClass(addr, HandlerClass) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/http/server.py", line 1308, in server_bind
+    return super().server_bind()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/http/server.py", line 1314, in <module>
+    test(
+  File "/usr/local/lib/python3.12/http/server.py", line 1261, in test
+    with ServerClass(addr, HandlerClass) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/http/server.py", line 1308, in server_bind
+    return super().server_bind()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+10.12.217.240 - - [18/Sep/2025 16:26:06] "GET / HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:06] "GET /images/residential-complex.jpg HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "GET /js/vercel-analytics.js HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "GET /js/config.js HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "GET /js/main.js HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "GET /js/visitor-lookup.js HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "GET /css/style.css HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "GET /css/alter5-colors.css HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "GET /js/debug-visitor-tracking.js HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] code 501, message Unsupported method ('POST')
+10.12.217.240 - - [18/Sep/2025 16:26:07] "POST /api/analytics HTTP/1.1" 501 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "HEAD /documents/Financial-Model-Valdebebas.xlsx HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "HEAD /documents/Project-ZURICH-Teaser-ENG.docx HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:07] "HEAD /documents/Project-Ederson-TermSheet-ENG.docx HTTP/1.1" 200 -
+10.12.217.240 - - [18/Sep/2025 16:26:08] code 404, message File not found
+10.12.217.240 - - [18/Sep/2025 16:26:08] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.217.240 - - [18/Sep/2025 16:26:12] code 501, message Unsupported method ('POST')
+10.12.217.240 - - [18/Sep/2025 16:26:12] "POST /api/analytics HTTP/1.1" 501 -
+10.12.217.240 - - [18/Sep/2025 16:26:13] code 501, message Unsupported method ('POST')
+10.12.217.240 - - [18/Sep/2025 16:26:13] "POST /api/analytics HTTP/1.1" 501 -
+10.12.217.240 - - [18/Sep/2025 16:32:21] "GET /project-zurich-equity.html HTTP/1.1" 200 -
+10.12.112.36 - - [19/Sep/2025 10:04:40] code 501, message Unsupported method ('POST')
+10.12.112.36 - - [19/Sep/2025 10:04:40] "HEAD /documents/Project-ZURICH-Teaser-ENG.docx HTTP/1.1" 200 -
+10.12.112.36 - - [19/Sep/2025 10:04:40] "POST /api/analytics HTTP/1.1" 501 -
+10.12.112.36 - - [19/Sep/2025 10:04:40] "HEAD /documents/Project-Ederson-TermSheet-ENG.docx HTTP/1.1" 200 -
+10.12.112.36 - - [19/Sep/2025 10:04:40] "HEAD /documents/Financial-Model-Valdebebas.xlsx HTTP/1.1" 200 -
+10.12.112.36 - - [19/Sep/2025 10:04:43] code 501, message Unsupported method ('POST')
+10.12.112.36 - - [19/Sep/2025 10:04:43] "POST /api/analytics HTTP/1.1" 501 -
+10.12.112.36 - - [19/Sep/2025 10:04:45] code 501, message Unsupported method ('POST')
+10.12.112.36 - - [19/Sep/2025 10:04:45] "POST /api/analytics HTTP/1.1" 501 -
+10.12.112.36 - - [19/Sep/2025 10:04:45] code 501, message Unsupported method ('POST')
+10.12.112.36 - - [19/Sep/2025 10:04:45] "POST /api/analytics HTTP/1.1" 501 -
+10.12.112.36 - - [19/Sep/2025 10:04:45] code 501, message Unsupported method ('POST')
+10.12.112.36 - - [19/Sep/2025 10:04:45] "POST /api/analytics HTTP/1.1" 501 -
+10.12.112.36 - - [19/Sep/2025 10:04:56] code 501, message Unsupported method ('POST')
+10.12.112.36 - - [19/Sep/2025 10:04:56] "POST /api/analytics HTTP/1.1" 501 -
+10.12.112.36 - - [19/Sep/2025 10:05:00] code 501, message Unsupported method ('POST')
+10.12.112.36 - - [19/Sep/2025 10:05:00] "POST /api/analytics HTTP/1.1" 501 -
+10.12.112.36 - - [19/Sep/2025 10:13:05] code 501, message Unsupported method ('POST')
+10.12.112.36 - - [19/Sep/2025 10:13:05] "POST /api/analytics HTTP/1.1" 501 -

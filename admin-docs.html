@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZURICH - Document Management | Alter5 Admin</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-link:hover {
+            opacity: 1;
+        }
+        
+        /* Main Content */
+        .admin-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 0 20px 40px;
+        }
+        
+        .panel-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1F3A8A;
+            margin-bottom: 40px;
+        }
+        
+        .document-sections {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .document-section {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 30px;
+            background: #F8FAFC;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .language-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-button {
+            padding: 8px 16px;
+            border: 2px solid #1F3A8A;
+            background: white;
+            color: #1F3A8A;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .tab-button.active {
+            background: #1F3A8A;
+            color: white;
+        }
+        
+        .upload-area {
+            border: 2px dashed #CBD5E1;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            transition: all 0.2s;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: #1F3A8A;
+            background: #F1F5F9;
+        }
+        
+        .upload-area.dragover {
+            border-color: #10B981;
+            background: #ECFDF5;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #94A3B8;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            color: #64748B;
+            margin-bottom: 16px;
+        }
+        
+        .upload-button {
+            background: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        
+        .upload-button:hover {
+            background: #1E3A8A;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .current-files {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            gap: 10px;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #1F3A8A;
+        }
+        
+        .file-size {
+            font-size: 12px;
+            color: #64748B;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-button {
+            background: none;
+            border: none;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #64748B;
+            transition: all 0.2s;
+        }
+        
+        .action-button:hover {
+            background: #F1F5F9;
+            color: #1F3A8A;
+        }
+        
+        .action-button.delete:hover {
+            background: #FEF2F2;
+            color: #DC2626;
+        }
+        
+        .save-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #E2E8F0;
+        }
+        
+        .save-button {
+            background: linear-gradient(45deg, #10B981, #059669);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .save-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Status Messages */
+        .status-message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #10B981;
+        }
+        
+        .status-error {
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #DC2626;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-panel {
+                margin: 0 10px 20px;
+                padding: 20px;
+            }
+            
+            .panel-title {
+                font-size: 24px;
+            }
+            
+            .upload-area {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-cog"></i>
+                    ALTER 5 Admin
+                </div>
+                <nav class="nav-links">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Investment Hub
+                    </a>
+                    <a href="admin-simple.html" class="nav-link">
+                        <i class="fas fa-dashboard"></i> Dashboard
+                    </a>
+                    <a href="equity_investment.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i> Equity (ES)
+                    </a>
+                    <a href="equity_investment_en.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i> Equity (EN)
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Panel -->
+    <section class="admin-panel">
+        <div class="container">
+            <h1 class="panel-title">Document Management System</h1>
+            
+            <div id="statusMessages"></div>
+            
+            <div class="document-sections">
+                <!-- Teaser Documents -->
+                <div class="document-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-file-image"></i>
+                        Teaser Documents
+                    </h2>
+                    
+                    <div class="language-tabs">
+                        <button class="tab-button active" onclick="switchLanguage('teaser', 'es')">
+                            🇪🇸 Español
+                        </button>
+                        <button class="tab-button" onclick="switchLanguage('teaser', 'en')">
+                            🇬🇧 English
+                        </button>
+                    </div>
+                    
+                    <div id="teaser-es" class="upload-section">
+                        <div class="upload-area" onclick="triggerFileInput('teaser-es-file')">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                Arrastra y suelta el teaser en español o haz clic para seleccionar
+                            </div>
+                            <button class="upload-button">Seleccionar Archivo</button>
+                        </div>
+                        <input type="file" id="teaser-es-file" class="file-input" accept=".pdf,.doc,.docx" onchange="handleFileUpload('teaser', 'es', this)">
+                        <div id="teaser-es-files" class="current-files"></div>
+                    </div>
+                    
+                    <div id="teaser-en" class="upload-section" style="display: none;">
+                        <div class="upload-area" onclick="triggerFileInput('teaser-en-file')">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                Drag and drop English teaser or click to select
+                            </div>
+                            <button class="upload-button">Select File</button>
+                        </div>
+                        <input type="file" id="teaser-en-file" class="file-input" accept=".pdf,.doc,.docx" onchange="handleFileUpload('teaser', 'en', this)">
+                        <div id="teaser-en-files" class="current-files"></div>
+                    </div>
+                </div>
+
+                <!-- Term Sheet Documents -->
+                <div class="document-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-file-contract"></i>
+                        Term Sheet Documents
+                    </h2>
+                    
+                    <div class="language-tabs">
+                        <button class="tab-button active" onclick="switchLanguage('termsheet', 'es')">
+                            🇪🇸 Español
+                        </button>
+                        <button class="tab-button" onclick="switchLanguage('termsheet', 'en')">
+                            🇬🇧 English
+                        </button>
+                    </div>
+                    
+                    <div id="termsheet-es" class="upload-section">
+                        <div class="upload-area" onclick="triggerFileInput('termsheet-es-file')">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                Arrastra y suelta el term sheet en español o haz clic para seleccionar
+                            </div>
+                            <button class="upload-button">Seleccionar Archivo</button>
+                        </div>
+                        <input type="file" id="termsheet-es-file" class="file-input" accept=".pdf,.doc,.docx,.xls,.xlsx" onchange="handleFileUpload('termsheet', 'es', this)">
+                        <div id="termsheet-es-files" class="current-files"></div>
+                    </div>
+                    
+                    <div id="termsheet-en" class="upload-section" style="display: none;">
+                        <div class="upload-area" onclick="triggerFileInput('termsheet-en-file')">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                Drag and drop English term sheet or click to select
+                            </div>
+                            <button class="upload-button">Select File</button>
+                        </div>
+                        <input type="file" id="termsheet-en-file" class="file-input" accept=".pdf,.doc,.docx,.xls,.xlsx" onchange="handleFileUpload('termsheet', 'en', this)">
+                        <div id="termsheet-en-files" class="current-files"></div>
+                    </div>
+                </div>
+
+                <!-- Financial Model Documents -->
+                <div class="document-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-calculator"></i>
+                        Financial Model Documents
+                    </h2>
+                    
+                    <div class="language-tabs">
+                        <button class="tab-button active" onclick="switchLanguage('model', 'es')">
+                            🇪🇸 Español
+                        </button>
+                        <button class="tab-button" onclick="switchLanguage('model', 'en')">
+                            🇬🇧 English
+                        </button>
+                    </div>
+                    
+                    <div id="model-es" class="upload-section">
+                        <div class="upload-area" onclick="triggerFileInput('model-es-file')">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                Arrastra y suelta el modelo financiero en español o haz clic para seleccionar
+                            </div>
+                            <button class="upload-button">Seleccionar Archivo</button>
+                        </div>
+                        <input type="file" id="model-es-file" class="file-input" accept=".xls,.xlsx,.pdf" onchange="handleFileUpload('model', 'es', this)">
+                        <div id="model-es-files" class="current-files"></div>
+                    </div>
+                    
+                    <div id="model-en" class="upload-section" style="display: none;">
+                        <div class="upload-area" onclick="triggerFileInput('model-en-file')">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">
+                                Drag and drop English financial model or click to select
+                            </div>
+                            <button class="upload-button">Select File</button>
+                        </div>
+                        <input type="file" id="model-en-file" class="file-input" accept=".xls,.xlsx,.pdf" onchange="handleFileUpload('model', 'en', this)">
+                        <div id="model-en-files" class="current-files"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="save-section">
+                <button class="save-button" onclick="saveAllDocuments()">
+                    <i class="fas fa-save"></i>
+                    Save All Changes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Document storage for both languages and all types
+        let documentStore = {
+            teaser: { es: [], en: [] },
+            termsheet: { es: [], en: [] },
+            model: { es: [], en: [] }
+        };
+
+        // Switch between language tabs
+        function switchLanguage(section, language) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll(`[onclick*="${section}"]`);
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.onclick.toString().includes(`'${language}'`)) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Show/hide upload sections
+            const sections = document.querySelectorAll(`#${section}-es, #${section}-en`);
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(`${section}-${language}`).style.display = 'block';
+        }
+
+        // Trigger file input when upload area is clicked
+        function triggerFileInput(inputId) {
+            document.getElementById(inputId).click();
+        }
+
+        // Handle file upload
+        function handleFileUpload(type, language, input) {
+            const files = Array.from(input.files);
+            
+            files.forEach(file => {
+                // Check file size (max 50MB)
+                if (file.size > 50 * 1024 * 1024) {
+                    showStatusMessage(`File ${file.name} is too large. Maximum size is 50MB.`, 'error');
+                    return;
+                }
+
+                // Add to document store
+                const fileInfo = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    file: file,
+                    uploaded: new Date()
+                };
+
+                documentStore[type][language].push(fileInfo);
+                
+                // Update UI
+                updateFileList(type, language);
+                showStatusMessage(`File ${file.name} added successfully.`, 'success');
+            });
+
+            // Clear input
+            input.value = '';
+        }
+
+        // Update file list display
+        function updateFileList(type, language) {
+            const container = document.getElementById(`${type}-${language}-files`);
+            const files = documentStore[type][language];
+
+            container.innerHTML = files.map(file => `
+                <div class="file-item">
+                    <div class="file-info">
+                        <i class="fas fa-file-${getFileIcon(file.name)}"></i>
+                        <div>
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${formatFileSize(file.size)}</div>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-button" onclick="downloadFile('${type}', '${language}', '${file.id}')" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="action-button delete" onclick="removeFile('${type}', '${language}', '${file.id}')" title="Remove">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get appropriate icon for file type
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            switch (ext) {
+                case 'pdf': return 'pdf';
+                case 'doc':
+                case 'docx': return 'word';
+                case 'xls':
+                case 'xlsx': return 'excel';
+                default: return 'alt';
+            }
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Remove file from store
+        function removeFile(type, language, fileId) {
+            documentStore[type][language] = documentStore[type][language].filter(file => file.id != fileId);
+            updateFileList(type, language);
+            showStatusMessage('File removed successfully.', 'success');
+        }
+
+        // Download file (create blob URL)
+        function downloadFile(type, language, fileId) {
+            const file = documentStore[type][language].find(f => f.id == fileId);
+            if (file) {
+                const url = URL.createObjectURL(file.file);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = file.name;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Show status message
+        function showStatusMessage(message, type) {
+            const container = document.getElementById('statusMessages');
+            const messageEl = document.createElement('div');
+            messageEl.className = `status-message status-${type}`;
+            messageEl.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                ${message}
+            `;
+            
+            container.appendChild(messageEl);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                container.removeChild(messageEl);
+            }, 5000);
+        }
+
+        // Save all documents (placeholder for API integration)
+        function saveAllDocuments() {
+            // This would integrate with your backend API
+            showStatusMessage('Documents saved successfully! (This is a demo - integrate with your backend API)', 'success');
+            
+            // Log current document store for development
+            console.log('Document store:', documentStore);
+        }
+
+        // Drag and drop functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadAreas = document.querySelectorAll('.upload-area');
+            
+            uploadAreas.forEach(area => {
+                area.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    area.classList.add('dragover');
+                });
+                
+                area.addEventListener('dragleave', () => {
+                    area.classList.remove('dragover');
+                });
+                
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    area.classList.remove('dragover');
+                    
+                    // Get the corresponding file input
+                    const input = area.parentElement.querySelector('input[type="file"]');
+                    input.files = e.dataTransfer.files;
+                    
+                    // Trigger the change event
+                    const event = new Event('change', { bubbles: true });
+                    input.dispatchEvent(event);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

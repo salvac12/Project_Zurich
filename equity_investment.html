@@ -571,6 +571,99 @@
             .steps-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
+            .docs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Documentation Section */
+        .documentation-section {
+            background: #F8FAFC;
+            padding: 60px 40px;
+            margin-bottom: 60px;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .doc-item {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #E2E8F0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .doc-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .doc-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, #1F3A8A, #3B82F6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .doc-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+
+        .doc-description {
+            color: #64748B;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .document-downloads {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .document-download-btn {
+            background: #1F3A8A !important;
+            color: white !important;
+            border: none !important;
+            padding: 10px 16px !important;
+            border-radius: 6px !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+            transition: all 0.2s !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        .document-download-btn:hover {
+            background: #1E3A8A !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .file-size {
+            font-size: 12px;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -824,6 +917,37 @@
                 </div>
             </div>
             
+            <!-- Documentation Section -->
+            <div class="documentation-section">
+                <h2 class="section-title">Documentación de la Inversión</h2>
+                <div class="docs-grid">
+                    <div class="doc-item">
+                        <div class="doc-icon">
+                            <i class="fas fa-file-image"></i>
+                        </div>
+                        <div class="doc-title">Teaser de Inversión</div>
+                        <div class="doc-description">Resumen ejecutivo del proyecto y oportunidad de inversión</div>
+                        <div id="teaser-downloads"></div>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div class="doc-title">Term Sheet</div>
+                        <div class="doc-description">Términos y condiciones detalladas de la inversión</div>
+                        <div id="termsheet-downloads"></div>
+                    </div>
+                    <div class="doc-item">
+                        <div class="doc-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="doc-title">Modelo Financiero</div>
+                        <div class="doc-description">Modelo completo con proyecciones y sensibilidades</div>
+                        <div id="model-downloads"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Next Steps -->
             <div class="next-steps">
                 <h2 class="section-title">Próximos Pasos</h2>
@@ -873,6 +997,9 @@
         </div>
     </footer>
     
+    <!-- Document Manager JavaScript -->
+    <script src="js/document-manager.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Simple button interactions

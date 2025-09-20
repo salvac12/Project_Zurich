@@ -1,0 +1,7 @@
+FORCE VERCEL DEPLOYMENT
+Time: September 20, 2024 - 09:20 UTC
+Commit: 88197fd (LATEST WITH FIXES)
+Status: Fixed vercel.json without public directory requirement
+
+This file forces Vercel to redeploy with the correct configuration.
+All English pages and Investment Hub are ready to deploy.

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix: Migrar Documentos al Sistema de Descarga</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .fix-section { background: #f0f9ff; padding: 20px; margin: 20px 0; border-radius: 8px; border: 1px solid #3B82F6; }
+        .log { background: #000; color: #00ff00; padding: 15px; font-family: monospace; max-height: 400px; overflow-y: auto; }
+        .fix-btn { background: #DC2626; color: white; padding: 15px 25px; margin: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .test-btn { background: #059669; color: white; padding: 12px 20px; margin: 10px; border: none; border-radius: 6px; cursor: pointer; }
+        .success { background: #10B981; color: white; padding: 15px; margin: 10px 0; border-radius: 6px; }
+        .error { background: #DC2626; color: white; padding: 15px; margin: 10px 0; border-radius: 6px; }
+        .warning { background: #F59E0B; color: white; padding: 15px; margin: 10px 0; border-radius: 6px; }
+        .upload-section { background: #f9fafb; padding: 15px; margin: 10px 0; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 FIX: Migrar Documentos al Sistema de Descarga</h1>
+    
+    <div class="error">
+        <strong>❌ PROBLEMA IDENTIFICADO:</strong><br>
+        Los documentos están en el admin panel pero NO en el DocumentManager.<br>
+        Necesitas migrar manualmente los documentos al sistema de descarga.
+    </div>
+    
+    <div class="log" id="fix-log"></div>
+
+    <div class="fix-section">
+        <h3>🚨 SOLUCIÓN RÁPIDA: Re-subir el Modelo Financiero</h3>
+        <p><strong>PASO 1:</strong> Sube de nuevo tu archivo Excel del modelo financiero aquí:</p>
+        
+        <div class="upload-section">
+            <input type="file" id="model-file" accept=".xls,.xlsx,.xlsm,.pdf" style="margin: 10px 0; padding: 8px; width: 100%;">
+            <button class="fix-btn" onclick="fixModelUpload()">🔧 ARREGLAR: Subir Modelo al Sistema de Descarga</button>
+        </div>
+        
+        <p><strong>PASO 2:</strong> Después de subir, testa la descarga:</p>
+        <button class="test-btn" onclick="testDownloadAfterFix()">✅ Test Descarga Después del Fix</button>
+    </div>
+
+    <div class="fix-section">
+        <h3>🔍 Verificar Estado Actual</h3>
+        <button class="test-btn" onclick="checkCurrentState()">📊 Verificar Estado DocumentManager</button>
+        <button class="test-btn" onclick="simulateRealDownload()">🖱️ Simular Click Real en Página</button>
+    </div>
+
+    <div class="fix-section">
+        <h3>📋 Instrucciones Alternativas</h3>
+        <div class="warning">
+            <strong>Si el fix automático no funciona:</strong><br>
+            1. Ve a <strong>admin-docs.html</strong><br>
+            2. Elimina el modelo actual<br>
+            3. Vuelve a subirlo<br>
+            4. Haz click en <strong>"Save All Changes"</strong><br>
+            5. Verifica que aparezca en la lista<br>
+            6. Prueba la descarga en <strong>equity_investment.html</strong>
+        </div>
+    </div>
+
+    <script src="js/document-manager.js"></script>
+    
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            
+            const debugLog = document.getElementById('fix-log');
+            const div = document.createElement('div');
+            
+            if (type === 'error') {
+                div.style.color = '#ff4444';
+            } else if (type === 'success') {
+                div.style.color = '#44ff44';
+            } else if (type === 'warning') {
+                div.style.color = '#ffff44';
+            }
+            
+            div.textContent = logEntry;
+            debugLog.appendChild(div);
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+
+        async function fixModelUpload() {
+            const fileInput = document.getElementById('model-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                log('❌ ERROR: Selecciona el archivo del modelo financiero primero', 'error');
+                alert('Por favor, selecciona tu archivo Excel del modelo financiero (.xlsx o .xlsm)');
+                return;
+            }
+            
+            log('🔧 INICIANDO FIX: Subiendo modelo al DocumentManager...', 'info');
+            log(`📄 Archivo: ${file.name} (${file.size} bytes, tipo: ${file.type})`, 'info');
+            
+            try {
+                // Clear any existing model documents first
+                log('🗑️ Limpiando modelos existentes...', 'info');
+                const existingModels = window.documentManager.getDocuments('model', 'es');
+                existingModels.forEach(doc => {
+                    window.documentManager.removeDocument('model', 'es', doc.id);
+                });
+                
+                // Add the new model document
+                const result = await window.documentManager.addDocument('model', 'es', file, {
+                    uploadedAt: new Date().toISOString(),
+                    fixedUpload: true,
+                    source: 'manual_fix'
+                });
+                
+                log(`✅ FIX EXITOSO: ${result.name} subido al DocumentManager`, 'success');
+                log(`📊 ID del documento: ${result.id}`, 'success');
+                log(`📊 Tamaño data: ${result.data ? result.data.length : 0} caracteres`, 'success');
+                
+                // Verify it was stored correctly
+                const verification = window.documentManager.getLatestDocument('model', 'es');
+                if (verification && verification.data) {
+                    log('✅ VERIFICACIÓN EXITOSA: El modelo está ahora disponible para descarga', 'success');
+                    
+                    // Show success message
+                    const successDiv = document.createElement('div');
+                    successDiv.className = 'success';
+                    successDiv.innerHTML = `
+                        <strong>🎉 ¡FIX COMPLETADO EXITOSAMENTE!</strong><br>
+                        El modelo financiero "${result.name}" está ahora disponible para descarga.<br>
+                        Ve a <strong>equity_investment.html</strong> y haz click en "MODELO FINANCIERO"
+                    `;
+                    document.body.appendChild(successDiv);
+                    
+                } else {
+                    throw new Error('El documento se subió pero no se puede verificar');
+                }
+                
+            } catch (error) {
+                log(`❌ ERROR EN FIX: ${error.message}`, 'error');
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error';
+                errorDiv.innerHTML = `
+                    <strong>❌ Error en el fix:</strong><br>
+                    ${error.message}<br><br>
+                    <strong>Solución alternativa:</strong><br>
+                    Ve a admin-docs.html, elimina y vuelve a subir el modelo.
+                `;
+                document.body.appendChild(errorDiv);
+            }
+        }
+
+        function checkCurrentState() {
+            log('🔍 VERIFICANDO estado actual del DocumentManager...', 'info');
+            
+            if (!window.documentManager) {
+                log('❌ DocumentManager no disponible', 'error');
+                return;
+            }
+            
+            // Check all document types
+            const summary = window.documentManager.getSummary();
+            log('📊 Resumen completo:', 'info');
+            log(JSON.stringify(summary, null, 2), 'info');
+            
+            // Specifically check model documents
+            const modelES = window.documentManager.getDocuments('model', 'es');
+            const modelEN = window.documentManager.getDocuments('model', 'en');
+            
+            log(`📄 Modelos ES: ${modelES.length}`, modelES.length > 0 ? 'success' : 'error');
+            log(`📄 Modelos EN: ${modelEN.length}`, modelEN.length > 0 ? 'success' : 'info');
+            
+            if (modelES.length > 0) {
+                modelES.forEach((doc, i) => {
+                    log(`  [${i}] ${doc.name} - ID: ${doc.id}`, 'success');
+                    log(`      Uploaded: ${doc.uploaded}`, 'info');
+                    log(`      Has data: ${doc.data ? 'YES' : 'NO'}`, doc.data ? 'success' : 'error');
+                });
+                
+                const latest = window.documentManager.getLatestDocument('model', 'es');
+                log(`📄 Último modelo: ${latest.name}`, 'success');
+            } else {
+                log('❌ NO HAY MODELOS EN ESPAÑOL - Este es el problema', 'error');
+            }
+        }
+
+        function testDownloadAfterFix() {
+            log('✅ TESTEANDO descarga después del fix...', 'info');
+            
+            const latestDoc = window.documentManager.getLatestDocument('model', 'es');
+            
+            if (latestDoc && latestDoc.data) {
+                log(`📄 Documento encontrado: ${latestDoc.name}`, 'success');
+                
+                try {
+                    const link = document.createElement('a');
+                    link.href = latestDoc.data;
+                    link.download = latestDoc.name;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    log('🎉 ¡DESCARGA EXITOSA! El fix funcionó correctamente', 'success');
+                    
+                    const successDiv = document.createElement('div');
+                    successDiv.className = 'success';
+                    successDiv.innerHTML = `
+                        <strong>🎉 ¡ÉXITO TOTAL!</strong><br>
+                        El modelo financiero se descargó correctamente.<br>
+                        Ahora ve a <strong>equity_investment.html</strong> y verifica que funciona allí también.
+                    `;
+                    document.body.appendChild(successDiv);
+                    
+                } catch (error) {
+                    log(`❌ Error en descarga: ${error.message}`, 'error');
+                }
+                
+            } else {
+                log('❌ NO hay documento para descargar. Necesitas hacer el fix primero.', 'error');
+            }
+        }
+
+        function simulateRealDownload() {
+            log('🖱️ SIMULANDO click real en equity_investment.html...', 'info');
+            
+            // This is exactly what happens when clicking the button
+            const type = 'model';
+            const language = 'es';
+            
+            const latestDoc = window.documentManager.getLatestDocument(type, language);
+            
+            if (latestDoc && latestDoc.data) {
+                log(`✅ SIMULACIÓN: Se descargaría "${latestDoc.name}"`, 'success');
+                log('✅ El botón en equity_investment.html FUNCIONARÍA correctamente', 'success');
+            } else {
+                log('❌ SIMULACIÓN: Se mostraría "Modelo Financiero no disponible aún"', 'error');
+                log('❌ El botón en equity_investment.html NO funciona (este es el problema actual)', 'error');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🔧 Fix tool cargado', 'success');
+            log('💡 Para arreglar el problema: sube tu archivo Excel arriba y haz click en ARREGLAR', 'info');
+            
+            setTimeout(() => {
+                checkCurrentState();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

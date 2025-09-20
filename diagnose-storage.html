@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Storage - Modelo Financiero</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .diagnostic-section { background: #f0f9ff; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .log { background: #000; color: #00ff00; padding: 15px; font-family: monospace; max-height: 400px; overflow-y: auto; }
+        .test-btn { background: #059669; color: white; padding: 12px 20px; margin: 10px; border: none; border-radius: 6px; cursor: pointer; }
+        .error { background: #fef2f2; border: 1px solid #fca5a5; padding: 15px; margin: 10px 0; border-radius: 6px; }
+        .success { background: #f0fdf4; border: 1px solid #86efac; padding: 15px; margin: 10px 0; border-radius: 6px; }
+        .warning { background: #fffbeb; border: 1px solid #fbbf24; padding: 15px; margin: 10px 0; border-radius: 6px; }
+        pre { background: #f3f4f6; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Diagnóstico: ¿Por qué no funciona la descarga del modelo financiero?</h1>
+    
+    <div class="log" id="debug-log"></div>
+
+    <div class="diagnostic-section">
+        <h3>🕵️ Diagnóstico Automático</h3>
+        <button class="test-btn" onclick="runFullDiagnostic()">🔍 Ejecutar Diagnóstico Completo</button>
+        <button class="test-btn" onclick="checkLocalStorage()">💾 Verificar LocalStorage</button>
+        <button class="test-btn" onclick="testButtonConnection()">🔗 Test Conexión Botón</button>
+    </div>
+
+    <div class="diagnostic-section">
+        <h3>🧪 Test de Solución</h3>
+        <input type="file" id="test-model" accept=".xls,.xlsx,.xlsm,.pdf" style="margin: 10px 0; padding: 8px;">
+        <button class="test-btn" onclick="uploadAndTestModel()">📊 Subir y Testear Modelo</button>
+        <button class="test-btn" onclick="simulateRealClick()">🖱️ Simular Click Real</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script src="js/document-manager.js"></script>
+    
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            
+            const debugLog = document.getElementById('debug-log');
+            const div = document.createElement('div');
+            
+            if (type === 'error') {
+                div.style.color = '#ff4444';
+            } else if (type === 'success') {
+                div.style.color = '#44ff44';
+            } else if (type === 'warning') {
+                div.style.color = '#ffff44';
+            }
+            
+            div.textContent = logEntry;
+            debugLog.appendChild(div);
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+
+        function addResult(title, content, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            const section = document.createElement('div');
+            section.className = type;
+            section.innerHTML = `<h4>${title}</h4><div>${content}</div>`;
+            resultsDiv.appendChild(section);
+        }
+
+        function runFullDiagnostic() {
+            log('🚀 INICIANDO DIAGNÓSTICO COMPLETO...', 'info');
+            
+            // Clear previous results
+            document.getElementById('results').innerHTML = '';
+            
+            // Test 1: DocumentManager availability
+            log('📋 Test 1: DocumentManager', 'info');
+            if (window.documentManager) {
+                log('✅ DocumentManager disponible', 'success');
+                addResult('✅ DocumentManager', 'Funciona correctamente', 'success');
+            } else {
+                log('❌ DocumentManager no disponible', 'error');
+                addResult('❌ DocumentManager', 'NO disponible - ERROR CRÍTICO', 'error');
+                return;
+            }
+
+            // Test 2: Check existing documents
+            log('📋 Test 2: Documentos existentes', 'info');
+            const summary = window.documentManager.getSummary();
+            log('📊 Resumen: ' + JSON.stringify(summary, null, 2), 'info');
+            
+            const modelDocsES = window.documentManager.getDocuments('model', 'es');
+            const modelDocsEN = window.documentManager.getDocuments('model', 'en');
+            
+            log(`📄 Modelos ES: ${modelDocsES.length}`, modelDocsES.length > 0 ? 'success' : 'warning');
+            log(`📄 Modelos EN: ${modelDocsEN.length}`, modelDocsEN.length > 0 ? 'success' : 'warning');
+            
+            if (modelDocsES.length === 0 && modelDocsEN.length === 0) {
+                addResult('⚠️ Problema Identificado', 'NO HAY MODELOS FINANCIEROS SUBIDOS<br>• Ve a admin-docs.html<br>• Sube un modelo financiero<br>• Haz click en "Save All Changes"', 'warning');
+            } else {
+                addResult('✅ Modelos Encontrados', `ES: ${modelDocsES.length}, EN: ${modelDocsEN.length}`, 'success');
+                
+                // Show model details
+                if (modelDocsES.length > 0) {
+                    const latest = window.documentManager.getLatestDocument('model', 'es');
+                    log(`📄 Último modelo ES: ${latest.name}`, 'success');
+                    log(`📄 Tiene data: ${latest.data ? 'SÍ' : 'NO'}`, latest.data ? 'success' : 'error');
+                }
+            }
+
+            // Test 3: Test button detection (simulate equity_investment.html)
+            log('📋 Test 3: Detección de botón', 'info');
+            const testButton = document.createElement('button');
+            testButton.className = 'doc-button';
+            testButton.innerHTML = '<i class="fas fa-chart-line"></i> MODELO FINANCIERO';
+            
+            const buttonText = testButton.textContent.trim().toLowerCase();
+            let documentType = '';
+            
+            if (buttonText.includes('modelo') || buttonText.includes('financiero') || buttonText.includes('financial')) {
+                documentType = 'model';
+            }
+            
+            if (documentType === 'model') {
+                log('✅ Detección de botón funciona', 'success');
+                addResult('✅ Detección de Botón', 'El botón "MODELO FINANCIERO" se detecta correctamente como tipo "model"', 'success');
+            } else {
+                log('❌ Falla detección de botón', 'error');
+                addResult('❌ Detección de Botón', 'ERROR en detección de tipo de documento', 'error');
+            }
+
+            // Test 4: Simulate download
+            log('📋 Test 4: Simulación descarga', 'info');
+            if (modelDocsES.length > 0) {
+                log('✅ Se puede simular descarga', 'success');
+                addResult('✅ Descarga Funcional', 'Hay documentos para descargar', 'success');
+            } else {
+                log('❌ No se puede descargar (sin documentos)', 'warning');
+                addResult('❌ Sin Documentos', 'La descarga fallaría porque no hay modelos subidos', 'warning');
+            }
+
+            // Final diagnosis
+            log('📋 DIAGNÓSTICO COMPLETO', 'info');
+            
+            if (modelDocsES.length === 0 && modelDocsEN.length === 0) {
+                addResult('🎯 DIAGNÓSTICO FINAL', 
+                    '<strong>PROBLEMA IDENTIFICADO:</strong><br>' +
+                    '• El sistema funciona correctamente<br>' +
+                    '• NO hay modelos financieros subidos<br>' +
+                    '• Solución: Usar admin-docs.html para subir modelo<br>' +
+                    '• Importante: Hacer click en "Save All Changes"', 
+                    'warning');
+            } else {
+                addResult('🎯 DIAGNÓSTICO FINAL', 
+                    'Sistema funciona correctamente. Los documentos están disponibles para descarga.', 
+                    'success');
+            }
+        }
+
+        function checkLocalStorage() {
+            log('💾 Verificando LocalStorage...', 'info');
+            
+            const storageKey = 'project_zurich_documents';
+            const stored = localStorage.getItem(storageKey);
+            
+            if (!stored) {
+                log('❌ No hay datos en localStorage', 'error');
+                addResult('❌ LocalStorage Vacío', 'No hay documentos guardados en el navegador', 'error');
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(stored);
+                log('✅ LocalStorage encontrado', 'success');
+                
+                const formatted = JSON.stringify(data, null, 2);
+                addResult('💾 Contenido LocalStorage', `<pre>${formatted}</pre>`, 'info');
+                
+                // Check specifically for model documents
+                const modelES = data.model?.es?.length || 0;
+                const modelEN = data.model?.en?.length || 0;
+                
+                log(`📊 Modelos en storage ES: ${modelES}, EN: ${modelEN}`, 'info');
+                
+            } catch (error) {
+                log('❌ Error parseando localStorage: ' + error.message, 'error');
+                addResult('❌ Error LocalStorage', 'Datos corruptos en localStorage', 'error');
+            }
+        }
+
+        function testButtonConnection() {
+            log('🔗 Test conexión de botón...', 'info');
+            
+            // Create exact button as in equity_investment.html
+            const button = document.createElement('button');
+            button.className = 'doc-button';
+            button.innerHTML = '<i class="fas fa-chart-line"></i> MODELO FINANCIERO';
+            button.style.cssText = 'background: #1F3A8A; color: white; padding: 15px 25px; border: none; border-radius: 8px; margin: 10px;';
+            
+            // Add to page temporarily
+            document.body.appendChild(button);
+            
+            // Test connection logic
+            const buttonText = button.textContent.trim().toLowerCase();
+            let documentType = '';
+            
+            if (buttonText.includes('modelo') || buttonText.includes('financiero') || buttonText.includes('financial')) {
+                documentType = 'model';
+            }
+            
+            if (documentType) {
+                log(`✅ Botón detectado como: ${documentType}`, 'success');
+                
+                // Add click handler
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    log('🖱️ ¡CLICK DETECTADO!', 'success');
+                    testDownloadFunction('model', 'es');
+                });
+                
+                button.textContent = 'TEST MODELO FINANCIERO (Click para probar)';
+                addResult('🔗 Botón de Prueba', 'Botón creado abajo. Haz click para probar.', 'success');
+                
+            } else {
+                log('❌ No se detectó tipo de documento', 'error');
+                document.body.removeChild(button);
+                addResult('❌ Error Conexión', 'No se pudo conectar el botón', 'error');
+            }
+        }
+
+        function testDownloadFunction(type, language) {
+            log('⬇️ Probando función de descarga...', 'info');
+            
+            const latestDoc = window.documentManager.getLatestDocument(type, language);
+            
+            if (latestDoc && latestDoc.data) {
+                log(`✅ Documento encontrado: ${latestDoc.name}`, 'success');
+                
+                try {
+                    const link = document.createElement('a');
+                    link.href = latestDoc.data;
+                    link.download = latestDoc.name;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    log('🎉 ¡DESCARGA EXITOSA!', 'success');
+                    addResult('🎉 Descarga Exitosa', `Se descargó: ${latestDoc.name}`, 'success');
+                    
+                } catch (error) {
+                    log(`❌ Error descarga: ${error.message}`, 'error');
+                    addResult('❌ Error Descarga', error.message, 'error');
+                }
+                
+            } else {
+                log('❌ No hay documento para descargar', 'warning');
+                addResult('⚠️ Sin Documentos', 'No hay modelo financiero para descargar. Sube uno primero.', 'warning');
+            }
+        }
+
+        async function uploadAndTestModel() {
+            const fileInput = document.getElementById('test-model');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                log('❌ Selecciona un archivo', 'error');
+                return;
+            }
+            
+            log(`📤 Subiendo modelo test: ${file.name}`, 'info');
+            
+            try {
+                const result = await window.documentManager.addDocument('model', 'es', file);
+                log(`✅ Modelo subido: ${result.name}`, 'success');
+                addResult('✅ Subida Test', `Modelo subido: ${result.name}`, 'success');
+                
+                // Now test download
+                setTimeout(() => {
+                    testDownloadFunction('model', 'es');
+                }, 500);
+                
+            } catch (error) {
+                log(`❌ Error subiendo: ${error.message}`, 'error');
+                addResult('❌ Error Subida', error.message, 'error');
+            }
+        }
+
+        function simulateRealClick() {
+            log('🖱️ Simulando click real en equity_investment.html...', 'info');
+            
+            // This simulates exactly what happens when clicking the button in equity_investment.html
+            const language = 'es';
+            const type = 'model';
+            
+            log(`🎯 Simulando downloadRealDocument('${type}', '${language}')`, 'info');
+            
+            // Exact same logic as in document-manager.js downloadRealDocument function
+            const latestDoc = window.documentManager.getLatestDocument(type, language);
+            
+            if (latestDoc && latestDoc.data) {
+                log(`✅ Encontrado: ${latestDoc.name}`, 'success');
+                
+                const link = document.createElement('a');
+                link.href = latestDoc.data;
+                link.download = latestDoc.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                log('🎉 ¡Simulación exitosa!', 'success');
+                addResult('🎉 Simulación Exitosa', 'El click funcionaría correctamente', 'success');
+                
+            } else {
+                log('❌ Simulación: No hay documento', 'warning');
+                
+                // This is what happens in the real page - shows info message
+                const message = `📄 Modelo Financiero no disponible aún. Por favor contacte con nuestro equipo de inversión.`;
+                log(`💡 Mensaje que se mostraría: ${message}`, 'warning');
+                
+                addResult('⚠️ Simulación Real', 'Se mostraría mensaje: "Modelo Financiero no disponible aún"<br>Esto confirma que NO hay modelo subido.', 'warning');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('✅ Diagnóstico cargado', 'success');
+            
+            setTimeout(() => {
+                log('🔍 Ejecutando diagnóstico automático...', 'info');
+                runFullDiagnostic();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

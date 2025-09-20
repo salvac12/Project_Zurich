@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Modelo Simple</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .doc-button { background: #1F3A8A; color: white; padding: 15px 25px; margin: 10px; border: none; border-radius: 8px; cursor: pointer; }
+        .log { background: #000; color: #0f0; padding: 15px; font-family: monospace; max-height: 300px; overflow-y: auto; }
+        .test-btn { background: #10B981; color: white; padding: 10px 15px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Test Simple: Modelo Financiero</h1>
+    
+    <div class="log" id="log"></div>
+
+    <input type="file" id="file-input" accept=".xls,.xlsx,.xlsm,.pdf">
+    <button class="test-btn" onclick="uploadModel()">Cargar Modelo</button>
+    <button class="test-btn" onclick="checkModel()">Verificar Modelo</button>
+    
+    <!-- Botón exacto de la página original -->
+    <button class="doc-button">
+        MODELO FINANCIERO
+    </button>
+
+    <script src="js/document-manager.js"></script>
+    <script>
+        function log(msg) {
+            const logEl = document.getElementById('log');
+            logEl.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function uploadModel() {
+            const file = document.getElementById('file-input').files[0];
+            if (!file) {
+                log('❌ No file selected');
+                return;
+            }
+            
+            log(`📤 Uploading: ${file.name}`);
+            
+            window.documentManager.addDocument('model', 'es', file)
+                .then(result => {
+                    log(`✅ Upload success: ${result.name} (ID: ${result.id})`);
+                    
+                    // Immediately check if we can retrieve it
+                    const retrieved = window.documentManager.getLatestDocument('model', 'es');
+                    if (retrieved) {
+                        log(`✅ Retrieved successfully: ${retrieved.name}`);
+                        log(`✅ Has data: ${retrieved.data ? 'YES' : 'NO'} (${retrieved.data ? retrieved.data.length + ' chars' : 'empty'})`);
+                    } else {
+                        log(`❌ Could not retrieve after upload`);
+                    }
+                })
+                .catch(error => {
+                    log(`❌ Upload error: ${error.message}`);
+                });
+        }
+
+        function checkModel() {
+            const docs = window.documentManager.getDocuments('model', 'es');
+            log(`📊 Model documents count: ${docs.length}`);
+            
+            if (docs.length > 0) {
+                docs.forEach((doc, i) => {
+                    log(`  [${i}] ${doc.name} - ${doc.id} - hasData: ${doc.data ? 'YES' : 'NO'}`);
+                });
+                
+                const latest = window.documentManager.getLatestDocument('model', 'es');
+                log(`🎯 Latest: ${latest ? latest.name : 'NONE'}`);
+            }
+        }
+
+        function testDownload() {
+            log('⬇️ Testing download...');
+            
+            const latest = window.documentManager.getLatestDocument('model', 'es');
+            if (!latest) {
+                log('❌ No model document found');
+                return;
+            }
+            
+            if (!latest.data) {
+                log('❌ Document has no data');
+                return;
+            }
+            
+            try {
+                const link = document.createElement('a');
+                link.href = latest.data;
+                link.download = latest.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                log('✅ Download triggered');
+            } catch (error) {
+                log(`❌ Download error: ${error.message}`);
+            }
+        }
+
+        // Test button text detection
+        function testButtonDetection() {
+            const button = document.querySelector('.doc-button');
+            const buttonText = button.textContent.trim().toLowerCase();
+            
+            log(`🔍 Button text: "${button.textContent.trim()}"`);
+            log(`🔍 Lowercase: "${buttonText}"`);
+            log(`🔍 Contains 'modelo': ${buttonText.includes('modelo')}`);
+            log(`🔍 Contains 'financiero': ${buttonText.includes('financiero')}`);
+            
+            // Test the exact detection logic
+            let documentType = '';
+            if (buttonText.includes('teaser')) {
+                documentType = 'teaser';
+            } else if (buttonText.includes('term-sheet') || buttonText.includes('term sheet')) {
+                documentType = 'termsheet';
+            } else if (buttonText.includes('modelo') || buttonText.includes('financiero') || buttonText.includes('financial')) {
+                documentType = 'model';
+            }
+            
+            log(`🎯 Detected type: "${documentType}"`);
+            
+            if (documentType === 'model') {
+                log('✅ Button detection WORKS');
+                
+                // Connect the button
+                button.addEventListener('click', function() {
+                    log('🖱️ Button clicked!');
+                    testDownload();
+                });
+                log('✅ Button connected to download');
+            } else {
+                log('❌ Button detection FAILED');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🚀 Page loaded');
+            
+            setTimeout(() => {
+                if (window.documentManager) {
+                    log('✅ DocumentManager available');
+                    testButtonDetection();
+                } else {
+                    log('❌ DocumentManager not available');
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

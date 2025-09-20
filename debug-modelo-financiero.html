@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Modelo Financiero</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { background: #f0f9ff; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .test-btn { background: #1F3A8A; color: white; padding: 12px 20px; margin: 10px; border: none; border-radius: 6px; cursor: pointer; }
+        .log { background: #000; color: #00ff00; padding: 15px; font-family: monospace; max-height: 400px; overflow-y: auto; }
+        .doc-button { background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%); color: white; border: none; padding: 15px 25px; border-radius: 8px; cursor: pointer; margin: 10px; }
+        .file-input { margin: 10px 0; padding: 8px; width: 100%; }
+    </style>
+</head>
+<body>
+    <h1>🐞 Debug: Modelo Financiero Issue</h1>
+    
+    <div class="log" id="debug-log">
+        <div>🔍 Debug iniciado...</div>
+    </div>
+
+    <div class="debug-section">
+        <h3>📤 Test 1: Cargar Modelo Financiero</h3>
+        <input type="file" class="file-input" id="model-file" accept=".xls,.xlsx,.xlsm,.pdf">
+        <button class="test-btn" onclick="testUploadModel()">📊 Cargar Modelo de Prueba</button>
+    </div>
+
+    <div class="debug-section">
+        <h3>🔍 Test 2: Verificar DocumentManager</h3>
+        <button class="test-btn" onclick="checkDocumentManager()">📋 Verificar Estado DocumentManager</button>
+        <button class="test-btn" onclick="listAllDocuments()">📄 Listar Todos los Documentos</button>
+    </div>
+
+    <div class="debug-section">
+        <h3>🎯 Test 3: Botones de Descarga</h3>
+        <p>Estos son los botones exactos de la página equity investment:</p>
+        
+        <!-- Botones exactos de la página original -->
+        <button class="doc-button">
+            <i class="fas fa-file-pdf"></i>
+            TEASER
+        </button>
+        <button class="doc-button">
+            <i class="fas fa-file-alt"></i>
+            TERM-SHEET
+        </button>
+        <button class="doc-button">
+            <i class="fas fa-chart-line"></i>
+            MODELO FINANCIERO
+        </button>
+    </div>
+
+    <div class="debug-section">
+        <h3>🔧 Test 4: Detección Manual</h3>
+        <button class="test-btn" onclick="testButtonDetection()">🕵️ Test Detección de Botones</button>
+        <button class="test-btn" onclick="manualConnect()">🔗 Conectar Manualmente</button>
+        <button class="test-btn" onclick="testModelDownload()">⬇️ Test Descarga Directa Modelo</button>
+    </div>
+
+    <!-- Include Document Manager -->
+    <script src="js/document-manager.js"></script>
+    
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            
+            const debugLog = document.getElementById('debug-log');
+            const div = document.createElement('div');
+            
+            if (type === 'error') {
+                div.style.color = '#ff4444';
+            } else if (type === 'success') {
+                div.style.color = '#44ff44';
+            } else if (type === 'warning') {
+                div.style.color = '#ffff44';
+            }
+            
+            div.textContent = logEntry;
+            debugLog.appendChild(div);
+            debugLog.scrollTop = debugLog.scrollHeight;
+        }
+
+        function testUploadModel() {
+            const fileInput = document.getElementById('model-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                log('❌ No se seleccionó archivo', 'error');
+                return;
+            }
+            
+            log(`📤 Cargando modelo: ${file.name} (${file.type}, ${file.size} bytes)`, 'info');
+            
+            window.documentManager.addDocument('model', 'es', file, {
+                uploadedAt: new Date().toISOString(),
+                debugUpload: true
+            }).then(fileInfo => {
+                log(`✅ Modelo cargado: ${fileInfo.name} (ID: ${fileInfo.id})`, 'success');
+                log(`📊 DocumentManager summary después de carga:`, 'info');
+                log(JSON.stringify(window.documentManager.getSummary(), null, 2), 'info');
+            }).catch(error => {
+                log(`❌ Error cargando modelo: ${error.message}`, 'error');
+            });
+        }
+
+        function checkDocumentManager() {
+            log('🔍 Verificando DocumentManager...', 'info');
+            
+            if (window.documentManager) {
+                log('✅ DocumentManager disponible', 'success');
+                
+                const summary = window.documentManager.getSummary();
+                log(`📊 Resumen actual: ${JSON.stringify(summary, null, 2)}`, 'info');
+                
+                // Check específicamente modelo
+                const modelDocs = window.documentManager.getDocuments('model', 'es');
+                log(`🎯 Documentos modelo ES: ${modelDocs.length}`, modelDocs.length > 0 ? 'success' : 'warning');
+                
+                if (modelDocs.length > 0) {
+                    modelDocs.forEach((doc, index) => {
+                        log(`  📄 [${index}] ${doc.name} (ID: ${doc.id}, size: ${doc.size})`, 'info');
+                    });
+                }
+                
+                // Check latest model
+                const latestModel = window.documentManager.getLatestDocument('model', 'es');
+                if (latestModel) {
+                    log(`📄 Último modelo: ${latestModel.name}`, 'success');
+                    log(`📄 Tiene data: ${latestModel.data ? 'SÍ' : 'NO'}`, latestModel.data ? 'success' : 'error');
+                } else {
+                    log('❌ No hay modelo más reciente', 'error');
+                }
+                
+            } else {
+                log('❌ DocumentManager NO disponible', 'error');
+            }
+        }
+
+        function listAllDocuments() {
+            log('📋 Listando TODOS los documentos...', 'info');
+            
+            const types = ['teaser', 'termsheet', 'model'];
+            const languages = ['es', 'en'];
+            
+            types.forEach(type => {
+                languages.forEach(language => {
+                    const docs = window.documentManager.getDocuments(type, language);
+                    log(`📂 ${type} (${language}): ${docs.length} documentos`, 'info');
+                    
+                    docs.forEach((doc, index) => {
+                        log(`  [${index}] ${doc.name} - ID: ${doc.id}`, 'info');
+                    });
+                });
+            });
+        }
+
+        function testButtonDetection() {
+            log('🕵️ Testando detección de botones...', 'info');
+            
+            const docButtons = document.querySelectorAll('.doc-button');
+            log(`📊 Encontrados ${docButtons.length} botones doc-button`, 'info');
+            
+            docButtons.forEach((button, index) => {
+                const buttonText = button.textContent.trim().toLowerCase();
+                log(`🔍 Botón [${index}]: "${button.textContent.trim()}" → texto procesado: "${buttonText}"`, 'info');
+                
+                let documentType = '';
+                
+                if (buttonText.includes('teaser')) {
+                    documentType = 'teaser';
+                } else if (buttonText.includes('term-sheet') || buttonText.includes('term sheet')) {
+                    documentType = 'termsheet';
+                } else if (buttonText.includes('modelo') || buttonText.includes('financiero') || buttonText.includes('financial')) {
+                    documentType = 'model';
+                }
+                
+                log(`  🎯 Tipo detectado: "${documentType}"`, documentType ? 'success' : 'error');
+                
+                if (documentType === 'model') {
+                    log(`  ✅ ¡BOTÓN MODELO DETECTADO CORRECTAMENTE!`, 'success');
+                    
+                    // Test si contiene las palabras clave
+                    log(`  🔍 Contiene 'modelo': ${buttonText.includes('modelo')}`, 'info');
+                    log(`  🔍 Contiene 'financiero': ${buttonText.includes('financiero')}`, 'info');
+                }
+            });
+        }
+
+        function manualConnect() {
+            log('🔗 Conectando botones manualmente...', 'info');
+            
+            const docButtons = document.querySelectorAll('.doc-button');
+            
+            docButtons.forEach((button, index) => {
+                const buttonText = button.textContent.trim().toLowerCase();
+                let documentType = '';
+                
+                if (buttonText.includes('teaser')) {
+                    documentType = 'teaser';
+                } else if (buttonText.includes('term-sheet') || buttonText.includes('term sheet')) {
+                    documentType = 'termsheet';
+                } else if (buttonText.includes('modelo') || buttonText.includes('financiero') || buttonText.includes('financial')) {
+                    documentType = 'model';
+                }
+                
+                if (documentType) {
+                    log(`🔗 Conectando botón ${documentType}...`, 'info');
+                    
+                    // Remove existing handlers
+                    const newButton = button.cloneNode(true);
+                    button.parentNode.replaceChild(newButton, button);
+                    
+                    // Add click handler
+                    newButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        log(`🖱️ Click en botón ${documentType}`, 'info');
+                        debugDownloadDocument(documentType, 'es');
+                    });
+                    
+                    log(`✅ Botón ${documentType} conectado`, 'success');
+                }
+            });
+        }
+
+        function debugDownloadDocument(type, language) {
+            log(`🎯 DEBUG: Intentando descargar ${type} (${language})...`, 'info');
+            
+            // Step by step debugging
+            log(`🔍 Paso 1: Verificar DocumentManager`, 'info');
+            if (!window.documentManager) {
+                log(`❌ DocumentManager no disponible`, 'error');
+                return;
+            }
+            log(`✅ DocumentManager OK`, 'success');
+            
+            log(`🔍 Paso 2: Buscar documento más reciente`, 'info');
+            const latestDoc = window.documentManager.getLatestDocument(type, language);
+            
+            if (!latestDoc) {
+                log(`❌ No se encontró documento ${type} en ${language}`, 'error');
+                log(`💡 Documentos disponibles:`, 'info');
+                const allDocs = window.documentManager.getDocuments(type, language);
+                log(`  Total: ${allDocs.length}`, 'info');
+                return;
+            }
+            
+            log(`✅ Documento encontrado: ${latestDoc.name}`, 'success');
+            log(`🔍 Paso 3: Verificar data del documento`, 'info');
+            
+            if (!latestDoc.data) {
+                log(`❌ Documento no tiene data`, 'error');
+                log(`📄 Propiedades del documento:`, 'info');
+                Object.keys(latestDoc).forEach(key => {
+                    log(`  ${key}: ${typeof latestDoc[key]} = ${latestDoc[key] ? 'TIENE VALOR' : 'VACIO'}`, 'info');
+                });
+                return;
+            }
+            
+            log(`✅ Documento tiene data (${latestDoc.data.length} chars)`, 'success');
+            log(`🔍 Paso 4: Intentar descarga...`, 'info');
+            
+            try {
+                const link = document.createElement('a');
+                link.href = latestDoc.data;
+                link.download = latestDoc.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                log(`✅ ¡Descarga iniciada exitosamente: ${latestDoc.name}!`, 'success');
+            } catch (error) {
+                log(`❌ Error en descarga: ${error.message}`, 'error');
+            }
+        }
+
+        function testModelDownload() {
+            log('⬇️ Test descarga directa de modelo...', 'info');
+            debugDownloadDocument('model', 'es');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('✅ Debug page loaded', 'success');
+            
+            setTimeout(() => {
+                if (window.documentManager) {
+                    log('✅ DocumentManager disponible', 'success');
+                    checkDocumentManager();
+                } else {
+                    log('❌ DocumentManager no disponible', 'error');
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

@@ -272,3 +272,16 @@ OSError: [Errno 98] Address already in use
 10.12.134.98 - - [20/Sep/2025 10:27:03] "GET /js/document-manager.js HTTP/1.1" 200 -
 10.12.134.98 - - [20/Sep/2025 10:27:03] code 404, message File not found
 10.12.134.98 - - [20/Sep/2025 10:27:03] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 10:35:27] "GET /admin-docs.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:35:27] "GET /js/document-manager.js HTTP/1.1" 304 -
+10.12.134.98 - - [20/Sep/2025 10:36:06] "GET /equity_investment.html HTTP/1.1" 304 -
+10.12.134.98 - - [20/Sep/2025 10:36:30] "GET /admin-docs.html HTTP/1.1" 304 -
+10.12.134.98 - - [20/Sep/2025 10:36:51] "GET /equity_investment.html HTTP/1.1" 304 -
+10.12.134.98 - - [20/Sep/2025 10:38:38] "GET /debug-modelo-financiero.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:38:38] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:38:38] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 10:38:38] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 10:39:15] "GET /test-modelo-simple.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:39:15] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:39:15] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 10:39:15] "GET /favicon.ico HTTP/1.1" 404 -

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Descarga de Teaser | Project ZURICH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+        
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            background: #F8FAFC;
+        }
+        
+        .demo-title {
+            font-size: 20px;
+            color: #1F3A8A;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-demo {
+            background: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px;
+        }
+        
+        .btn-demo:hover {
+            background: #1E3A8A;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success { background: #059669; }
+        .btn-success:hover { background: #047857; }
+        
+        .btn-teaser { background: #10B981; }
+        .btn-teaser:hover { background: #059669; }
+        
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .file-info {
+            background: #F0FDF4;
+            border: 1px solid #10B981;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .upload-area {
+            border: 2px dashed #CBD5E1;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .upload-area:hover {
+            border-color: #1F3A8A;
+            background: #F1F5F9;
+        }
+        
+        .upload-area.dragover {
+            border-color: #10B981;
+            background: #ECFDF5;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .teaser-download-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        
+        .teaser-download-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .documentation-demo {
+            background: #EFF6FF;
+            border: 1px solid #3B82F6;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+        
+        .doc-item {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #E2E8F0;
+            text-align: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .doc-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .doc-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, #1F3A8A, #3B82F6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .doc-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+        
+        .doc-description {
+            color: #64748B;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-download"></i> Demo - Descarga de Teaser</h1>
+            <p>Prueba del sistema de descarga de documentos con teaser de demostración</p>
+        </div>
+        
+        <!-- Paso 1: Cargar teaser -->
+        <div class="demo-section">
+            <h2 class="demo-title">
+                <i class="fas fa-upload"></i>
+                Paso 1: Cargar Teaser de Demo
+            </h2>
+            
+            <div class="upload-area" onclick="document.getElementById('teaserFile').click()">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: #94A3B8; margin-bottom: 16px;"></i>
+                <p>Arrastra un archivo PDF aquí o haz clic para seleccionar</p>
+                <p style="font-size: 12px; color: #6B7280;">O usa el botón "Generar Teaser Demo" para crear uno automáticamente</p>
+            </div>
+            <input type="file" id="teaserFile" class="file-input" accept=".pdf,.doc,.docx" onchange="handleTeaserUpload(this)">
+            
+            <button class="btn-demo btn-success" onclick="generateDemoTeaser()">
+                <i class="fas fa-magic"></i>
+                Generar Teaser Demo
+            </button>
+            
+            <button class="btn-demo" onclick="clearTeaser()">
+                <i class="fas fa-trash"></i>
+                Limpiar Teaser
+            </button>
+            
+            <div id="uploadResults" class="results" style="display: none;"></div>
+        </div>
+        
+        <!-- Paso 2: Probar descarga -->
+        <div class="demo-section">
+            <h2 class="demo-title">
+                <i class="fas fa-download"></i>
+                Paso 2: Probar Descarga de Teaser
+            </h2>
+            
+            <p>Estos botones simulan cómo aparecería el teaser en las páginas reales:</p>
+            
+            <div class="documentation-demo">
+                <h3>Simulación - Página de Inversión Equity</h3>
+                
+                <div class="doc-item">
+                    <div class="doc-icon">
+                        <i class="fas fa-file-image"></i>
+                    </div>
+                    <div class="doc-title">Teaser de Inversión</div>
+                    <div class="doc-description">Resumen ejecutivo del proyecto y oportunidad de inversión</div>
+                    <div id="teaser-downloads-demo">
+                        <p style="color: #9CA3AF; font-style: italic;">
+                            <i class="fas fa-info-circle"></i> 
+                            Carga un teaser primero para ver los botones de descarga
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Botones de prueba manual -->
+            <div style="text-align: center; margin-top: 30px;">
+                <h4>Botones de Prueba (funcionan aunque no hayas cargado archivo):</h4>
+                <button class="teaser-download-btn" onclick="downloadDemoTeaser('es')">
+                    <i class="fas fa-download"></i>
+                    Teaser Español (PDF Demo)
+                </button>
+                <button class="teaser-download-btn" onclick="downloadDemoTeaser('en')">
+                    <i class="fas fa-download"></i>
+                    Teaser English (PDF Demo)
+                </button>
+            </div>
+        </div>
+        
+        <!-- Paso 3: Verificar en páginas reales -->
+        <div class="demo-section">
+            <h2 class="demo-title">
+                <i class="fas fa-external-link-alt"></i>
+                Paso 3: Verificar en Páginas Reales
+            </h2>
+            
+            <p>Una vez que hayas cargado un teaser, puedes verificar que aparece en las páginas reales:</p>
+            
+            <button class="btn-demo" onclick="window.open('/equity_investment.html', '_blank')">
+                <i class="fas fa-external-link-alt"></i>
+                Abrir Página Equity (ES)
+            </button>
+            
+            <button class="btn-demo" onclick="window.open('/equity_investment_en.html', '_blank')">
+                <i class="fas fa-external-link-alt"></i>
+                Abrir Página Equity (EN)
+            </button>
+            
+            <button class="btn-demo btn-success" onclick="window.open('/admin-docs.html', '_blank')">
+                <i class="fas fa-cog"></i>
+                Abrir Admin Panel
+            </button>
+        </div>
+        
+        <!-- Estado del sistema -->
+        <div id="systemStatus" style="padding: 20px; background: #EFF6FF; border: 1px solid #3B82F6; border-radius: 8px; margin-top: 20px;">
+            <i class="fas fa-info-circle"></i>
+            <strong>Sistema listo</strong> - Carga un teaser o genera uno demo para probar la descarga
+        </div>
+    </div>
+
+    <script>
+        // Sistema simplificado de gestión de teaser
+        let currentTeaser = null;
+
+        // Generar teaser de demostración
+        function generateDemoTeaser() {
+            // Crear contenido PDF simulado
+            const teaserContent = `
+Project ZURICH - Investment Teaser
+
+EXECUTIVE SUMMARY
+================
+
+Investment Opportunity: EUR 21M Equity Investment
+Project: Affordable Housing Development
+Location: Valdebebas, Madrid
+Timeline: 32 months
+Target IRR: 13.5%
+
+KEY HIGHLIGHTS
+==============
+• Build-to-Sale strategy with REIT structure
+• 251 residential units in prime location
+• Tax advantages through SOCIMI structure
+• Short-term investment horizon
+• Strong developer track record
+
+FINANCIAL OVERVIEW
+==================
+Total Investment: EUR 21M
+Expected Return: 13.5% IRR
+Investment Period: 32 months
+Exit Strategy: Sale to core investor
+
+For more information, please contact our investment team.
+
+---
+This is a demonstration document generated automatically.
+            `;
+
+            // Crear archivo blob
+            const blob = new Blob([teaserContent], { type: 'text/plain' });
+            
+            // Simular archivo
+            currentTeaser = {
+                name: 'Project_ZURICH_Investment_Teaser_Demo.txt',
+                content: blob,
+                size: blob.size,
+                type: 'text/plain',
+                created: new Date()
+            };
+
+            // Guardar en localStorage para persistencia
+            localStorage.setItem('demo_teaser', JSON.stringify({
+                name: currentTeaser.name,
+                size: currentTeaser.size,
+                type: currentTeaser.type,
+                created: currentTeaser.created.toISOString()
+            }));
+
+            // Actualizar UI
+            showUploadSuccess();
+            updateDownloadButtons();
+            updateSystemStatus('success', '✅ Teaser demo generado exitosamente');
+        }
+
+        // Manejar carga de archivo real
+        function handleTeaserUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // Validar archivo
+            if (file.size > 10 * 1024 * 1024) { // 10MB máximo
+                updateSystemStatus('error', '❌ El archivo es demasiado grande (máximo 10MB)');
+                return;
+            }
+
+            currentTeaser = {
+                name: file.name,
+                content: file,
+                size: file.size,
+                type: file.type,
+                created: new Date()
+            };
+
+            // Guardar referencia en localStorage
+            localStorage.setItem('demo_teaser', JSON.stringify({
+                name: currentTeaser.name,
+                size: currentTeaser.size,
+                type: currentTeaser.type,
+                created: currentTeaser.created.toISOString()
+            }));
+
+            showUploadSuccess();
+            updateDownloadButtons();
+            updateSystemStatus('success', `✅ Teaser "${file.name}" cargado exitosamente`);
+        }
+
+        // Mostrar éxito de carga
+        function showUploadSuccess() {
+            const resultsDiv = document.getElementById('uploadResults');
+            resultsDiv.innerHTML = `
+                <div class="file-info">
+                    <h4><i class="fas fa-check-circle"></i> Teaser cargado exitosamente</h4>
+                    <p><strong>Nombre:</strong> ${currentTeaser.name}</p>
+                    <p><strong>Tamaño:</strong> ${formatFileSize(currentTeaser.size)}</p>
+                    <p><strong>Tipo:</strong> ${currentTeaser.type}</p>
+                    <p><strong>Cargado:</strong> ${currentTeaser.created.toLocaleString()}</p>
+                </div>
+            `;
+            resultsDiv.style.display = 'block';
+        }
+
+        // Actualizar botones de descarga
+        function updateDownloadButtons() {
+            const container = document.getElementById('teaser-downloads-demo');
+            
+            if (currentTeaser) {
+                container.innerHTML = `
+                    <button class="teaser-download-btn" onclick="downloadCurrentTeaser()">
+                        <i class="fas fa-download"></i>
+                        Descargar ${currentTeaser.name}
+                        <span style="font-size: 12px; opacity: 0.8;">(${formatFileSize(currentTeaser.size)})</span>
+                    </button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <p style="color: #9CA3AF; font-style: italic;">
+                        <i class="fas fa-info-circle"></i> 
+                        Carga un teaser primero para ver los botones de descarga
+                    </p>
+                `;
+            }
+        }
+
+        // Descargar teaser actual
+        function downloadCurrentTeaser() {
+            if (!currentTeaser) {
+                updateSystemStatus('error', '❌ No hay teaser cargado');
+                return;
+            }
+
+            try {
+                const url = URL.createObjectURL(currentTeaser.content);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = currentTeaser.name;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                updateSystemStatus('success', `✅ Descarga iniciada: ${currentTeaser.name}`);
+            } catch (error) {
+                updateSystemStatus('error', `❌ Error en descarga: ${error.message}`);
+            }
+        }
+
+        // Descargar teaser demo (sin cargar archivo)
+        function downloadDemoTeaser(language) {
+            const content = language === 'es' ? 
+                `PROJECT ZURICH - TEASER DE INVERSIÓN
+
+RESUMEN EJECUTIVO
+=================
+
+Oportunidad de Inversión: EUR 21M Inversión Equity
+Proyecto: Desarrollo de Vivienda Asequible
+Ubicación: Valdebebas, Madrid
+Plazo: 32 meses
+TIR Objetivo: 13.5%
+
+PUNTOS CLAVE
+============
+• Estrategia Build-to-Sale con estructura SOCIMI
+• 251 viviendas en ubicación prime
+• Ventajas fiscales mediante estructura SOCIMI
+• Horizonte de inversión a corto plazo
+• Sólido historial del promotor
+
+VISIÓN FINANCIERA
+=================
+Inversión Total: EUR 21M
+Retorno Esperado: 13.5% TIR
+Período de Inversión: 32 meses
+Estrategia de Salida: Venta a inversor core
+
+Para más información, contacte con nuestro equipo de inversión.
+
+---
+Este es un documento de demostración generado automáticamente.` :
+                `PROJECT ZURICH - INVESTMENT TEASER
+
+EXECUTIVE SUMMARY
+=================
+
+Investment Opportunity: EUR 21M Equity Investment
+Project: Affordable Housing Development
+Location: Valdebebas, Madrid
+Timeline: 32 months
+Target IRR: 13.5%
+
+KEY HIGHLIGHTS
+==============
+• Build-to-Sale strategy with REIT structure
+• 251 residential units in prime location
+• Tax advantages through SOCIMI structure
+• Short-term investment horizon
+• Strong developer track record
+
+FINANCIAL OVERVIEW
+==================
+Total Investment: EUR 21M
+Expected Return: 13.5% IRR
+Investment Period: 32 months
+Exit Strategy: Sale to core investor
+
+For more information, please contact our investment team.
+
+---
+This is a demonstration document generated automatically.`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Project_ZURICH_Teaser_${language.toUpperCase()}_Demo.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            updateSystemStatus('success', `✅ Teaser demo en ${language.toUpperCase()} descargado`);
+        }
+
+        // Limpiar teaser
+        function clearTeaser() {
+            if (confirm('¿Estás seguro de que quieres eliminar el teaser actual?')) {
+                currentTeaser = null;
+                localStorage.removeItem('demo_teaser');
+                
+                document.getElementById('uploadResults').style.display = 'none';
+                updateDownloadButtons();
+                updateSystemStatus('warning', '🗑️ Teaser eliminado');
+            }
+        }
+
+        // Formatear tamaño de archivo
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Actualizar estado del sistema
+        function updateSystemStatus(type, message) {
+            const statusDiv = document.getElementById('systemStatus');
+            const colors = {
+                success: { bg: '#ECFDF5', border: '#10B981', color: '#065F46' },
+                error: { bg: '#FEF2F2', border: '#DC2626', color: '#991B1B' },
+                warning: { bg: '#FEF3C7', border: '#D97706', color: '#92400E' },
+                info: { bg: '#EFF6FF', border: '#3B82F6', color: '#1E3A8A' }
+            };
+            
+            const style = colors[type] || colors.info;
+            statusDiv.style.background = style.bg;
+            statusDiv.style.borderColor = style.border;
+            statusDiv.style.color = style.color;
+            statusDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : type === 'warning' ? 'exclamation-triangle' : 'info'}"></i> ${message}`;
+        }
+
+        // Funcionalidad drag & drop
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadArea = document.querySelector('.upload-area');
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    const fileInput = document.getElementById('teaserFile');
+                    fileInput.files = files;
+                    handleTeaserUpload(fileInput);
+                }
+            });
+
+            // Cargar teaser guardado si existe
+            const savedTeaser = localStorage.getItem('demo_teaser');
+            if (savedTeaser) {
+                try {
+                    const teaserInfo = JSON.parse(savedTeaser);
+                    updateSystemStatus('info', `ℹ️ Teaser guardado encontrado: ${teaserInfo.name}`);
+                } catch (error) {
+                    localStorage.removeItem('demo_teaser');
+                }
+            }
+
+            updateDownloadButtons();
+        });
+    </script>
+</body>
+</html>

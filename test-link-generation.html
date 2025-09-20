@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Generación de Links Únicos | Project ZURICH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #64748B;
+            font-size: 16px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            background: #F8FAFC;
+        }
+        
+        .test-title {
+            font-size: 20px;
+            color: #1F3A8A;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #1F3A8A;
+            box-shadow: 0 0 0 3px rgba(31, 58, 138, 0.1);
+        }
+        
+        .btn {
+            background: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: #1E3A8A;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #059669;
+        }
+        
+        .btn-success:hover {
+            background: #047857;
+        }
+        
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .result-item {
+            padding: 15px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #F9FAFB;
+        }
+        
+        .token-display {
+            background: #1F3A8A;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .link-display {
+            word-break: break-all;
+            color: #059669;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .copy-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .status {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .status-success {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #10B981;
+        }
+        
+        .status-error {
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #DC2626;
+        }
+        
+        .status-info {
+            background: #EFF6FF;
+            color: #1E3A8A;
+            border: 1px solid #3B82F6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-link"></i> Test - Generación de Links Únicos</h1>
+            <p>Prueba del sistema de generación de enlaces únicos para Project ZURICH</p>
+        </div>
+        
+        <!-- Test 1: Generación básica de token -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-key"></i>
+                Test 1: Generación de Tokens
+            </h2>
+            
+            <button class="btn" onclick="testTokenGeneration()">
+                <i class="fas fa-play"></i>
+                Generar Tokens de Prueba
+            </button>
+            
+            <div id="tokenResults" class="results" style="display: none;"></div>
+        </div>
+        
+        <!-- Test 2: Generación de links con email -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-envelope"></i>
+                Test 2: Generación de Links con Email
+            </h2>
+            
+            <div class="form-group">
+                <label class="form-label">Email de Prueba:</label>
+                <input type="email" id="testEmail" class="form-input" placeholder="ejemplo@inversor.com" value="test@example.com">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Nombre (Opcional):</label>
+                <input type="text" id="testName" class="form-input" placeholder="Juan Pérez">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Empresa (Opcional):</label>
+                <input type="text" id="testCompany" class="form-input" placeholder="Fondo de Pensiones">
+            </div>
+            
+            <button class="btn btn-success" onclick="testLinkGeneration()">
+                <i class="fas fa-magic"></i>
+                Generar Link Único
+            </button>
+            
+            <div id="linkResults" class="results" style="display: none;"></div>
+        </div>
+        
+        <!-- Test 3: Validación de links -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-check-circle"></i>
+                Test 3: Validación de Links Generados
+            </h2>
+            
+            <div class="form-group">
+                <label class="form-label">Token a Validar:</label>
+                <input type="text" id="tokenToValidate" class="form-input" placeholder="zrch_xxxxxxxxxxxxx">
+            </div>
+            
+            <button class="btn" onclick="validateToken()">
+                <i class="fas fa-search"></i>
+                Validar Token
+            </button>
+            
+            <div id="validationResults" class="results" style="display: none;"></div>
+        </div>
+        
+        <!-- Status del sistema -->
+        <div id="systemStatus" class="status status-info">
+            <i class="fas fa-info-circle"></i>
+            <strong>Sistema listo para pruebas</strong> - Todos los tests funcionan localmente sin necesidad de backend
+        </div>
+    </div>
+
+    <script>
+        // Simulación del sistema de generación de tokens
+        let generatedTokens = [];
+        let linkDatabase = [];
+
+        // Función para generar token único
+        function generateToken() {
+            return 'zrch_' + Math.random().toString(36).substring(2, 15) + 
+                   Math.random().toString(36).substring(2, 15);
+        }
+
+        // Test 1: Generación básica de tokens
+        function testTokenGeneration() {
+            const resultsDiv = document.getElementById('tokenResults');
+            const tokens = [];
+            
+            // Generar 5 tokens de prueba
+            for (let i = 0; i < 5; i++) {
+                const token = generateToken();
+                tokens.push(token);
+                generatedTokens.push({
+                    token: token,
+                    created: new Date(),
+                    status: 'generated'
+                });
+            }
+            
+            resultsDiv.innerHTML = `
+                <h4><i class="fas fa-check"></i> Tokens generados exitosamente:</h4>
+                ${tokens.map(token => `
+                    <div class="result-item">
+                        <strong>Token:</strong> <span class="token-display">${token}</span>
+                        <button class="copy-btn" onclick="copyToClipboard('${token}')">
+                            <i class="fas fa-copy"></i> Copiar
+                        </button>
+                    </div>
+                `).join('')}
+            `;
+            resultsDiv.style.display = 'block';
+            
+            updateSystemStatus('success', `✅ Test 1 completado: ${tokens.length} tokens generados correctamente`);
+        }
+
+        // Test 2: Generación de links con email
+        function testLinkGeneration() {
+            const email = document.getElementById('testEmail').value;
+            const name = document.getElementById('testName').value;
+            const company = document.getElementById('testCompany').value;
+            const resultsDiv = document.getElementById('linkResults');
+            
+            if (!email || !email.includes('@')) {
+                updateSystemStatus('error', '❌ Error: Por favor ingresa un email válido');
+                return;
+            }
+            
+            // Generar token y link único
+            const token = generateToken();
+            const baseURL = window.location.origin + window.location.pathname.replace('/test-link-generation.html', '');
+            const projects = [
+                { name: 'Investment Hub', url: `${baseURL}/index.html?token=${token}` },
+                { name: 'Equity Investment (ES)', url: `${baseURL}/equity_investment.html?token=${token}` },
+                { name: 'Equity Investment (EN)', url: `${baseURL}/equity_investment_en.html?token=${token}` }
+            ];
+            
+            // Guardar en base de datos simulada
+            const linkData = {
+                token: token,
+                email: email,
+                name: name || 'Sin nombre',
+                company: company || 'Sin empresa',
+                created: new Date().toISOString(),
+                status: 'active',
+                accessCount: 0,
+                lastAccess: null
+            };
+            
+            linkDatabase.push(linkData);
+            
+            resultsDiv.innerHTML = `
+                <h4><i class="fas fa-check"></i> Link único generado para: ${email}</h4>
+                <div class="result-item">
+                    <p><strong>Token:</strong> <span class="token-display">${token}</span>
+                    <button class="copy-btn" onclick="copyToClipboard('${token}')">
+                        <i class="fas fa-copy"></i> Copiar
+                    </button></p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Nombre:</strong> ${name || 'No especificado'}</p>
+                    <p><strong>Empresa:</strong> ${company || 'No especificada'}</p>
+                    <p><strong>Creado:</strong> ${new Date().toLocaleString()}</p>
+                </div>
+                
+                <h5><i class="fas fa-link"></i> Links generados:</h5>
+                ${projects.map(project => `
+                    <div class="result-item">
+                        <p><strong>${project.name}:</strong></p>
+                        <p class="link-display">${project.url}</p>
+                        <button class="copy-btn" onclick="copyToClipboard('${project.url}')">
+                            <i class="fas fa-copy"></i> Copiar Link
+                        </button>
+                        <button class="copy-btn" onclick="testLink('${project.url}')">
+                            <i class="fas fa-external-link-alt"></i> Probar Link
+                        </button>
+                    </div>
+                `).join('')}
+            `;
+            resultsDiv.style.display = 'block';
+            
+            updateSystemStatus('success', `✅ Test 2 completado: Link único generado para ${email}`);
+        }
+
+        // Test 3: Validación de tokens
+        function validateToken() {
+            const token = document.getElementById('tokenToValidate').value.trim();
+            const resultsDiv = document.getElementById('validationResults');
+            
+            if (!token) {
+                updateSystemStatus('error', '❌ Error: Por favor ingresa un token para validar');
+                return;
+            }
+            
+            // Buscar token en la base de datos simulada
+            const foundLink = linkDatabase.find(link => link.token === token);
+            
+            if (foundLink) {
+                resultsDiv.innerHTML = `
+                    <h4><i class="fas fa-check-circle" style="color: #10B981;"></i> Token válido encontrado:</h4>
+                    <div class="result-item">
+                        <p><strong>Token:</strong> <span class="token-display">${foundLink.token}</span></p>
+                        <p><strong>Email:</strong> ${foundLink.email}</p>
+                        <p><strong>Nombre:</strong> ${foundLink.name}</p>
+                        <p><strong>Empresa:</strong> ${foundLink.company}</p>
+                        <p><strong>Estado:</strong> ${foundLink.status}</p>
+                        <p><strong>Creado:</strong> ${new Date(foundLink.created).toLocaleString()}</p>
+                        <p><strong>Accesos:</strong> ${foundLink.accessCount}</p>
+                        <p><strong>Último acceso:</strong> ${foundLink.lastAccess || 'Nunca'}</p>
+                    </div>
+                `;
+                updateSystemStatus('success', `✅ Test 3 completado: Token ${token.substring(0, 10)}... validado correctamente`);
+            } else {
+                resultsDiv.innerHTML = `
+                    <h4><i class="fas fa-times-circle" style="color: #DC2626;"></i> Token no encontrado</h4>
+                    <div class="result-item">
+                        <p>El token <span class="token-display">${token}</span> no existe en la base de datos.</p>
+                        <p><em>Nota: Solo se pueden validar tokens generados en esta sesión de prueba.</em></p>
+                    </div>
+                `;
+                updateSystemStatus('error', `❌ Test 3: Token no encontrado en la base de datos`);
+            }
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        // Funciones auxiliares
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                updateSystemStatus('success', '📋 Copiado al portapapeles exitosamente');
+            }).catch(err => {
+                updateSystemStatus('error', '❌ Error al copiar al portapapeles');
+            });
+        }
+
+        function testLink(url) {
+            window.open(url, '_blank');
+            updateSystemStatus('info', `🔗 Abriendo link en nueva ventana: ${url.split('?')[0]}`);
+        }
+
+        function updateSystemStatus(type, message) {
+            const statusDiv = document.getElementById('systemStatus');
+            statusDiv.className = `status status-${type}`;
+            statusDiv.innerHTML = message;
+            
+            // Auto-hide después de 5 segundos para mensajes de éxito
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.className = 'status status-info';
+                    statusDiv.innerHTML = '<i class="fas fa-info-circle"></i> <strong>Sistema listo para más pruebas</strong>';
+                }, 5000);
+            }
+        }
+
+        // Auto-poblar el campo de token con el último generado
+        function populateTokenField() {
+            if (linkDatabase.length > 0) {
+                document.getElementById('tokenToValidate').value = linkDatabase[linkDatabase.length - 1].token;
+            }
+        }
+
+        // Detectar cuando se genera un nuevo link para auto-poblar el campo de validación
+        const originalTestLinkGeneration = testLinkGeneration;
+        testLinkGeneration = function() {
+            originalTestLinkGeneration();
+            setTimeout(populateTokenField, 100);
+        };
+    </script>
+</body>
+</html>

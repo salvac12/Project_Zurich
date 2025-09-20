@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Sistema de Links Únicos | Project ZURICH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+        
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            background: #F8FAFC;
+        }
+        
+        .demo-title {
+            font-size: 20px;
+            color: #1F3A8A;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-demo {
+            background: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+        
+        .btn-demo:hover {
+            background: #1E3A8A;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success { background: #059669; }
+        .btn-success:hover { background: #047857; }
+        
+        .btn-warning { background: #D97706; }
+        .btn-warning:hover { background: #B45309; }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .results-table th {
+            background: #F3F4F6;
+            color: #374151;
+            font-weight: 600;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #E5E7EB;
+        }
+        
+        .results-table td {
+            padding: 12px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .token-badge {
+            background: #1F3A8A;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-active { background: #D1FAE5; color: #065F46; }
+        .status-visited { background: #FEF3C7; color: #92400E; }
+        .status-inactive { background: #FEE2E2; color: #991B1B; }
+        
+        .copy-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .copy-btn:hover {
+            background: #059669;
+        }
+        
+        .link-preview {
+            font-family: monospace;
+            font-size: 11px;
+            color: #6B7280;
+            word-break: break-all;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F3A8A;
+        }
+        
+        .stat-label {
+            color: #64748B;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-magic"></i> Demo - Sistema de Links Únicos</h1>
+            <p>Demostración en vivo del sistema de generación y tracking de enlaces únicos</p>
+        </div>
+        
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalLinksCount">0</div>
+                <div class="stat-label">Links Generados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeLinksCount">0</div>
+                <div class="stat-label">Links Activos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="visitedLinksCount">0</div>
+                <div class="stat-label">Links Visitados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalVisitsCount">0</div>
+                <div class="stat-label">Total Visitas</div>
+            </div>
+        </div>
+        
+        <!-- Controles de demo -->
+        <div class="demo-section">
+            <h2 class="demo-title">
+                <i class="fas fa-cogs"></i>
+                Controles de Demostración
+            </h2>
+            
+            <button class="btn-demo btn-success" onclick="generateDemoLinks()">
+                <i class="fas fa-plus"></i>
+                Generar Links de Demo
+            </button>
+            
+            <button class="btn-demo" onclick="simulateVisit()">
+                <i class="fas fa-eye"></i>
+                Simular Visita
+            </button>
+            
+            <button class="btn-demo btn-warning" onclick="clearAllData()">
+                <i class="fas fa-trash"></i>
+                Limpiar Datos
+            </button>
+            
+            <button class="btn-demo" onclick="exportData()">
+                <i class="fas fa-download"></i>
+                Exportar CSV
+            </button>
+        </div>
+        
+        <!-- Tabla de links generados -->
+        <div class="demo-section">
+            <h2 class="demo-title">
+                <i class="fas fa-table"></i>
+                Links Únicos Generados
+            </h2>
+            
+            <div id="linksTableContainer">
+                <table class="results-table" id="linksTable">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Nombre</th>
+                            <th>Empresa</th>
+                            <th>Token</th>
+                            <th>Link Único</th>
+                            <th>Estado</th>
+                            <th>Visitas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="linksTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 40px; color: #9CA3AF;">
+                                <i class="fas fa-inbox" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+                                No hay links generados. Haz clic en "Generar Links de Demo" para comenzar.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos simulada de links únicos
+        let uniqueLinks = [];
+        let visitLogs = [];
+
+        // Datos demo para generar
+        const demoInvestors = [
+            { email: 'juan.garcia@pensionfund.es', name: 'Juan García', company: 'Fondo de Pensiones Nacional' },
+            { email: 'maria.lopez@familyoffice.com', name: 'María López', company: 'Family Office Madrid' },
+            { email: 'carlos.martinez@aseguradora.es', name: 'Carlos Martínez', company: 'Seguros Corporativos' },
+            { email: 'ana.rodriguez@investment.com', name: 'Ana Rodríguez', company: 'Investment Partners' },
+            { email: 'luis.sanchez@bancorp.es', name: 'Luis Sánchez', company: 'Banco Corporativo' }
+        ];
+
+        // Función para generar token único
+        function generateToken() {
+            return 'zrch_' + Math.random().toString(36).substring(2, 15) + 
+                   Math.random().toString(36).substring(2, 8);
+        }
+
+        // Generar links de demostración
+        function generateDemoLinks() {
+            demoInvestors.forEach((investor, index) => {
+                // Solo generar si no existe ya
+                if (!uniqueLinks.find(link => link.email === investor.email)) {
+                    const token = generateToken();
+                    const baseURL = window.location.origin + window.location.pathname.replace('/demo-unique-links.html', '');
+                    
+                    const linkData = {
+                        id: Date.now() + index,
+                        token: token,
+                        email: investor.email,
+                        name: investor.name,
+                        company: investor.company,
+                        created: new Date().toISOString(),
+                        status: 'active',
+                        visits: 0,
+                        lastVisit: null,
+                        links: {
+                            hub: `${baseURL}/index.html?token=${token}`,
+                            equity_es: `${baseURL}/equity_investment.html?token=${token}`,
+                            equity_en: `${baseURL}/equity_investment_en.html?token=${token}`
+                        }
+                    };
+                    
+                    uniqueLinks.push(linkData);
+                }
+            });
+            
+            updateLinksTable();
+            updateStats();
+            showNotification(`✅ ${demoInvestors.length} links únicos generados correctamente`);
+        }
+
+        // Simular una visita aleatoria
+        function simulateVisit() {
+            if (uniqueLinks.length === 0) {
+                showNotification('❌ No hay links para simular visitas. Genera algunos primero.', 'error');
+                return;
+            }
+            
+            const randomLink = uniqueLinks[Math.floor(Math.random() * uniqueLinks.length)];
+            const pages = ['hub', 'equity_es', 'equity_en'];
+            const randomPage = pages[Math.floor(Math.random() * pages.length)];
+            
+            // Incrementar contador de visitas
+            randomLink.visits++;
+            randomLink.lastVisit = new Date().toISOString();
+            randomLink.status = 'visited';
+            
+            // Registrar log de visita
+            visitLogs.push({
+                token: randomLink.token,
+                email: randomLink.email,
+                page: randomPage,
+                timestamp: new Date().toISOString(),
+                userAgent: 'Demo Browser',
+                ip: '192.168.1.' + Math.floor(Math.random() * 255)
+            });
+            
+            updateLinksTable();
+            updateStats();
+            showNotification(`📊 Visita simulada: ${randomLink.email} → ${randomPage}`, 'success');
+        }
+
+        // Actualizar tabla de links
+        function updateLinksTable() {
+            const tableBody = document.getElementById('linksTableBody');
+            
+            if (uniqueLinks.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px; color: #9CA3AF;">
+                            <i class="fas fa-inbox" style="font-size: 24px; display: block; margin-bottom: 10px;"></i>
+                            No hay links generados. Haz clic en "Generar Links de Demo" para comenzar.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tableBody.innerHTML = uniqueLinks.map(link => {
+                const statusClass = link.visits > 0 ? 'status-visited' : 'status-active';
+                const statusText = link.visits > 0 ? 'Visitado' : 'Activo';
+                
+                return `
+                    <tr>
+                        <td>${link.email}</td>
+                        <td>${link.name}</td>
+                        <td>${link.company}</td>
+                        <td>
+                            <span class="token-badge">${link.token.substring(0, 12)}...</span>
+                            <button class="copy-btn" onclick="copyToClipboard('${link.token}')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <div class="link-preview">${link.links.hub}</div>
+                            <button class="copy-btn" onclick="copyToClipboard('${link.links.hub}')">
+                                <i class="fas fa-copy"></i> Hub
+                            </button>
+                            <button class="copy-btn" onclick="copyToClipboard('${link.links.equity_es}')">
+                                <i class="fas fa-copy"></i> ES
+                            </button>
+                            <button class="copy-btn" onclick="copyToClipboard('${link.links.equity_en}')">
+                                <i class="fas fa-copy"></i> EN
+                            </button>
+                        </td>
+                        <td>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <strong>${link.visits}</strong>
+                            ${link.lastVisit ? `<br><small>${new Date(link.lastVisit).toLocaleString()}</small>` : ''}
+                        </td>
+                        <td>
+                            <button class="copy-btn" onclick="testLink('${link.links.hub}')">
+                                <i class="fas fa-external-link-alt"></i> Test
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            document.getElementById('totalLinksCount').textContent = uniqueLinks.length;
+            document.getElementById('activeLinksCount').textContent = uniqueLinks.filter(link => link.status === 'active').length;
+            document.getElementById('visitedLinksCount').textContent = uniqueLinks.filter(link => link.visits > 0).length;
+            document.getElementById('totalVisitsCount').textContent = uniqueLinks.reduce((total, link) => total + link.visits, 0);
+        }
+
+        // Limpiar todos los datos
+        function clearAllData() {
+            if (confirm('¿Estás seguro de que quieres limpiar todos los datos?')) {
+                uniqueLinks = [];
+                visitLogs = [];
+                updateLinksTable();
+                updateStats();
+                showNotification('🗑️ Todos los datos han sido limpiados', 'warning');
+            }
+        }
+
+        // Exportar datos a CSV
+        function exportData() {
+            if (uniqueLinks.length === 0) {
+                showNotification('❌ No hay datos para exportar', 'error');
+                return;
+            }
+            
+            const csvContent = [
+                ['Email', 'Nombre', 'Empresa', 'Token', 'Link Hub', 'Link Equity ES', 'Link Equity EN', 'Estado', 'Visitas', 'Última Visita', 'Creado'],
+                ...uniqueLinks.map(link => [
+                    link.email,
+                    link.name,
+                    link.company,
+                    link.token,
+                    link.links.hub,
+                    link.links.equity_es,
+                    link.links.equity_en,
+                    link.status,
+                    link.visits,
+                    link.lastVisit ? new Date(link.lastVisit).toLocaleString() : 'Nunca',
+                    new Date(link.created).toLocaleString()
+                ])
+            ].map(row => row.map(field => `"${field}"`).join(',')).join('\\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `project-zurich-unique-links-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('📥 Archivo CSV descargado correctamente', 'success');
+        }
+
+        // Funciones auxiliares
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('📋 Copiado al portapapeles', 'success');
+            }).catch(() => {
+                showNotification('❌ Error al copiar', 'error');
+            });
+        }
+
+        function testLink(url) {
+            window.open(url, '_blank');
+            showNotification('🔗 Abriendo link en nueva ventana', 'info');
+        }
+
+        function showNotification(message, type = 'success') {
+            // Crear notificación temporal
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10B981' : type === 'error' ? '#DC2626' : type === 'warning' ? '#D97706' : '#3B82F6'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                font-weight: 600;
+                max-width: 300px;
+                word-wrap: break-word;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            showNotification('🚀 Sistema de links únicos listo para demostración', 'info');
+        });
+    </script>
+</body>
+</html>

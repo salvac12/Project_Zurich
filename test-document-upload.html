@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Sistema de Carga de Documentos | Project ZURICH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            background: #F8FAFC;
+        }
+        
+        .test-title {
+            font-size: 20px;
+            color: #1F3A8A;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #CBD5E1;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            transition: all 0.2s;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: #1F3A8A;
+            background: #F1F5F9;
+        }
+        
+        .upload-area.dragover {
+            border-color: #10B981;
+            background: #ECFDF5;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #94A3B8;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            color: #64748B;
+            margin-bottom: 16px;
+        }
+        
+        .btn {
+            background: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: #1E3A8A;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success { background: #059669; }
+        .btn-success:hover { background: #047857; }
+        
+        .btn-warning { background: #D97706; }
+        .btn-warning:hover { background: #B45309; }
+        
+        .language-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-button {
+            padding: 8px 16px;
+            border: 2px solid #1F3A8A;
+            background: white;
+            color: #1F3A8A;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .tab-button.active {
+            background: #1F3A8A;
+            color: white;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-list {
+            margin-top: 20px;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #1F3A8A;
+        }
+        
+        .file-size {
+            font-size: 12px;
+            color: #64748B;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-button {
+            background: none;
+            border: 1px solid #E2E8F0;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #64748B;
+            transition: all 0.2s;
+            font-size: 12px;
+        }
+        
+        .action-button:hover {
+            background: #F1F5F9;
+            color: #1F3A8A;
+        }
+        
+        .action-button.delete:hover {
+            background: #FEF2F2;
+            color: #DC2626;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1F3A8A;
+        }
+        
+        .stat-label {
+            color: #64748B;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            max-width: 300px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .notification.success { background: #10B981; }
+        .notification.error { background: #DC2626; }
+        .notification.warning { background: #D97706; }
+        .notification.info { background: #3B82F6; }
+        
+        .document-preview {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .integration-demo {
+            background: #EFF6FF;
+            border: 1px solid #3B82F6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .download-demo-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        
+        .download-demo-btn:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-upload"></i> Test - Sistema de Carga de Documentos</h1>
+            <p>Prueba completa del sistema de gestión de documentos bilingüe</p>
+        </div>
+        
+        <!-- Estadísticas del sistema -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalDocsCount">0</div>
+                <div class="stat-label">Total Documentos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="spanishDocsCount">0</div>
+                <div class="stat-label">Documentos ES</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="englishDocsCount">0</div>
+                <div class="stat-label">Documentos EN</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalSizeCount">0 MB</div>
+                <div class="stat-label">Tamaño Total</div>
+            </div>
+        </div>
+        
+        <!-- Test 1: Carga de Teaser -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-file-image"></i>
+                Test 1: Carga de Teaser Documents
+            </h2>
+            
+            <div class="language-tabs">
+                <button class="tab-button active" onclick="switchLanguage('teaser', 'es')">
+                    🇪🇸 Español
+                </button>
+                <button class="tab-button" onclick="switchLanguage('teaser', 'en')">
+                    🇬🇧 English
+                </button>
+            </div>
+            
+            <div id="teaser-es" class="upload-section">
+                <div class="upload-area" onclick="triggerFileInput('teaser-es-file')">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Arrastra y suelta el teaser en español o haz clic para seleccionar<br>
+                        <small>Formatos: PDF, DOC, DOCX (Máx. 10MB)</small>
+                    </div>
+                    <button class="btn">Seleccionar Archivo</button>
+                </div>
+                <input type="file" id="teaser-es-file" class="file-input" accept=".pdf,.doc,.docx" onchange="handleFileUpload('teaser', 'es', this)">
+                <div id="teaser-es-files" class="file-list"></div>
+            </div>
+            
+            <div id="teaser-en" class="upload-section" style="display: none;">
+                <div class="upload-area" onclick="triggerFileInput('teaser-en-file')">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Drag and drop English teaser or click to select<br>
+                        <small>Formats: PDF, DOC, DOCX (Max. 10MB)</small>
+                    </div>
+                    <button class="btn">Select File</button>
+                </div>
+                <input type="file" id="teaser-en-file" class="file-input" accept=".pdf,.doc,.docx" onchange="handleFileUpload('teaser', 'en', this)">
+                <div id="teaser-en-files" class="file-list"></div>
+            </div>
+        </div>
+        
+        <!-- Test 2: Carga de Term Sheets -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-file-contract"></i>
+                Test 2: Carga de Term Sheets
+            </h2>
+            
+            <div class="language-tabs">
+                <button class="tab-button active" onclick="switchLanguage('termsheet', 'es')">
+                    🇪🇸 Español
+                </button>
+                <button class="tab-button" onclick="switchLanguage('termsheet', 'en')">
+                    🇬🇧 English
+                </button>
+            </div>
+            
+            <div id="termsheet-es" class="upload-section">
+                <div class="upload-area" onclick="triggerFileInput('termsheet-es-file')">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Arrastra y suelta el term sheet en español<br>
+                        <small>Formatos: PDF, DOC, DOCX, XLS, XLSX (Máx. 25MB)</small>
+                    </div>
+                    <button class="btn">Seleccionar Archivo</button>
+                </div>
+                <input type="file" id="termsheet-es-file" class="file-input" accept=".pdf,.doc,.docx,.xls,.xlsx" onchange="handleFileUpload('termsheet', 'es', this)">
+                <div id="termsheet-es-files" class="file-list"></div>
+            </div>
+            
+            <div id="termsheet-en" class="upload-section" style="display: none;">
+                <div class="upload-area" onclick="triggerFileInput('termsheet-en-file')">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Drag and drop English term sheet<br>
+                        <small>Formats: PDF, DOC, DOCX, XLS, XLSX (Max. 25MB)</small>
+                    </div>
+                    <button class="btn">Select File</button>
+                </div>
+                <input type="file" id="termsheet-en-file" class="file-input" accept=".pdf,.doc,.docx,.xls,.xlsx" onchange="handleFileUpload('termsheet', 'en', this)">
+                <div id="termsheet-en-files" class="file-list"></div>
+            </div>
+        </div>
+        
+        <!-- Test 3: Carga de Modelos Financieros -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-calculator"></i>
+                Test 3: Carga de Modelos Financieros
+            </h2>
+            
+            <div class="language-tabs">
+                <button class="tab-button active" onclick="switchLanguage('model', 'es')">
+                    🇪🇸 Español
+                </button>
+                <button class="tab-button" onclick="switchLanguage('model', 'en')">
+                    🇬🇧 English
+                </button>
+            </div>
+            
+            <div id="model-es" class="upload-section">
+                <div class="upload-area" onclick="triggerFileInput('model-es-file')">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Arrastra y suelta el modelo financiero en español<br>
+                        <small>Formatos: XLS, XLSX, PDF (Máx. 50MB)</small>
+                    </div>
+                    <button class="btn">Seleccionar Archivo</button>
+                </div>
+                <input type="file" id="model-es-file" class="file-input" accept=".xls,.xlsx,.pdf" onchange="handleFileUpload('model', 'es', this)">
+                <div id="model-es-files" class="file-list"></div>
+            </div>
+            
+            <div id="model-en" class="upload-section" style="display: none;">
+                <div class="upload-area" onclick="triggerFileInput('model-en-file')">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Drag and drop English financial model<br>
+                        <small>Formats: XLS, XLSX, PDF (Max. 50MB)</small>
+                    </div>
+                    <button class="btn">Select File</button>
+                </div>
+                <input type="file" id="model-en-file" class="file-input" accept=".xls,.xlsx,.pdf" onchange="handleFileUpload('model', 'en', this)">
+                <div id="model-en-files" class="file-list"></div>
+            </div>
+        </div>
+        
+        <!-- Test 4: Integración con páginas -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-link"></i>
+                Test 4: Integración con Páginas de Inversión
+            </h2>
+            
+            <div class="integration-demo">
+                <h4><i class="fas fa-info-circle"></i> Simulación de Integración</h4>
+                <p>Los documentos cargados aparecerían automáticamente como botones de descarga en las páginas de inversión:</p>
+                
+                <div id="integration-preview" style="margin-top: 15px;">
+                    <p><em>Carga algunos documentos para ver la vista previa de integración</em></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Controles globales -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-cogs"></i>
+                Controles del Sistema
+            </h2>
+            
+            <button class="btn btn-success" onclick="saveAllDocuments()">
+                <i class="fas fa-save"></i>
+                Guardar Todos los Documentos
+            </button>
+            
+            <button class="btn" onclick="exportDocumentList()">
+                <i class="fas fa-download"></i>
+                Exportar Lista de Documentos
+            </button>
+            
+            <button class="btn btn-warning" onclick="clearAllDocuments()">
+                <i class="fas fa-trash"></i>
+                Limpiar Todos los Documentos
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de gestión de documentos
+        let documentStore = {
+            teaser: { es: [], en: [] },
+            termsheet: { es: [], en: [] },
+            model: { es: [], en: [] }
+        };
+
+        // Cambiar entre pestañas de idioma
+        function switchLanguage(section, language) {
+            // Actualizar botones de pestañas
+            const tabs = document.querySelectorAll(`[onclick*="${section}"]`);
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.onclick.toString().includes(`'${language}'`)) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Mostrar/ocultar secciones
+            const sections = document.querySelectorAll(`#${section}-es, #${section}-en`);
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(`${section}-${language}`).style.display = 'block';
+        }
+
+        // Activar input de archivo
+        function triggerFileInput(inputId) {
+            document.getElementById(inputId).click();
+        }
+
+        // Manejar carga de archivos
+        function handleFileUpload(type, language, input) {
+            const files = Array.from(input.files);
+            
+            files.forEach(file => {
+                // Validación de tamaño
+                const maxSizes = {
+                    teaser: 10 * 1024 * 1024,     // 10MB
+                    termsheet: 25 * 1024 * 1024,  // 25MB
+                    model: 50 * 1024 * 1024       // 50MB
+                };
+                
+                if (file.size > maxSizes[type]) {
+                    showNotification(`El archivo ${file.name} excede el tamaño máximo permitido`, 'error');
+                    return;
+                }
+
+                // Crear información del archivo
+                const fileInfo = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    file: file,
+                    uploaded: new Date()
+                };
+
+                // Agregar al almacén
+                documentStore[type][language].push(fileInfo);
+                
+                // Actualizar UI
+                updateFileList(type, language);
+                updateStats();
+                updateIntegrationPreview();
+                showNotification(`Archivo ${file.name} cargado exitosamente`, 'success');
+            });
+
+            // Limpiar input
+            input.value = '';
+        }
+
+        // Actualizar lista de archivos
+        function updateFileList(type, language) {
+            const container = document.getElementById(`${type}-${language}-files`);
+            const files = documentStore[type][language];
+
+            if (files.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = files.map(file => `
+                <div class="file-item">
+                    <div class="file-info">
+                        <i class="fas fa-file-${getFileIcon(file.name)}"></i>
+                        <div>
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${formatFileSize(file.size)} - ${new Date(file.uploaded).toLocaleTimeString()}</div>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-button" onclick="downloadFile('${type}', '${language}', '${file.id}')" title="Descargar">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="action-button" onclick="previewFile('${type}', '${language}', '${file.id}')" title="Vista previa">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-button delete" onclick="removeFile('${type}', '${language}', '${file.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Obtener icono apropiado para el tipo de archivo
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            switch (ext) {
+                case 'pdf': return 'pdf';
+                case 'doc':
+                case 'docx': return 'word';
+                case 'xls':
+                case 'xlsx': return 'excel';
+                default: return 'alt';
+            }
+        }
+
+        // Formatear tamaño de archivo
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Eliminar archivo
+        function removeFile(type, language, fileId) {
+            documentStore[type][language] = documentStore[type][language].filter(file => file.id != fileId);
+            updateFileList(type, language);
+            updateStats();
+            updateIntegrationPreview();
+            showNotification('Archivo eliminado', 'warning');
+        }
+
+        // Descargar archivo
+        function downloadFile(type, language, fileId) {
+            const file = documentStore[type][language].find(f => f.id == fileId);
+            if (file) {
+                const url = URL.createObjectURL(file.file);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = file.name;
+                a.click();
+                URL.revokeObjectURL(url);
+                showNotification(`Descargando ${file.name}`, 'info');
+            }
+        }
+
+        // Vista previa de archivo
+        function previewFile(type, language, fileId) {
+            const file = documentStore[type][language].find(f => f.id == fileId);
+            if (file) {
+                showNotification(`Vista previa de ${file.name} (funcionalidad de demostración)`, 'info');
+            }
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            let totalDocs = 0;
+            let spanishDocs = 0;
+            let englishDocs = 0;
+            let totalSize = 0;
+
+            Object.keys(documentStore).forEach(type => {
+                spanishDocs += documentStore[type].es.length;
+                englishDocs += documentStore[type].en.length;
+                
+                documentStore[type].es.forEach(file => totalSize += file.size);
+                documentStore[type].en.forEach(file => totalSize += file.size);
+            });
+
+            totalDocs = spanishDocs + englishDocs;
+
+            document.getElementById('totalDocsCount').textContent = totalDocs;
+            document.getElementById('spanishDocsCount').textContent = spanishDocs;
+            document.getElementById('englishDocsCount').textContent = englishDocs;
+            document.getElementById('totalSizeCount').textContent = (totalSize / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        // Actualizar vista previa de integración
+        function updateIntegrationPreview() {
+            const container = document.getElementById('integration-preview');
+            const allFiles = [];
+
+            Object.keys(documentStore).forEach(type => {
+                documentStore[type].es.forEach(file => allFiles.push({...file, type, language: 'es'}));
+                documentStore[type].en.forEach(file => allFiles.push({...file, type, language: 'en'}));
+            });
+
+            if (allFiles.length === 0) {
+                container.innerHTML = '<p><em>Carga algunos documentos para ver la vista previa de integración</em></p>';
+                return;
+            }
+
+            const typeNames = {
+                teaser: 'Teaser',
+                termsheet: 'Term Sheet',
+                model: 'Modelo Financiero'
+            };
+
+            container.innerHTML = `
+                <h5>Vista previa de cómo aparecerían en las páginas de inversión:</h5>
+                <div style="margin-top: 10px;">
+                    ${allFiles.map(file => `
+                        <button class="download-demo-btn">
+                            <i class="fas fa-download"></i>
+                            ${typeNames[file.type]} (${file.language.toUpperCase()}) - ${file.name}
+                        </button>
+                    `).join('')}
+                </div>
+                <p style="margin-top: 10px; font-size: 12px; color: #6B7280;">
+                    <i class="fas fa-info-circle"></i> 
+                    Estos botones aparecerían automáticamente en las secciones de documentación de las páginas de inversión
+                </p>
+            `;
+        }
+
+        // Guardar todos los documentos
+        function saveAllDocuments() {
+            const totalFiles = Object.keys(documentStore).reduce((total, type) => {
+                return total + documentStore[type].es.length + documentStore[type].en.length;
+            }, 0);
+
+            if (totalFiles === 0) {
+                showNotification('No hay documentos para guardar', 'warning');
+                return;
+            }
+
+            // Simular guardado
+            showNotification(`${totalFiles} documentos guardados exitosamente en el sistema`, 'success');
+            console.log('Documentos guardados:', documentStore);
+        }
+
+        // Exportar lista de documentos
+        function exportDocumentList() {
+            const allFiles = [];
+
+            Object.keys(documentStore).forEach(type => {
+                documentStore[type].es.forEach(file => allFiles.push({
+                    tipo: type,
+                    idioma: 'Español',
+                    nombre: file.name,
+                    tamaño: formatFileSize(file.size),
+                    subido: new Date(file.uploaded).toLocaleString()
+                }));
+                documentStore[type].en.forEach(file => allFiles.push({
+                    tipo: type,
+                    idioma: 'English',
+                    nombre: file.name,
+                    tamaño: formatFileSize(file.size),
+                    subido: new Date(file.uploaded).toLocaleString()
+                }));
+            });
+
+            if (allFiles.length === 0) {
+                showNotification('No hay documentos para exportar', 'warning');
+                return;
+            }
+
+            const csvContent = [
+                ['Tipo', 'Idioma', 'Nombre', 'Tamaño', 'Fecha Subida'],
+                ...allFiles.map(file => [file.tipo, file.idioma, file.nombre, file.tamaño, file.subido])
+            ].map(row => row.map(field => `"${field}"`).join(',')).join('\\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `project-zurich-documents-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            showNotification('Lista de documentos exportada como CSV', 'success');
+        }
+
+        // Limpiar todos los documentos
+        function clearAllDocuments() {
+            if (confirm('¿Estás seguro de que quieres eliminar todos los documentos?')) {
+                documentStore = {
+                    teaser: { es: [], en: [] },
+                    termsheet: { es: [], en: [] },
+                    model: { es: [], en: [] }
+                };
+
+                // Actualizar todas las listas
+                Object.keys(documentStore).forEach(type => {
+                    updateFileList(type, 'es');
+                    updateFileList(type, 'en');
+                });
+
+                updateStats();
+                updateIntegrationPreview();
+                showNotification('Todos los documentos han sido eliminados', 'warning');
+            }
+        }
+
+        // Mostrar notificaciones
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 4000);
+        }
+
+        // Funcionalidad de drag & drop
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadAreas = document.querySelectorAll('.upload-area');
+            
+            uploadAreas.forEach(area => {
+                area.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    area.classList.add('dragover');
+                });
+                
+                area.addEventListener('dragleave', () => {
+                    area.classList.remove('dragover');
+                });
+                
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    area.classList.remove('dragover');
+                    
+                    const input = area.parentElement.querySelector('input[type="file"]');
+                    input.files = e.dataTransfer.files;
+                    
+                    const event = new Event('change', { bubbles: true });
+                    input.dispatchEvent(event);
+                });
+            });
+
+            updateStats();
+            showNotification('Sistema de carga de documentos listo para pruebas', 'info');
+        });
+    </script>
+</body>
+</html>

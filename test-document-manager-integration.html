@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Document Manager Integration | Project ZURICH</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            color: #1F3A8A;
+            margin-bottom: 10px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            background: #F8FAFC;
+        }
+        
+        .test-title {
+            font-size: 20px;
+            color: #1F3A8A;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn {
+            background: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #1E3A8A;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success { background: #059669; }
+        .btn-success:hover { background: #047857; }
+        
+        .btn-warning { background: #D97706; }
+        .btn-warning:hover { background: #B45309; }
+        
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .test-result {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .success {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #10B981;
+        }
+        
+        .error {
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #DC2626;
+        }
+        
+        .info {
+            background: #EFF6FF;
+            color: #1E3A8A;
+            border: 1px solid #3B82F6;
+        }
+        
+        .document-demo {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .document-downloads {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .document-download-btn {
+            background: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .document-download-btn:hover {
+            background: #1E3A8A;
+            transform: translateY(-2px);
+        }
+        
+        .integration-preview {
+            background: #F0FDF4;
+            border: 1px solid #10B981;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-code"></i> Test - Document Manager Integration</h1>
+            <p>Prueba de integración del sistema DocumentManager con las páginas de inversión</p>
+        </div>
+        
+        <!-- Test 1: Verificación del DocumentManager -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-cogs"></i>
+                Test 1: Verificación del DocumentManager Class
+            </h2>
+            
+            <button class="btn" onclick="testDocumentManagerInit()">
+                <i class="fas fa-play"></i>
+                Verificar Inicialización
+            </button>
+            
+            <button class="btn btn-success" onclick="testDocumentManagerMethods()">
+                <i class="fas fa-check"></i>
+                Probar Métodos
+            </button>
+            
+            <div id="managerTestResults" class="results" style="display: none;"></div>
+        </div>
+        
+        <!-- Test 2: Simulación de carga de documentos -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-upload"></i>
+                Test 2: Simulación de Carga de Documentos
+            </h2>
+            
+            <button class="btn" onclick="simulateDocumentUpload('teaser', 'es')">
+                <i class="fas fa-file"></i>
+                Cargar Teaser ES
+            </button>
+            
+            <button class="btn" onclick="simulateDocumentUpload('teaser', 'en')">
+                <i class="fas fa-file"></i>
+                Cargar Teaser EN
+            </button>
+            
+            <button class="btn" onclick="simulateDocumentUpload('termsheet', 'es')">
+                <i class="fas fa-file-contract"></i>
+                Cargar Term Sheet ES
+            </button>
+            
+            <button class="btn" onclick="simulateDocumentUpload('model', 'en')">
+                <i class="fas fa-calculator"></i>
+                Cargar Financial Model EN
+            </button>
+            
+            <div id="uploadTestResults" class="results" style="display: none;"></div>
+        </div>
+        
+        <!-- Test 3: Integración con páginas de inversión -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-link"></i>
+                Test 3: Integración con Páginas de Inversión
+            </h2>
+            
+            <button class="btn btn-success" onclick="testPageIntegrationES()">
+                <i class="fas fa-language"></i>
+                Simular Página Equity ES
+            </button>
+            
+            <button class="btn btn-success" onclick="testPageIntegrationEN()">
+                <i class="fas fa-language"></i>
+                Simular Página Equity EN
+            </button>
+            
+            <button class="btn" onclick="testDownloadButtons()">
+                <i class="fas fa-download"></i>
+                Probar Botones de Descarga
+            </button>
+            
+            <!-- Contenedores para simular las páginas -->
+            <div class="integration-preview">
+                <h4>Vista Previa de Integración - Página Equity ES</h4>
+                <div class="document-demo">
+                    <h5><i class="fas fa-file-image"></i> Teaser de Inversión</h5>
+                    <div id="teaser-downloads"></div>
+                </div>
+                <div class="document-demo">
+                    <h5><i class="fas fa-file-contract"></i> Term Sheet</h5>
+                    <div id="termsheet-downloads"></div>
+                </div>
+                <div class="document-demo">
+                    <h5><i class="fas fa-calculator"></i> Modelo Financiero</h5>
+                    <div id="model-downloads"></div>
+                </div>
+            </div>
+            
+            <div id="integrationTestResults" class="results" style="display: none;"></div>
+        </div>
+        
+        <!-- Test 4: Funciones avanzadas -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-tools"></i>
+                Test 4: Funciones Avanzadas
+            </h2>
+            
+            <button class="btn" onclick="testDocumentSummary()">
+                <i class="fas fa-chart-bar"></i>
+                Test getSummary()
+            </button>
+            
+            <button class="btn" onclick="testDocumentExport()">
+                <i class="fas fa-download"></i>
+                Test exportData()
+            </button>
+            
+            <button class="btn btn-warning" onclick="testClearDocuments()">
+                <i class="fas fa-trash"></i>
+                Test clearAllDocuments()
+            </button>
+            
+            <div id="advancedTestResults" class="results" style="display: none;"></div>
+        </div>
+        
+        <!-- Estado del sistema -->
+        <div class="test-section">
+            <h2 class="test-title">
+                <i class="fas fa-info-circle"></i>
+                Estado del Sistema
+            </h2>
+            
+            <div id="systemStatus" class="results">
+                <div class="info">
+                    <i class="fas fa-spinner fa-spin"></i> Iniciando tests del sistema de gestión de documentos...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cargar el DocumentManager -->
+    <script src="js/document-manager.js"></script>
+
+    <script>
+        let testResults = [];
+        
+        // Test 1: Verificar inicialización del DocumentManager
+        function testDocumentManagerInit() {
+            const resultsDiv = document.getElementById('managerTestResults');
+            resultsDiv.style.display = 'block';
+            
+            const tests = [];
+            
+            try {
+                // Verificar que la clase existe
+                if (typeof DocumentManager !== 'undefined') {
+                    tests.push({ name: 'DocumentManager class exists', result: 'success', message: '✅ Clase DocumentManager encontrada' });
+                } else {
+                    tests.push({ name: 'DocumentManager class exists', result: 'error', message: '❌ Clase DocumentManager no encontrada' });
+                }
+                
+                // Verificar que la instancia global existe
+                if (typeof window.documentManager !== 'undefined') {
+                    tests.push({ name: 'Global instance exists', result: 'success', message: '✅ Instancia global window.documentManager encontrada' });
+                } else {
+                    tests.push({ name: 'Global instance exists', result: 'error', message: '❌ Instancia global no encontrada' });
+                }
+                
+                // Verificar métodos principales
+                const expectedMethods = ['addDocument', 'getDocuments', 'removeDocument', 'hasDocument', 'getSummary'];
+                expectedMethods.forEach(method => {
+                    if (window.documentManager && typeof window.documentManager[method] === 'function') {
+                        tests.push({ name: `Method ${method}`, result: 'success', message: `✅ Método ${method}() disponible` });
+                    } else {
+                        tests.push({ name: `Method ${method}`, result: 'error', message: `❌ Método ${method}() no encontrado` });
+                    }
+                });
+                
+            } catch (error) {
+                tests.push({ name: 'Initialization error', result: 'error', message: `❌ Error durante inicialización: ${error.message}` });
+            }
+            
+            displayTestResults(resultsDiv, tests);
+            updateSystemStatus('success', `Test 1 completado: ${tests.filter(t => t.result === 'success').length}/${tests.length} pruebas exitosas`);
+        }
+        
+        // Test 2: Probar métodos del DocumentManager
+        function testDocumentManagerMethods() {
+            const resultsDiv = document.getElementById('managerTestResults');
+            resultsDiv.style.display = 'block';
+            
+            const tests = [];
+            
+            try {
+                // Test loadDocuments
+                const initialDocs = window.documentManager.documents;
+                tests.push({ name: 'loadDocuments', result: 'success', message: `✅ Documentos iniciales cargados: ${JSON.stringify(initialDocs)}` });
+                
+                // Test getSummary
+                const summary = window.documentManager.getSummary();
+                tests.push({ name: 'getSummary', result: 'success', message: `✅ Resumen obtenido: ${JSON.stringify(summary)}` });
+                
+                // Test getDocuments
+                const teaserDocs = window.documentManager.getDocuments('teaser', 'es');
+                tests.push({ name: 'getDocuments', result: 'success', message: `✅ Documentos teaser ES: ${teaserDocs.length} encontrados` });
+                
+                // Test hasDocument
+                const hasDoc = window.documentManager.hasDocument('teaser', 'es');
+                tests.push({ name: 'hasDocument', result: 'info', message: `ℹ️ Tiene documentos teaser ES: ${hasDoc}` });
+                
+            } catch (error) {
+                tests.push({ name: 'Methods error', result: 'error', message: `❌ Error probando métodos: ${error.message}` });
+            }
+            
+            displayTestResults(resultsDiv, tests);
+        }
+        
+        // Simular carga de documentos
+        function simulateDocumentUpload(type, language) {
+            const resultsDiv = document.getElementById('uploadTestResults');
+            resultsDiv.style.display = 'block';
+            
+            // Crear archivo simulado
+            const mockFile = new File(['Mock document content'], `${type}_${language}_demo.pdf`, {
+                type: 'application/pdf',
+                lastModified: Date.now()
+            });
+            
+            // Simular addDocument
+            window.documentManager.addDocument(type, language, mockFile, {
+                description: `Demo ${type} document in ${language}`
+            }).then((fileInfo) => {
+                const message = `✅ Documento ${type} (${language}) cargado exitosamente: ${fileInfo.name}`;
+                addTestResult(resultsDiv, 'success', message);
+                updateSystemStatus('success', message);
+                
+                // Actualizar vista previa de integración
+                updateIntegrationPreview();
+                
+            }).catch((error) => {
+                const message = `❌ Error cargando documento: ${error.message}`;
+                addTestResult(resultsDiv, 'error', message);
+                updateSystemStatus('error', message);
+            });
+        }
+        
+        // Test integración con páginas
+        function testPageIntegrationES() {
+            const resultsDiv = document.getElementById('integrationTestResults');
+            resultsDiv.style.display = 'block';
+            
+            try {
+                // Simular página equity_investment.html (español)
+                addDocumentDownloadButton('teaser-downloads', 'teaser', 'es', 'Descargar Documentos');
+                addDocumentDownloadButton('termsheet-downloads', 'termsheet', 'es', 'Descargar Documentos');
+                addDocumentDownloadButton('model-downloads', 'model', 'es', 'Descargar Documentos');
+                
+                addTestResult(resultsDiv, 'success', '✅ Integración con página Equity ES simulada exitosamente');
+                updateSystemStatus('success', 'Página Equity ES integrada con sistema de documentos');
+                
+            } catch (error) {
+                addTestResult(resultsDiv, 'error', `❌ Error en integración ES: ${error.message}`);
+            }
+        }
+        
+        function testPageIntegrationEN() {
+            const resultsDiv = document.getElementById('integrationTestResults');
+            resultsDiv.style.display = 'block';
+            
+            try {
+                // Simular página equity_investment_en.html (inglés)
+                addDocumentDownloadButton('teaser-downloads', 'teaser', 'en', 'Download Documents');
+                addDocumentDownloadButton('termsheet-downloads', 'termsheet', 'en', 'Download Documents');
+                addDocumentDownloadButton('model-downloads', 'model', 'en', 'Download Documents');
+                
+                addTestResult(resultsDiv, 'success', '✅ Integración con página Equity EN simulada exitosamente');
+                updateSystemStatus('success', 'Página Equity EN integrada con sistema de documentos');
+                
+            } catch (error) {
+                addTestResult(resultsDiv, 'error', `❌ Error en integración EN: ${error.message}`);
+            }
+        }
+        
+        // Test botones de descarga
+        function testDownloadButtons() {
+            const resultsDiv = document.getElementById('integrationTestResults');
+            resultsDiv.style.display = 'block';
+            
+            try {
+                const downloadBtns = document.querySelectorAll('.document-download-btn');
+                addTestResult(resultsDiv, 'info', `ℹ️ Encontrados ${downloadBtns.length} botones de descarga en la página`);
+                
+                if (downloadBtns.length > 0) {
+                    addTestResult(resultsDiv, 'success', '✅ Botones de descarga generados correctamente');
+                    
+                    // Simular click en el primer botón
+                    downloadBtns[0].click();
+                    addTestResult(resultsDiv, 'success', '✅ Funcionalidad de descarga probada');
+                } else {
+                    addTestResult(resultsDiv, 'info', 'ℹ️ No hay botones de descarga (carga algunos documentos primero)');
+                }
+                
+            } catch (error) {
+                addTestResult(resultsDiv, 'error', `❌ Error probando botones: ${error.message}`);
+            }
+        }
+        
+        // Test funciones avanzadas
+        function testDocumentSummary() {
+            const resultsDiv = document.getElementById('advancedTestResults');
+            resultsDiv.style.display = 'block';
+            
+            try {
+                const summary = window.documentManager.getSummary();
+                addTestResult(resultsDiv, 'success', `✅ Resumen de documentos: ${JSON.stringify(summary, null, 2)}`);
+            } catch (error) {
+                addTestResult(resultsDiv, 'error', `❌ Error obteniendo resumen: ${error.message}`);
+            }
+        }
+        
+        function testDocumentExport() {
+            const resultsDiv = document.getElementById('advancedTestResults');
+            resultsDiv.style.display = 'block';
+            
+            try {
+                const exportData = window.documentManager.exportData();
+                addTestResult(resultsDiv, 'success', `✅ Datos exportados exitosamente (${exportData.length} caracteres)`);
+                addTestResult(resultsDiv, 'info', `ℹ️ Muestra de datos: ${exportData.substring(0, 100)}...`);
+            } catch (error) {
+                addTestResult(resultsDiv, 'error', `❌ Error exportando datos: ${error.message}`);
+            }
+        }
+        
+        function testClearDocuments() {
+            const resultsDiv = document.getElementById('advancedTestResults');
+            resultsDiv.style.display = 'block';
+            
+            if (confirm('¿Estás seguro de que quieres limpiar todos los documentos de prueba?')) {
+                try {
+                    window.documentManager.clearAllDocuments();
+                    addTestResult(resultsDiv, 'success', '✅ Todos los documentos limpiados exitosamente');
+                    updateIntegrationPreview();
+                } catch (error) {
+                    addTestResult(resultsDiv, 'error', `❌ Error limpiando documentos: ${error.message}`);
+                }
+            } else {
+                addTestResult(resultsDiv, 'info', 'ℹ️ Operación de limpieza cancelada por el usuario');
+            }
+        }
+        
+        // Funciones auxiliares
+        function displayTestResults(container, tests) {
+            container.innerHTML = tests.map(test => 
+                `<div class="test-result ${test.result}">${test.message}</div>`
+            ).join('');
+        }
+        
+        function addTestResult(container, type, message) {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.textContent = message;
+            container.appendChild(div);
+        }
+        
+        function updateSystemStatus(type, message) {
+            const statusDiv = document.getElementById('systemStatus');
+            statusDiv.innerHTML = `<div class="${type}"><i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}"></i> ${message}</div>`;
+        }
+        
+        function updateIntegrationPreview() {
+            // Actualizar botones de descarga en la vista previa
+            addDocumentDownloadButton('teaser-downloads', 'teaser', 'es');
+            addDocumentDownloadButton('termsheet-downloads', 'termsheet', 'es');
+            addDocumentDownloadButton('model-downloads', 'model', 'es');
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSystemStatus('info', 'Sistema de tests cargado. Haz clic en los botones para ejecutar las pruebas.');
+            
+            // Auto-ejecutar test básico
+            setTimeout(() => {
+                testDocumentManagerInit();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

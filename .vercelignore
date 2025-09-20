@@ -1,0 +1,48 @@
+# Development files
+*.log
+*.pid
+supervisord.*
+webserver*
+server.log
+
+# Temporary files
+temp/
+.tmp/
+
+# Test files
+test-*
+debug-*
+diagnose-*
+fix-*
+
+# Documentation (keep essential ones)
+DEPLOYMENT_CHECKLIST.md
+REPOSITORY_RENAME_GUIDE.md
+README*.md
+CAMBIOS_*.md
+DESPLIEGUE-*.md
+GUIA-*.md
+LISTA-*.md
+RESUMEN_*.md
+SOLUCION-*.md
+VERCEL-*.md
+
+# Backup files
+*-backup.*
+index-backup.*
+
+# Git
+.git/
+.gitignore
+
+# Node modules (if any)
+node_modules/
+
+# Environment files
+.env*
+
+# Analytics and admin development files
+analytics-dashboard-direct.html
+real-analytics-dashboard.html
+vercel-analytics-dashboard.html
+admin-simple.html

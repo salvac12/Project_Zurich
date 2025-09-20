@@ -1,0 +1,10 @@
+FORCE DEPLOYMENT - September 20, 2024 09:05 UTC
+Latest commit with bilingual Investment Hub and English pages
+Branch: main (6f38210)
+Status: Ready for deployment
+
+This deployment includes:
+✅ Investment Hub restored with bilingual support
+✅ English versions: equity_investment_en.html, senior_financing_en.html
+✅ Fixed vercel.json without public directory requirement
+✅ All pages ready to serve from root directory

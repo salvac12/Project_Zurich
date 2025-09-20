@@ -164,3 +164,111 @@ OSError: [Errno 98] Address already in use
 10.12.112.36 - - [19/Sep/2025 10:05:00] "POST /api/analytics HTTP/1.1" 501 -
 10.12.112.36 - - [19/Sep/2025 10:13:05] code 501, message Unsupported method ('POST')
 10.12.112.36 - - [19/Sep/2025 10:13:05] "POST /api/analytics HTTP/1.1" 501 -
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+10.12.134.98 - - [20/Sep/2025 09:12:16] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:12:16] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:12:16] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 09:12:16] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 09:12:31] "GET /verification-complete.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:12:31] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:12:31] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 09:12:31] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 09:12:46] "GET /index.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:12:46] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 09:12:46] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 09:14:24] "GET /demo-funcional.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:14:24] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 09:14:24] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 09:38:23] "GET /index.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:38:24] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 09:38:24] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 09:38:29] "GET /admin-simple.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:38:36] "GET /admin-docs.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:44:30] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:44:31] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 09:44:46] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:05:56] "GET /test-existing-buttons.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:05:56] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:05:56] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 10:05:56] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 10:06:09] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:06:09] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:06:09] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 10:06:09] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 10:09:53] "GET /admin-docs.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:10:34] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:10:34] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:10:46] "GET /equity_investment_en.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:10:53] "GET /index.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:20:16] "GET /equity_investment.html HTTP/1.1" 304 -
+10.12.134.98 - - [20/Sep/2025 10:20:16] "GET /js/document-manager.js HTTP/1.1" 304 -
+10.12.134.98 - - [20/Sep/2025 10:20:19] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:25:28] "GET /admin-docs.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:25:28] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:25:28] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 10:25:28] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 10:25:55] "GET /admin-docs.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:25:55] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:25:55] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 10:25:55] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 10:26:50] "GET /test-full-workflow.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:26:50] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:26:51] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 10:26:51] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.134.98 - - [20/Sep/2025 10:27:03] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:27:03] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.134.98 - - [20/Sep/2025 10:27:03] code 404, message File not found
+10.12.134.98 - - [20/Sep/2025 10:27:03] "GET /favicon.ico HTTP/1.1" 404 -

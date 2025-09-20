@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Existing Buttons System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-section {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #10B981;
+        }
+        
+        .doc-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .doc-button {
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 180px;
+            justify-content: center;
+        }
+        
+        .doc-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(31, 58, 138, 0.3);
+        }
+        
+        .test-log {
+            background: #000;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .demo-section {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3B82F6;
+        }
+        
+        .upload-section {
+            background: #fefce8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #facc15;
+        }
+        
+        .file-input {
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        
+        .upload-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .upload-btn:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test del Sistema de Botones Existentes</h1>
+        
+        <div class="status-section">
+            <h3>✅ Sistema Corregido</h3>
+            <ul>
+                <li>❌ <strong>Eliminados:</strong> Botones duplicados que creaban descargas TXT</li>
+                <li>✅ <strong>Conectados:</strong> Botones existentes (azules) ahora descargan documentos reales</li>
+                <li>✅ <strong>Manejo de errores:</strong> Mensaje informativo cuando no hay documentos cargados</li>
+            </ul>
+        </div>
+
+        <div class="test-log" id="console-log">
+            <div>🚀 Sistema de test iniciado...</div>
+        </div>
+
+        <div class="demo-section">
+            <h3>📄 Botones de Descarga (Simulan los botones azules de las páginas)</h3>
+            <p>Estos botones replican exactamente los botones azules mostrados en las imágenes:</p>
+            
+            <div class="doc-buttons">
+                <button class="doc-button">
+                    <i class="fas fa-file-pdf"></i>
+                    TEASER
+                </button>
+                <button class="doc-button">
+                    <i class="fas fa-file-alt"></i>
+                    TERM-SHEET
+                </button>
+                <button class="doc-button">
+                    <i class="fas fa-chart-line"></i>
+                    MODELO FINANCIERO
+                </button>
+            </div>
+        </div>
+
+        <div class="upload-section">
+            <h3>📤 Test de Carga de Documentos</h3>
+            <p>Para probar las descargas reales, primero carga algunos documentos de prueba:</p>
+            
+            <div>
+                <label><strong>Teaser (PDF/DOC):</strong></label>
+                <input type="file" class="file-input" id="teaser-file" accept=".pdf,.doc,.docx">
+                <button class="upload-btn" onclick="uploadTestDocument('teaser')">Cargar Teaser</button>
+            </div>
+            
+            <div>
+                <label><strong>Term Sheet (PDF/DOC):</strong></label>
+                <input type="file" class="file-input" id="termsheet-file" accept=".pdf,.doc,.docx">
+                <button class="upload-btn" onclick="uploadTestDocument('termsheet')">Cargar Term Sheet</button>
+            </div>
+            
+            <div>
+                <label><strong>Modelo Financiero (XLS/PDF):</strong></label>
+                <input type="file" class="file-input" id="model-file" accept=".pdf,.xls,.xlsx">
+                <button class="upload-btn" onclick="uploadTestDocument('model')">Cargar Modelo</button>
+            </div>
+        </div>
+        
+        <div style="background: #fee; padding: 15px; border-radius: 8px; border-left: 4px solid #ef4444;">
+            <h4>🎯 Comportamiento Esperado:</h4>
+            <ul>
+                <li><strong>Sin documentos cargados:</strong> Botones muestran mensaje "No disponible aún"</li>
+                <li><strong>Con documentos cargados:</strong> Botones descargan el archivo real subido</li>
+                <li><strong>No más archivos TXT:</strong> Solo descargas de documentos reales o mensaje informativo</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Include the corrected document manager -->
+    <script src="js/document-manager.js"></script>
+    
+    <script>
+        let testLog = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            testLog.push(logEntry);
+            
+            const testLogElement = document.getElementById('console-log');
+            const div = document.createElement('div');
+            
+            if (type === 'error') {
+                div.style.color = '#ff4444';
+            } else if (type === 'success') {
+                div.style.color = '#44ff44';
+            } else if (type === 'warning') {
+                div.style.color = '#ffff44';
+            }
+            
+            div.textContent = logEntry;
+            testLogElement.appendChild(div);
+            testLogElement.scrollTop = testLogElement.scrollHeight;
+        }
+
+        function uploadTestDocument(type) {
+            const fileInput = document.getElementById(`${type}-file`);
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                log(`❌ No se seleccionó archivo para ${type}`, 'error');
+                return;
+            }
+            
+            log(`📤 Cargando ${type}: ${file.name}`, 'info');
+            
+            // Add document to manager
+            window.documentManager.addDocument(type, 'es', file)
+                .then(fileInfo => {
+                    log(`✅ ${type} cargado: ${file.name}`, 'success');
+                    log(`📊 Documentos totales: ${JSON.stringify(window.documentManager.getSummary())}`, 'info');
+                })
+                .catch(error => {
+                    log(`❌ Error cargando ${type}: ${error.message}`, 'error');
+                });
+        }
+
+        // Initialize the corrected system
+        document.addEventListener('DOMContentLoaded', function() {
+            log('✅ Document Manager cargado', 'success');
+            
+            // Simulate being on equity investment page by manually connecting buttons
+            setTimeout(() => {
+                log('🔗 Conectando botones de prueba...', 'info');
+                connectExistingButtons('es');
+                log('✅ Botones conectados - ¡Prueba hacer clic en ellos!', 'success');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

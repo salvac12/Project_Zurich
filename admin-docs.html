@@ -287,6 +287,64 @@
             border: 1px solid #DC2626;
         }
         
+        .status-warning {
+            background: #FFFBEB;
+            color: #92400E;
+            border: 1px solid #F59E0B;
+        }
+        
+        /* Current file styles for saved documents */
+        .current-file {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .current-file .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .current-file .file-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .current-file .file-status.saved {
+            background: #ECFDF5;
+            color: #065F46;
+        }
+        
+        .current-file .remove-file {
+            background: none;
+            border: none;
+            color: #DC2626;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .current-file .remove-file:hover {
+            background: #FEF2F2;
+        }
+        
+        .no-files {
+            color: #64748B;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .admin-panel {
@@ -455,7 +513,7 @@
                             </div>
                             <button class="upload-button">Seleccionar Archivo</button>
                         </div>
-                        <input type="file" id="model-es-file" class="file-input" accept=".xls,.xlsx,.pdf" onchange="handleFileUpload('model', 'es', this)">
+                        <input type="file" id="model-es-file" class="file-input" accept=".xls,.xlsx,.xlsm,.pdf" onchange="handleFileUpload('model', 'es', this)">
                         <div id="model-es-files" class="current-files"></div>
                     </div>
                     
@@ -469,7 +527,7 @@
                             </div>
                             <button class="upload-button">Select File</button>
                         </div>
-                        <input type="file" id="model-en-file" class="file-input" accept=".xls,.xlsx,.pdf" onchange="handleFileUpload('model', 'en', this)">
+                        <input type="file" id="model-en-file" class="file-input" accept=".xls,.xlsx,.xlsm,.pdf" onchange="handleFileUpload('model', 'en', this)">
                         <div id="model-en-files" class="current-files"></div>
                     </div>
                 </div>
@@ -484,6 +542,9 @@
         </div>
     </section>
 
+    <!-- Include Document Manager -->
+    <script src="js/document-manager.js"></script>
+
     <script>
         // Document storage for both languages and all types
         let documentStore = {
@@ -491,6 +552,69 @@
             termsheet: { es: [], en: [] },
             model: { es: [], en: [] }
         };
+
+        // Update UI to show saved documents from DocumentManager
+        function updateCurrentFilesDisplay() {
+            if (!window.documentManager) return;
+            
+            const types = ['teaser', 'termsheet', 'model'];
+            const languages = ['es', 'en'];
+            
+            types.forEach(type => {
+                languages.forEach(language => {
+                    const containerSelector = `#${type}-${language}-files`;
+                    const container = document.querySelector(containerSelector);
+                    
+                    if (container) {
+                        // Get documents from DocumentManager
+                        const docs = window.documentManager.getDocuments(type, language);
+                        
+                        // Clear existing display
+                        container.innerHTML = '';
+                        
+                        // Show saved documents
+                        docs.forEach(doc => {
+                            const fileElement = document.createElement('div');
+                            fileElement.className = 'current-file';
+                            fileElement.innerHTML = `
+                                <div class="file-info">
+                                    <i class="fas fa-file"></i>
+                                    <span class="file-name">${doc.name}</span>
+                                    <span class="file-size">${formatFileSize(doc.size)}</span>
+                                    <span class="file-status saved">✅ Guardado</span>
+                                </div>
+                                <button class="remove-file" onclick="removeDocumentFromManager('${type}', '${language}', '${doc.id}')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            `;
+                            container.appendChild(fileElement);
+                        });
+                        
+                        if (docs.length === 0) {
+                            container.innerHTML = '<p class="no-files">No hay documentos guardados</p>';
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Remove document from DocumentManager
+        function removeDocumentFromManager(type, language, documentId) {
+            if (window.documentManager) {
+                window.documentManager.removeDocument(type, language, documentId);
+                updateCurrentFilesDisplay();
+                showStatusMessage('Documento eliminado correctamente', 'success');
+            }
+        }
+        
+        // Format file size helper
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
 
         // Switch between language tabs
         function switchLanguage(section, language) {
@@ -619,8 +743,14 @@
             const container = document.getElementById('statusMessages');
             const messageEl = document.createElement('div');
             messageEl.className = `status-message status-${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            else if (type === 'error') icon = 'exclamation-circle';
+            else if (type === 'warning') icon = 'exclamation-triangle';
+            
             messageEl.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <i class="fas fa-${icon}"></i>
                 ${message}
             `;
             
@@ -628,18 +758,83 @@
             
             // Auto-remove after 5 seconds
             setTimeout(() => {
-                container.removeChild(messageEl);
+                if (messageEl.parentNode) {
+                    container.removeChild(messageEl);
+                }
             }, 5000);
         }
 
         // Save all documents (placeholder for API integration)
         function saveAllDocuments() {
-            // This would integrate with your backend API
-            showStatusMessage('Documents saved successfully! (This is a demo - integrate with your backend API)', 'success');
+            console.log('Saving all documents to DocumentManager...');
             
-            // Log current document store for development
-            console.log('Document store:', documentStore);
+            let savedCount = 0;
+            let totalDocuments = 0;
+            
+            // Count total documents first
+            Object.keys(documentStore).forEach(type => {
+                Object.keys(documentStore[type]).forEach(language => {
+                    totalDocuments += documentStore[type][language].length;
+                });
+            });
+            
+            if (totalDocuments === 0) {
+                showStatusMessage('No hay documentos para guardar. Por favor, carga al menos un documento antes de guardar.', 'warning');
+                return;
+            }
+            
+            // Save each document to the DocumentManager
+            Object.keys(documentStore).forEach(type => {
+                Object.keys(documentStore[type]).forEach(language => {
+                    documentStore[type][language].forEach(fileInfo => {
+                        // Use the file directly from documentStore (it's already a File object)
+                        const file = fileInfo.file;
+                        
+                        // Add to DocumentManager
+                        window.documentManager.addDocument(type, language, file, {
+                            uploadedAt: new Date().toISOString(),
+                            adminUpload: true
+                        }).then(savedFileInfo => {
+                                savedCount++;
+                                console.log(`✅ Saved ${type} (${language}): ${savedFileInfo.name}`);
+                                
+                                // Check if all documents are saved
+                                if (savedCount === totalDocuments) {
+                                    showStatusMessage(`✅ ¡Todos los documentos guardados exitosamente! (${savedCount}/${totalDocuments})`, 'success');
+                                    
+                                    // Clear the temporary store after saving
+                                    documentStore = {
+                                        teaser: { es: [], en: [] },
+                                        termsheet: { es: [], en: [] },
+                                        model: { es: [], en: [] }
+                                    };
+                                    
+                                    // Update UI to show saved documents
+                                    updateCurrentFilesDisplay();
+                                    
+                                    console.log('📊 Document Manager Summary:', window.documentManager.getSummary());
+                                }
+                        }).catch(error => {
+                            console.error(`❌ Error saving ${type} (${language}):`, error);
+                            showStatusMessage(`❌ Error guardando ${fileInfo.name}: ${error.message}`, 'error');
+                        });
+                    });
+                });
+            });
         }
+
+        // Initialize admin panel when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load existing documents from DocumentManager if available
+            setTimeout(() => {
+                if (window.documentManager) {
+                    console.log('📋 Admin Panel: Loading existing documents...');
+                    updateCurrentFilesDisplay();
+                } else {
+                    console.log('⚠️ Document Manager not available yet');
+                }
+            }, 500);
+        });
 
         // Drag and drop functionality
         document.addEventListener('DOMContentLoaded', function() {

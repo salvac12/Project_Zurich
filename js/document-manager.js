@@ -226,239 +226,166 @@ function formatFileSize(bytes) {
 
 // Auto-initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Document Manager initialized successfully
+    console.log('Document Manager initialized successfully');
     
-    // Add download buttons to equity investment pages
+    // Connect existing buttons to document downloads for equity investment pages
     if (window.location.pathname.includes('equity_investment')) {
         const language = window.location.pathname.includes('_en') ? 'en' : 'es';
+        
         // Small delay to ensure DOM is ready
         setTimeout(() => {
-            // Add teaser downloads
-            addDocumentDownloadButton('teaser-downloads', 'teaser', language);
+            console.log(`Detected equity investment page, language: ${language}`);
             
-            // Add term sheet downloads  
-            addDocumentDownloadButton('termsheet-downloads', 'termsheet', language);
-            
-            // Add financial model downloads
-            addDocumentDownloadButton('model-downloads', 'model', language);
-            
-            // If no documents found, add demo buttons
-            addDemoButtons();
+            // Connect existing buttons instead of creating new ones
+            connectExistingButtons(language);
         }, 500);
     }
     
-    // Add download buttons to senior financing pages
+    // Connect buttons for senior financing pages  
     if (window.location.pathname.includes('senior_financing') || window.location.pathname.includes('project-zurich-equity')) {
         const language = window.location.pathname.includes('_en') ? 'en' : 'es';
         
         setTimeout(() => {
-            // Add relevant documents for debt investment
-            addDocumentDownloadButton('debt-teaser-downloads', 'teaser', language);
-            addDocumentDownloadButton('debt-termsheet-downloads', 'termsheet', language); 
-            addDocumentDownloadButton('debt-model-downloads', 'model', language);
-            
-            // If no documents found, add demo buttons
-            addDemoButtons();
-        }, 100);
+            connectExistingButtons(language);
+        }, 500);
     }
 });
 
-// Add demo buttons if no real documents are found
-function addDemoButtons() {
-    const containers = ['teaser-downloads', 'termsheet-downloads', 'model-downloads'];
+// Connect existing buttons to real documents
+function connectExistingButtons(language) {
+    console.log('Connecting existing buttons to document downloads...');
     
-    containers.forEach(containerId => {
-        const container = document.getElementById(containerId);
+    // Find existing doc-button elements (the blue buttons shown in the images)
+    const docButtons = document.querySelectorAll('.doc-button');
+    
+    docButtons.forEach(button => {
+        const buttonText = button.textContent.trim().toLowerCase();
+        let documentType = '';
         
-        if (container && container.children.length === 0) {
-            // No real documents found, add demo button
-            const demoButton = document.createElement('button');
-            demoButton.className = 'document-download-btn demo-btn';
-            demoButton.style.cssText = `
-                background: #10B981 !important;
-                color: white !important;
-                border: none !important;
-                padding: 10px 16px !important;
-                border-radius: 6px !important;
-                cursor: pointer !important;
-                font-size: 14px !important;
-                transition: all 0.2s !important;
-                display: inline-flex !important;
-                align-items: center !important;
-                gap: 8px !important;
-                text-decoration: none !important;
-                width: 100% !important;
-                justify-content: center !important;
-                margin: 5px 0 !important;
-            `;
+        // Determine document type based on button text
+        if (buttonText.includes('teaser')) {
+            documentType = 'teaser';
+        } else if (buttonText.includes('term-sheet') || buttonText.includes('term sheet')) {
+            documentType = 'termsheet';
+        } else if (buttonText.includes('modelo') || buttonText.includes('financiero') || buttonText.includes('financial')) {
+            documentType = 'model';
+        }
+        
+        if (documentType) {
+            console.log(`Connecting button for ${documentType} type`);
             
-            let buttonText = '';
-            let fileContent = '';
+            // Remove any existing click handlers
+            const newButton = button.cloneNode(true);
+            button.parentNode.replaceChild(newButton, button);
             
-            if (containerId.includes('teaser')) {
-                buttonText = '📄 Descargar Teaser Demo (PDF)';
-                fileContent = `PROJECT ZURICH - INVESTMENT TEASER
-
-EXECUTIVE SUMMARY
-=================
-Investment Opportunity: EUR 21M Equity Investment
-Project: Affordable Housing Development  
-Location: Valdebebas, Madrid
-Timeline: 32 months
-Target IRR: 13.5%
-
-KEY HIGHLIGHTS
-==============
-• Build-to-Sale strategy with REIT structure
-• 251 residential units in prime location
-• Tax advantages through SOCIMI structure
-• Short-term investment horizon
-• Strong developer track record
-
-FINANCIAL OVERVIEW
-==================
-Total Investment: EUR 21M
-Expected Return: 13.5% IRR
-Investment Period: 32 months
-Exit Strategy: Sale to core investor
-
-For more information, please contact our investment team.
-
-CONTACT
-=======
-ALTER5 Investment Team
-Email: investments@alter5.com
-Phone: +34 91 XXX XXXX
-
----
-This is a demonstration document.
-Generated: ${new Date().toLocaleDateString()}`;
-            } else if (containerId.includes('termsheet')) {
-                buttonText = '📊 Descargar Term Sheet Demo';
-                fileContent = `PROJECT ZURICH - TERM SHEET
-
-INVESTMENT TERMS
-================
-Investment Amount: EUR 21,000,000
-Security Type: Equity participation via SOCIMI
-Target IRR: 13.5% per annum
-Investment Period: 32 months
-Minimum Investment: EUR 500,000
-
-STRUCTURE
-=========
-Vehicle: Spanish SOCIMI (REIT)
-Strategy: Build-to-Sale
-Asset Class: Residential (Affordable Housing)
-Location: Valdebebas, Madrid
-
-FINANCIAL PROJECTIONS
-=====================
-Total Development Cost: EUR 63M
-Equity Required: EUR 21M  
-Debt Financing: EUR 42M (70% LTC)
-Expected Exit Value: EUR 75M
-Projected Multiple: 1.55x
-
-KEY TERMS
-=========
-• Preferred return: 6% per annum
-• Profit sharing: 80/20 after preferred return
-• Management fee: 1.5% per annum
-• Exit timeline: Q1 2029
-
-RISK FACTORS
-============
-• Construction risk
-• Market risk  
-• Regulatory risk
-• Interest rate risk
-
----
-This is a demonstration document.
-Generated: ${new Date().toLocaleDateString()}`;
-            } else if (containerId.includes('model')) {
-                buttonText = '💰 Descargar Modelo Financiero Demo';
-                fileContent = `PROJECT ZURICH - FINANCIAL MODEL SUMMARY
-
-INVESTMENT ASSUMPTIONS
-======================
-Total Units: 251
-Average Sale Price: EUR 298,000
-Total Revenue: EUR 74.8M
-Construction Cost: EUR 45M
-Land Cost: EUR 8M
-Total Cost: EUR 63M
-Gross Margin: 19%
-
-FINANCING STRUCTURE
-===================
-Total Investment: EUR 63M
-Senior Debt: EUR 42M (70% LTC)
-Equity Investment: EUR 21M (30%)
-Cost of Debt: 4.25%
-Blended Cost of Capital: 9.2%
-
-CASH FLOW PROJECTIONS (EUR M)
-==============================
-Year 1: Construction (-15M)
-Year 2: Construction (-20M)  
-Year 3: Sales (+45M)
-Total Net Cash Flow: +11.8M
-IRR: 13.5%
-NPV @ 10%: EUR 2.1M
-
-SENSITIVITY ANALYSIS
-====================
-Sale Price -10%: IRR 8.2%
-Sale Price +10%: IRR 19.1%  
-Construction Cost +15%: IRR 9.8%
-Timeline +6 months: IRR 11.2%
-
-EXIT SCENARIOS
-==============
-Scenario 1: Bulk sale to institutional investor
-Scenario 2: Individual unit sales
-Scenario 3: Hold and refinance (long-term)
-
----
-This is a demonstration financial model.
-Generated: ${new Date().toLocaleDateString()}
-Contact ALTER5 for full Excel model.`;
-            }
-            
-            demoButton.innerHTML = `<i class="fas fa-download"></i> ${buttonText}`;
-            
-            demoButton.addEventListener('click', () => {
-                // Create and download demo file
-                const blob = new Blob([fileContent], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `Project_ZURICH_${containerId.replace('-downloads', '')}_Demo.txt`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                // Show success message
-                showSuccessMessage(`✅ ${buttonText} descargado correctamente`);
+            // Add new click handler that downloads real documents
+            newButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                downloadRealDocument(documentType, language);
             });
+        }
+    });
+    
+    // Also connect navigation links in header
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        const linkText = link.textContent.trim().toLowerCase();
+        let documentType = '';
+        
+        if (linkText.includes('teaser')) {
+            documentType = 'teaser';
+        } else if (linkText.includes('term-sheet') || linkText.includes('term sheet')) {
+            documentType = 'termsheet';
+        } else if (linkText.includes('modelo') || linkText.includes('financiero') || linkText.includes('financial')) {
+            documentType = 'model';
+        }
+        
+        if (documentType) {
+            console.log(`Connecting nav link for ${documentType} type`);
             
-            demoButton.addEventListener('mouseenter', () => {
-                demoButton.style.background = '#059669 !important';
-                demoButton.style.transform = 'translateY(-2px)';
+            // Remove existing click handlers
+            const newLink = link.cloneNode(true);
+            link.parentNode.replaceChild(newLink, link);
+            
+            // Add new click handler
+            newLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                downloadRealDocument(documentType, language);
             });
-            
-            demoButton.addEventListener('mouseleave', () => {
-                demoButton.style.background = '#10B981 !important';
-                demoButton.style.transform = 'translateY(0)';
-            });
-            
-            container.appendChild(demoButton);
         }
     });
 }
+
+// Download real uploaded documents or show message if none available
+function downloadRealDocument(type, language) {
+    console.log(`Attempting to download ${type} document in ${language}`);
+    
+    // Get the latest uploaded document for this type and language
+    const latestDoc = window.documentManager.getLatestDocument(type, language);
+    
+    if (latestDoc && latestDoc.data) {
+        console.log(`Found real document: ${latestDoc.name}`);
+        
+        // Create download link for real document
+        const link = document.createElement('a');
+        link.href = latestDoc.data;
+        link.download = latestDoc.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show success message
+        showSuccessMessage(`✅ ${latestDoc.name} descargado correctamente`);
+        
+    } else {
+        console.log(`No real document found for ${type} in ${language}, showing message`);
+        
+        // Show message that no documents are available yet
+        const message = language === 'es' 
+            ? `📄 ${getDocumentTypeName(type)} no disponible aún. Por favor contacte con nuestro equipo de inversión.`
+            : `📄 ${getDocumentTypeName(type)} not available yet. Please contact our investment team.`;
+            
+        showInfoMessage(message);
+    }
+}
+
+// Get document type display name
+function getDocumentTypeName(type) {
+    const names = {
+        'teaser': 'Teaser de Inversión / Investment Teaser',
+        'termsheet': 'Term Sheet',
+        'model': 'Modelo Financiero / Financial Model'
+    };
+    return names[type] || type;
+}
+
+// Show info message (instead of download when no documents available)
+function showInfoMessage(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #3B82F6;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        font-weight: 600;
+        max-width: 350px;
+        border-left: 4px solid #1F3A8A;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+
+// DEPRECATED: Demo buttons no longer used - real buttons now connect to actual uploaded documents
 
 // Show success message
 function showSuccessMessage(message) {

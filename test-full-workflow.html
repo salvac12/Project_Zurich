@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Complete Workflow - Admin to Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .workflow-section {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3B82F6;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .test-btn {
+            background: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .test-btn:hover {
+            background: #1E3A8A;
+            transform: translateY(-2px);
+        }
+        
+        .test-btn.success {
+            background: #10B981;
+        }
+        
+        .test-btn.success:hover {
+            background: #059669;
+        }
+        
+        .doc-button {
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 180px;
+            justify-content: center;
+        }
+        
+        .doc-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(31, 58, 138, 0.3);
+        }
+        
+        .test-log {
+            background: #000;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .status-section {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #10B981;
+        }
+        
+        .upload-test {
+            background: #fefce8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #facc15;
+        }
+        
+        .file-input {
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test Complete Workflow: Admin → Download</h1>
+        <p>Este test verifica todo el flujo desde cargar documentos en admin hasta descargarlos en botones.</p>
+        
+        <div class="test-log" id="console-log">
+            <div>🚀 Test iniciado...</div>
+        </div>
+
+        <div class="workflow-section">
+            <h3>📤 Paso 1: Simular Carga de Documentos</h3>
+            <p>Simula cargar documentos como si fuera desde el admin panel:</p>
+            
+            <div class="upload-test">
+                <label><strong>Teaser Test:</strong></label>
+                <input type="file" class="file-input" id="teaser-test" accept=".pdf,.doc,.docx">
+                <button class="test-btn" onclick="simulateAdminUpload('teaser', 'es')">📤 Simular Carga Teaser ES</button>
+            </div>
+            
+            <div class="upload-test">
+                <label><strong>Term Sheet Test:</strong></label>
+                <input type="file" class="file-input" id="termsheet-test" accept=".pdf,.doc,.docx">
+                <button class="test-btn" onclick="simulateAdminUpload('termsheet', 'es')">📊 Simular Carga Term Sheet ES</button>
+            </div>
+            
+            <div class="upload-test">
+                <label><strong>Financial Model Test:</strong></label>
+                <input type="file" class="file-input" id="model-test" accept=".xls,.xlsx,.xlsm,.pdf">
+                <button class="test-btn" onclick="simulateAdminUpload('model', 'es')">💰 Simular Carga Modelo ES</button>
+            </div>
+        </div>
+
+        <div class="workflow-section">
+            <h3>📥 Paso 2: Probar Botones de Descarga</h3>
+            <p>Estos botones replican exactamente los de equity_investment.html:</p>
+            
+            <div class="test-buttons">
+                <button class="doc-button" id="test-teaser-btn">
+                    <i class="fas fa-file-pdf"></i>
+                    TEASER
+                </button>
+                <button class="doc-button" id="test-termsheet-btn">
+                    <i class="fas fa-file-alt"></i>
+                    TERM-SHEET
+                </button>
+                <button class="doc-button" id="test-model-btn">
+                    <i class="fas fa-chart-line"></i>
+                    MODELO FINANCIERO
+                </button>
+            </div>
+        </div>
+
+        <div class="status-section">
+            <h3>📊 Estado del Sistema</h3>
+            <button class="test-btn success" onclick="checkDocumentStatus()">🔍 Verificar Documentos Cargados</button>
+            <button class="test-btn" onclick="clearAllDocuments()">🗑️ Limpiar Todos los Documentos</button>
+        </div>
+    </div>
+
+    <!-- Include Document Manager -->
+    <script src="js/document-manager.js"></script>
+    
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            
+            const testLogElement = document.getElementById('console-log');
+            const div = document.createElement('div');
+            
+            if (type === 'error') {
+                div.style.color = '#ff4444';
+            } else if (type === 'success') {
+                div.style.color = '#44ff44';
+            } else if (type === 'warning') {
+                div.style.color = '#ffff44';
+            }
+            
+            div.textContent = logEntry;
+            testLogElement.appendChild(div);
+            testLogElement.scrollTop = testLogElement.scrollHeight;
+        }
+
+        function simulateAdminUpload(type, language) {
+            const fileInput = document.getElementById(`${type}-test`);
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                log(`❌ No se seleccionó archivo para ${type}`, 'error');
+                return;
+            }
+            
+            log(`📤 Simulando carga admin: ${type} (${language}) - ${file.name}`, 'info');
+            
+            // Simulate admin upload by adding to DocumentManager
+            window.documentManager.addDocument(type, language, file, {
+                uploadedAt: new Date().toISOString(),
+                adminUpload: true,
+                testUpload: true
+            }).then(fileInfo => {
+                log(`✅ ${type} cargado exitosamente: ${file.name}`, 'success');
+                log(`📊 Total documentos: ${JSON.stringify(window.documentManager.getSummary())}`, 'info');
+                
+                // Re-connect buttons to ensure they work with new documents
+                connectTestButtons();
+                
+            }).catch(error => {
+                log(`❌ Error cargando ${type}: ${error.message}`, 'error');
+            });
+        }
+
+        function connectTestButtons() {
+            log('🔗 Conectando botones de test con DocumentManager...', 'info');
+            
+            const buttons = [
+                { id: 'test-teaser-btn', type: 'teaser' },
+                { id: 'test-termsheet-btn', type: 'termsheet' },
+                { id: 'test-model-btn', type: 'model' }
+            ];
+            
+            buttons.forEach(({ id, type }) => {
+                const button = document.getElementById(id);
+                if (button) {
+                    // Remove existing handlers
+                    const newButton = button.cloneNode(true);
+                    button.parentNode.replaceChild(newButton, button);
+                    
+                    // Add new handler
+                    newButton.addEventListener('click', function() {
+                        downloadTestDocument(type, 'es');
+                    });
+                    
+                    log(`✅ Botón ${type} conectado`, 'success');
+                }
+            });
+        }
+
+        function downloadTestDocument(type, language) {
+            log(`🎯 Intentando descargar ${type} (${language})...`, 'info');
+            
+            const latestDoc = window.documentManager.getLatestDocument(type, language);
+            
+            if (latestDoc && latestDoc.data) {
+                log(`📄 Encontrado documento: ${latestDoc.name}`, 'success');
+                
+                // Create download
+                const link = document.createElement('a');
+                link.href = latestDoc.data;
+                link.download = latestDoc.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                log(`✅ Descarga iniciada: ${latestDoc.name}`, 'success');
+                
+            } else {
+                log(`❌ No se encontró documento ${type} en ${language}`, 'error');
+                log(`💡 Sugerencia: Carga un documento ${type} primero usando el Paso 1`, 'warning');
+            }
+        }
+
+        function checkDocumentStatus() {
+            log('🔍 Verificando estado de documentos...', 'info');
+            
+            const summary = window.documentManager.getSummary();
+            log(`📊 Resumen completo: ${JSON.stringify(summary, null, 2)}`, 'info');
+            
+            let totalDocs = 0;
+            Object.keys(summary).forEach(type => {
+                Object.keys(summary[type]).forEach(language => {
+                    totalDocs += summary[type][language].count;
+                });
+            });
+            
+            if (totalDocs > 0) {
+                log(`✅ Total de documentos disponibles: ${totalDocs}`, 'success');
+            } else {
+                log(`⚠️ No hay documentos cargados. Usa el Paso 1 para cargar documentos.`, 'warning');
+            }
+        }
+
+        function clearAllDocuments() {
+            log('🗑️ Limpiando todos los documentos...', 'warning');
+            window.documentManager.clearAllDocuments();
+            log('✅ Todos los documentos eliminados', 'success');
+        }
+
+        // Initialize test when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            log('✅ Document Manager cargado', 'success');
+            log('🔗 Conectando botones de test...', 'info');
+            
+            setTimeout(() => {
+                connectTestButtons();
+                checkDocumentStatus();
+                log('✅ Sistema de test listo para usar', 'success');
+                log('💡 Para probar: 1) Carga documentos en Paso 1, 2) Haz clic en botones del Paso 2', 'info');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Manager Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test-container { max-width: 800px; margin: 0 auto; }
+        .documentation-section { background: #f8f9fa; padding: 30px; border-radius: 8px; margin: 20px 0; }
+        .docs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .doc-item { background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+        .doc-icon { font-size: 24px; color: #1F3A8A; margin-bottom: 10px; }
+        .doc-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .doc-description { color: #666; font-size: 14px; margin-bottom: 15px; }
+        .console-output { background: #000; color: #0f0; padding: 15px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Document Manager Verification Test</h1>
+        
+        <div class="console-output" id="console-log">
+            <div>🔍 Document Manager Test Started...</div>
+        </div>
+
+        <div class="documentation-section">
+            <h2>Test Documentation Section</h2>
+            <div class="docs-grid">
+                <div class="doc-item">
+                    <div class="doc-icon">
+                        <i class="fas fa-file-image"></i>
+                    </div>
+                    <div class="doc-title">Teaser de Inversión</div>
+                    <div class="doc-description">Test for teaser document downloads</div>
+                    <div id="teaser-downloads"></div>
+                </div>
+                <div class="doc-item">
+                    <div class="doc-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <div class="doc-title">Term Sheet</div>
+                    <div class="doc-description">Test for term sheet downloads</div>
+                    <div id="termsheet-downloads"></div>
+                </div>
+                <div class="doc-item">
+                    <div class="doc-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="doc-title">Modelo Financiero</div>
+                    <div class="doc-description">Test for financial model downloads</div>
+                    <div id="model-downloads"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/document-manager.js"></script>
+    <script>
+        function log(message) {
+            const consoleLog = document.getElementById('console-log');
+            const div = document.createElement('div');
+            div.textContent = '> ' + message;
+            consoleLog.appendChild(div);
+        }
+
+        // Override document manager initialization to add logging
+        document.addEventListener('DOMContentLoaded', function() {
+            log('DOM Content Loaded');
+            
+            // Check if document manager is loaded
+            if (typeof window.documentManager !== 'undefined') {
+                log('✅ Document Manager loaded successfully');
+                
+                // Check if we're on an equity investment page (simulate)
+                log('🔍 Simulating equity investment page detection...');
+                
+                // Manually trigger document button generation
+                setTimeout(() => {
+                    log('⏰ Running document button generation...');
+                    
+                    // Check for containers
+                    const containers = ['teaser-downloads', 'termsheet-downloads', 'model-downloads'];
+                    containers.forEach(containerId => {
+                        const container = document.getElementById(containerId);
+                        if (container) {
+                            log(`✅ Found container: ${containerId}`);
+                        } else {
+                            log(`❌ Container not found: ${containerId}`);
+                        }
+                    });
+                    
+                    // Check if demo function exists
+                    if (typeof addDemoButtons === 'function') {
+                        log('✅ addDemoButtons function available');
+                        addDemoButtons();
+                        log('✅ Demo buttons generated');
+                    } else {
+                        log('❌ addDemoButtons function not available');
+                    }
+                    
+                    // Check if buttons were actually added
+                    setTimeout(() => {
+                        containers.forEach(containerId => {
+                            const container = document.getElementById(containerId);
+                            if (container && container.children.length > 0) {
+                                log(`✅ Buttons added to ${containerId}: ${container.children.length} elements`);
+                            } else {
+                                log(`❌ No buttons found in ${containerId}`);
+                            }
+                        });
+                    }, 100);
+                    
+                }, 600);
+            } else {
+                log('❌ Document Manager not loaded');
+            }
+        });
+    </script>
+</body>
+</html>

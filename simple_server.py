@@ -1,22 +1,15 @@
 #!/usr/bin/env python3
 import http.server
 import socketserver
-import sys
+import os
 
-PORT = 8000
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory="/home/user/webapp", **kwargs)
 
-class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
-    def log_message(self, format, *args):
-        print(f"{self.log_date_time_string()} - {format % args}")
-        sys.stdout.flush()
+PORT = 9000
+os.chdir('/home/user/webapp')
 
-if __name__ == "__main__":
-    with socketserver.TCPServer(("", PORT), MyHTTPRequestHandler) as httpd:
-        print(f"Server running at http://localhost:{PORT}/")
-        print("Files available:")
-        import os
-        for f in os.listdir("."):
-            if f.endswith(".html"):
-                print(f"  - {f}")
-        sys.stdout.flush()
-        httpd.serve_forever()
+with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+    print(f"Serving at port {PORT}")
+    httpd.serve_forever()

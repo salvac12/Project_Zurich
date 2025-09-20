@@ -183,28 +183,32 @@
         }
         
         .doc-buttons {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
         
         .doc-button {
-            background-color: white;
-            border: 2px solid #E5E7EB;
+            background-color: #1F3A8A;
+            color: white;
+            border: none;
+            padding: 30px 20px;
             border-radius: 8px;
-            padding: 20px 30px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 16px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #1F3A8A;
-            cursor: pointer;
-            transition: all 0.3s;
         }
         
         .doc-button:hover {
-            border-color: #3B82F6;
-            background-color: #ffffff;
+            background-color: #1E3A8A;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(31, 58, 138, 0.3);
         }
         
         /* About developer */
@@ -221,6 +225,80 @@
         
         .stat-box {
             text-align: center;
+        }
+        
+        /* NDA Modal */
+        .nda-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .nda-modal.show {
+            display: flex;
+        }
+        
+        .nda-modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nda-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #6B7280;
+            cursor: pointer;
+        }
+        
+        .nda-modal-close:hover {
+            color: #1F3A8A;
+        }
+        
+        .nda-modal h3 {
+            color: #1F3A8A;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .nda-modal p {
+            color: #374151;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .nda-request-btn {
+            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nda-request-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(31, 58, 138, 0.3);
         }
         
         .stat-value {
@@ -520,7 +598,7 @@
             }
             
             .doc-buttons {
-                flex-direction: column;
+                grid-template-columns: 1fr;
             }
             
             .docs-grid {
@@ -694,11 +772,7 @@
                         <i class="fas fa-file-pdf"></i>
                         INVESTMENT TEASER
                     </button>
-                    <button class="doc-button">
-                        <i class="fas fa-file-alt"></i>
-                        TERM SHEET
-                    </button>
-                    <button class="doc-button">
+                    <button class="doc-button" id="financial-model-btn">
                         <i class="fas fa-chart-line"></i>
                         FINANCIAL MODEL
                     </button>
@@ -899,5 +973,56 @@
 
     <!-- Document Manager JavaScript -->
     <script src="js/document-manager.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // NDA Modal functionality
+            const financialModelBtn = document.getElementById('financial-model-btn');
+            const ndaModal = document.getElementById('nda-modal');
+            const ndaModalClose = document.getElementById('nda-modal-close');
+            const ndaRequestBtn = document.getElementById('nda-request-btn');
+            
+            if (financialModelBtn) {
+                financialModelBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    ndaModal.classList.add('show');
+                });
+            }
+            
+            if (ndaModalClose) {
+                ndaModalClose.addEventListener('click', function() {
+                    ndaModal.classList.remove('show');
+                });
+            }
+            
+            if (ndaRequestBtn) {
+                ndaRequestBtn.addEventListener('click', function() {
+                    alert('Your NDA request has been sent. Our team will contact you shortly.');
+                    ndaModal.classList.remove('show');
+                });
+            }
+            
+            // Close modal when clicking outside
+            ndaModal?.addEventListener('click', function(e) {
+                if (e.target === ndaModal) {
+                    ndaModal.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
+    <!-- NDA Modal -->
+    <div id="nda-modal" class="nda-modal">
+        <div class="nda-modal-content">
+            <button id="nda-modal-close" class="nda-modal-close">&times;</button>
+            <h3>🔒 Financial Model Access</h3>
+            <p>To access the financial model, it is necessary to sign the NDA (Non-Disclosure Agreement).</p>
+            <p>Once signed, you will have full access to all detailed financial information of the project.</p>
+            <button id="nda-request-btn" class="nda-request-btn">
+                📋 Request NDA
+            </button>
+        </div>
+    </div>
+
 </body>
 </html>

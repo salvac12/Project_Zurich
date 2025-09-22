@@ -1010,9 +1010,8 @@
     <!-- CTA Section -->
     <div class="cta-section">
         <div class="container">
-            <h2>Ready to Explore This Investment Opportunity?</h2>
-            <p>Contact our investment team to discuss participation in Project ZURICH equity investment</p>
-            <button class="cta-button">Request Investment Memorandum</button>
+            <button class="cta-button">SIGN NDA AND ACCESS INVESTMENT DETAILS</button>
+            <div class="cta-disclaimer">Interest confirmation required before September 30, 2025</div>
         </div>
     </div>
 
@@ -1069,5 +1068,16 @@
         </div>
     </div>
 
+<script>
+// CTA button interaction (aligned with ES version)
+document.addEventListener('DOMContentLoaded', function() {
+    const ctaButton = document.querySelector('.cta-button');
+    if (ctaButton) {
+        ctaButton.addEventListener('click', function() {
+            alert('Thank you for your interest! Our investment team will contact you shortly.');
+        });
+    }
+});
+</script>
 </body>
 </html>

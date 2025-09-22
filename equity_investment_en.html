@@ -181,8 +181,13 @@
         
         .doc-buttons {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+        }
+        .doc-button i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
         }
         
         .doc-button {
@@ -578,6 +583,12 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 15px;
+<<<<<<< HEAD
+=======
+        }
+        .cta-button:hover {
+            background-color: #F3F4F6;
+>>>>>>> genspark_ai_developer
         }
         
         .cta-button:hover {
@@ -751,9 +762,17 @@
                     ALTER5
                 </div>
                 <nav class="nav-links">
-                    <a href="index.html" class="nav-link">
-                        <i class="fas fa-arrow-left"></i>
-                        Investment Portfolio Hub
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-file-pdf"></i>
+                        Download Teaser
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-file-alt"></i>
+                        Download Term Sheet
+                    </a>
+                    <a href="#" class="nav-link" id="financial-model-nav">
+                        <i class="fas fa-chart-line"></i>
+                        Financial Model
                     </a>
                 </nav>
             </div>
@@ -769,7 +788,7 @@
             <!-- Hero Section -->
             <div class="hero-section">
                 <div class="project-description">
-                    <p><strong>EUR 21M Build-to-Sale equity investment with 32-month horizon through Spanish REIT structure for affordable housing development in prime Madrid location.</strong></p>
+                    <p>EUR 21M Build-to-Sale equity investment with 32-month horizon through Spanish REIT structure for affordable housing development in prime Madrid location.</p>
                     
                     <p>Investment opportunity of up to EUR 20.2M maximum in the construction and stabilisation phase of an affordable rental residential building in Valdebebas, one of Madrid's highest growth and value appreciation areas.</p>
                     
@@ -816,6 +835,10 @@
                     <button class="doc-button">
                         <i class="fas fa-file-pdf"></i>
                         INVESTMENT TEASER
+                    </button>
+                    <button class="doc-button">
+                        <i class="fas fa-file-alt"></i>
+                        TERM SHEET
                     </button>
                     <button class="doc-button" id="financial-model-btn">
                         <i class="fas fa-chart-line"></i>
@@ -1022,16 +1045,18 @@
         document.addEventListener('DOMContentLoaded', function() {
             // NDA Modal functionality
             const financialModelBtn = document.getElementById('financial-model-btn');
+            const financialModelNav = document.getElementById('financial-model-nav');
             const ndaModal = document.getElementById('nda-modal');
             const ndaModalClose = document.getElementById('nda-modal-close');
             const ndaRequestBtn = document.getElementById('nda-request-btn');
             
-            if (financialModelBtn) {
-                financialModelBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    ndaModal.classList.add('show');
-                });
-            }
+            const openNda = (e) => {
+                e.preventDefault();
+                ndaModal.classList.add('show');
+            };
+
+            if (financialModelBtn) financialModelBtn.addEventListener('click', openNda);
+            if (financialModelNav) financialModelNav.addEventListener('click', openNda);
             
             if (ndaModalClose) {
                 ndaModalClose.addEventListener('click', function() {

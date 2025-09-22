@@ -529,13 +529,20 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-building"></i>
-                    ALTER5
+                    <i class="fas fa-cube"></i> ALTER 5
                 </div>
                 <nav class="nav-links">
-                    <a href="index.html" class="nav-link">
-                        <i class="fas fa-arrow-left"></i>
-                        Investment Portfolio Hub
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-file-pdf"></i>
+                        Teaser Download
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-file-alt"></i>
+                        Term-Sheet Download
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        Financial Model Download
                     </a>
                 </nav>
             </div>
@@ -822,9 +829,28 @@
         </div>
     </div>
 <script>
-// CTA button interaction (align with project-zurich-equity)
 document.addEventListener('DOMContentLoaded', function() {
+    // Simple button interactions (same as project-zurich-equity)
+    const docButtons = document.querySelectorAll('.doc-button');
+    const navLinks = document.querySelectorAll('.nav-link');
     const ctaButton = document.querySelector('.cta-button');
+
+    // Handle documentation buttons
+    docButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            alert('Please contact our investment team to access documentation.');
+        });
+    });
+
+    // Handle navigation links
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Please contact our investment team to access documentation.');
+        });
+    });
+
+    // Handle CTA button
     if (ctaButton) {
         ctaButton.addEventListener('click', function() {
             alert('Thank you for your interest! Our investment team will contact you shortly.');

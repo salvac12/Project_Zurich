@@ -48,3 +48,28 @@
 2025-09-20 10:41:10,357 INFO success: webserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2025-09-20 10:41:57,408 INFO waiting for webserver to stop
 2025-09-20 10:41:57,410 WARN stopped: webserver (terminated by SIGTERM)
+2025-09-22 10:53:02,360 INFO RPC interface 'supervisor' initialized
+2025-09-22 10:53:02,360 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-09-22 10:53:02,363 INFO daemonizing the supervisord process
+2025-09-22 10:53:02,363 INFO supervisord started with pid 5814
+2025-09-22 10:53:03,367 INFO spawned: 'webserver' with pid 5819
+2025-09-22 10:53:04,530 INFO success: webserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-09-22 10:57:38,553 INFO waiting for webserver to stop
+2025-09-22 10:57:38,554 WARN stopped: webserver (terminated by SIGTERM)
+2025-09-22 10:57:38,558 INFO spawned: 'webserver' with pid 6628
+2025-09-22 10:57:38,648 WARN exited: webserver (exit status 1; not expected)
+2025-09-22 10:57:39,652 INFO spawned: 'webserver' with pid 6630
+2025-09-22 10:57:39,744 WARN exited: webserver (exit status 1; not expected)
+2025-09-22 10:57:41,751 INFO spawned: 'webserver' with pid 6633
+2025-09-22 10:57:41,849 WARN exited: webserver (exit status 1; not expected)
+2025-09-22 10:57:44,856 INFO spawned: 'webserver' with pid 6637
+2025-09-22 10:57:44,984 WARN exited: webserver (exit status 1; not expected)
+2025-09-22 10:57:45,986 INFO gave up: webserver entered FATAL state, too many start retries too quickly
+2025-09-22 10:57:51,132 INFO spawned: 'webserver' with pid 6650
+2025-09-22 10:57:51,226 WARN exited: webserver (exit status 1; not expected)
+2025-09-22 10:57:52,229 INFO spawned: 'webserver' with pid 6652
+2025-09-22 10:57:52,369 WARN exited: webserver (exit status 1; not expected)
+2025-09-22 10:57:54,376 INFO spawned: 'webserver' with pid 6656
+2025-09-22 10:57:54,993 WARN exited: webserver (exit status 1; not expected)
+2025-09-22 10:57:58,004 INFO spawned: 'webserver' with pid 6662
+2025-09-22 10:57:59,006 INFO success: webserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

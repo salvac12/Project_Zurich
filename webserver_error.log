@@ -285,3 +285,86 @@ OSError: [Errno 98] Address already in use
 10.12.134.98 - - [20/Sep/2025 10:39:15] "GET /js/document-manager.js HTTP/1.1" 200 -
 10.12.134.98 - - [20/Sep/2025 10:39:15] code 404, message File not found
 10.12.134.98 - - [20/Sep/2025 10:39:15] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.21.150 - - [22/Sep/2025 10:54:49] "GET /senior_financing_en.html HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 10:54:49] "GET /images/project-zurich-new.jpg HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 10:54:49] code 404, message File not found
+10.12.21.150 - - [22/Sep/2025 10:54:49] "GET /favicon.ico HTTP/1.1" 404 -
+10.12.21.150 - - [22/Sep/2025 10:54:53] "GET /equity_investment_en.html HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 10:54:53] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 10:54:56] "GET /project-zurich-equity.html HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 10:56:54] "GET /senior_financing_en.html HTTP/1.1" 200 -
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+Traceback (most recent call last):
+  File "/home/user/webapp/simple_server.py", line 13, in <module>
+    with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+10.12.21.150 - - [22/Sep/2025 10:59:15] "GET /senior_financing_en.html HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 10:59:28] code 404, message File not found
+10.12.21.150 - - [22/Sep/2025 10:59:28] "GET /senior_financing.html HTTP/1.1" 404 -
+10.12.21.150 - - [22/Sep/2025 10:59:34] code 404, message File not found
+10.12.21.150 - - [22/Sep/2025 10:59:34] "GET /senior_financing_es.html HTTP/1.1" 404 -
+10.12.21.150 - - [22/Sep/2025 10:59:38] "GET / HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 10:59:42] "GET /project-zurich-equity.html HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 11:08:29] "GET /senior_financing_en.html HTTP/1.1" 304 -
+10.12.21.150 - - [22/Sep/2025 11:08:29] "GET /images/project-zurich-new.jpg HTTP/1.1" 304 -
+10.12.21.150 - - [22/Sep/2025 14:22:03] "GET /index.html HTTP/1.1" 200 -
+10.12.21.150 - - [22/Sep/2025 14:22:04] code 404, message File not found
+10.12.21.150 - - [22/Sep/2025 14:22:04] "GET /favicon.ico HTTP/1.1" 404 -

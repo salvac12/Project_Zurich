@@ -74,6 +74,27 @@
             align-items: center;
         }
         
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .header-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
@@ -406,6 +427,9 @@
                         🇪🇸 ES | 🇬🇧 EN Available
                     </span>
                 </div>
+                <div class="header-actions">
+                    <a href="admin-simple.html" class="header-link"><i class="fas fa-cog"></i> Panel de Administración</a>
+                </div>
             </div>
         </div>
     </header>
@@ -506,10 +530,40 @@
                             <div class="metric-label">Años</div>
                         </div>
                     </div>
-                    <a href="project-zurich-equity.html" class="card-button">
+                    <a href="senior_financing_es.html" class="card-button">
                         🇪🇸 Ver en Español
                     </a>
                     <a href="senior_financing_en.html" class="card-button card-button-secondary">
+                        🇬🇧 View in English
+                    </a>
+                </div>
+                <!-- Full Equity Card -->
+                <div class="investment-card equity-card">
+                    <div class="card-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="card-title">Full Equity (BTR)</h3>
+                    <p class="card-description">
+                        Inversión full equity en BTR asequible (Valdebebas). 15 años regulados, SOCIMI y liberalización posterior con opciones de salida.
+                    </p>
+                    <div class="card-metrics">
+                        <div class="metric">
+                            <div class="metric-value">€60M</div>
+                            <div class="metric-label">Importe</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">15</div>
+                            <div class="metric-label">Años</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">251</div>
+                            <div class="metric-label">Viviendas</div>
+                        </div>
+                    </div>
+                    <a href="full_equity_es.html" class="card-button">
+                        🇪🇸 Ver en Español
+                    </a>
+                    <a href="full_equity_en.html" class="card-button card-button-secondary">
                         🇬🇧 View in English
                     </a>
                 </div>

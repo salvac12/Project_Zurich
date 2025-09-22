@@ -13,6 +13,11 @@
       "dest": "/index.html"
     },
     {
+      "src": "/project-zurich-equity.html",
+      "status": 308,
+      "headers": { "Location": "/senior_financing_es.html" }
+    },
+    {
       "src": "/(.+)",
       "dest": "/$1"
     }

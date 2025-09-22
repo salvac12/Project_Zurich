@@ -1,7 +1,7 @@
 FORCE VERCEL DEPLOYMENT
-Time: September 20, 2024 - 09:20 UTC
-Commit: 88197fd (LATEST WITH FIXES)
-Status: Fixed vercel.json without public directory requirement
+Time: September 22, 2025 - 14:31 UTC
+Commit: e2823f5 (Full Equity + Hub + EN equity parity)
+Status: Trigger redeploy to publish new pages
 
 This file forces Vercel to redeploy with the correct configuration.
-All English pages and Investment Hub are ready to deploy.
+All pages are ready to deploy, including full_equity_es/en.html and updated index.html.

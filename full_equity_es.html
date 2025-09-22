@@ -82,6 +82,18 @@
         .timeline-title { font-size: 18px; font-weight: 600; color: #1F3A8A; margin-bottom: 10px; }
         .timeline-description { font-size: 14px; color: #6B7280; line-height: 1.5; }
         
+        /* Investment parameters */
+        .investment-params { margin: 60px 0; background-color: #F9FAFB; padding: 40px; border-radius: 12px; }
+        .params-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .param-item { background-color: white; padding: 25px; border-radius: 8px; border-left: 4px solid #10B981; }
+        .param-label { font-size: 12px; color: #6B7280; text-transform: uppercase; font-weight: 500; margin-bottom: 8px; }
+        .param-value { font-size: 18px; font-weight: 600; color: #1F3A8A; margin-bottom: 5px; }
+        .param-note { font-size: 12px; color: #9CA3AF; }
+        
+        @media (max-width: 768px) {
+            .params-grid { grid-template-columns: 1fr; }
+        }
+        
         /* CTA */
         .cta-section { background-color: #1F3A8A; padding: 60px 0; text-align: center; color: white; }
         .cta-button { background-color: white; color: #1F3A8A; border: none; padding: 20px 40px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; }
@@ -172,6 +184,33 @@
                 </div>
             </div>
 
+            <!-- About the Developer -->
+            <div class="about-developer">
+                <h2 class="section-title">Sobre el Promotor</h2>
+                <div class="developer-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">+20</div>
+                        <div class="stat-label">Años de experiencia</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">€1,1B</div>
+                        <div class="stat-label">Inversión gestionada</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">+1.000</div>
+                        <div class="stat-label">Viviendas entregadas</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">+10</div>
+                        <div class="stat-label">Promociones residenciales</div>
+                    </div>
+                </div>
+                <div class="developer-description">
+                    <p>Grupo con más de 20 años de experiencia en el sector inmobiliario español, especializado en desarrollo y gestión de activos residenciales en ubicaciones prime y de expansión.</p>
+                    <p>Histórico de gestión de más de €1.100 millones en inversión inmobiliaria y entrega de más de 10 desarrollos residenciales, incluyendo proyectos BTR con estándares institucionales.</p>
+                </div>
+            </div>
+
             <!-- Project Details -->
             <div class="project-details">
                 <h2 class="section-title">Descripción del Proyecto</h2>
@@ -187,20 +226,20 @@
                     </div>
                     <div class="detail-column asset-characteristics">
                         <h3>Características del Activo</h3>
-                        <p>Conjunto de 251 viviendas distribuidas en tipologías adaptadas a la demanda BTR de Madrid.</p>
+                        <p>Conjunto de 251 viviendas en tipologías equilibradas para BTR en Madrid:</p>
                         <div class="characteristic-item">
-                            <div class="characteristic-number">251</div>
-                            <div class="characteristic-label">Unidades totales (aprox.)</div>
+                            <div class="characteristic-number">50</div>
+                            <div class="characteristic-label">viviendas de 1 dormitorio</div>
                         </div>
                         <div class="characteristic-item">
-                            <div class="characteristic-number">Prime</div>
-                            <div class="characteristic-label">Calidad de ubicación</div>
+                            <div class="characteristic-number">186</div>
+                            <div class="characteristic-label">viviendas de 2 dormitorios</div>
                         </div>
                         <div class="characteristic-item">
-                            <div class="characteristic-number">Ley 3/2024</div>
-                            <div class="characteristic-label">Conversión urbanística</div>
+                            <div class="characteristic-number">15</div>
+                            <div class="characteristic-label">viviendas de 3 dormitorios</div>
                         </div>
-                        <p style="font-size: 12px; color: #9CA3AF; margin-top: 15px;">Incluye plazas de aparcamiento, trasteros y zonas comunes ajardinadas.</p>
+                        <p style="font-size: 12px; color: #9CA3AF; margin-top: 15px;">Ubicación prime. Conversión urbanística amparada por la Ley 3/2024. Incluye aparcamiento, trasteros y zonas comunes ajardinadas.</p>
                     </div>
                 </div>
             </div>
@@ -228,6 +267,45 @@
             </div>
         </div>
     </main>
+    
+    <!-- Investment Parameters / Yields -->
+    <section class="investment-params">
+        <div class="container">
+            <h2 class="section-title">Parámetros de Inversión</h2>
+            <div class="params-grid">
+                <div class="param-item">
+                    <div class="param-label">VEHÍCULO</div>
+                    <div class="param-value">SOCIMI</div>
+                    <div class="param-note">Optimización fiscal en desinversión</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-label">HORIZONTE</div>
+                    <div class="param-value">15+ años</div>
+                    <div class="param-note">Regulado + fase de liberalización</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-label">YIELD PROTEGIDO</div>
+                    <div class="param-value">6%</div>
+                    <div class="param-note">Durante régimen protegido</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-label">OCUPACIÓN ESPERADA</div>
+                    <div class="param-value">&gt;97%</div>
+                    <div class="param-note">Producto comparable estabilizado</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-label">ESTRATEGIA</div>
+                    <div class="param-value">BTR asequible</div>
+                    <div class="param-note">Valdebebas (zona prime)</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-label">MARCO LEGAL</div>
+                    <div class="param-value">Ley 3/2024</div>
+                    <div class="param-note">Conversión oficinas → residencial protegido</div>
+                </div>
+            </div>
+        </div>
+    </section>
     
     <!-- CTA Section -->
     <div class="cta-section">

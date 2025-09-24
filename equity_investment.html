@@ -112,6 +112,11 @@
         .project-description p:first-of-type {
             font-weight: 400;
         }
+        /* Ensure no bold text inside project description */
+        .project-description strong,
+        .project-description b {
+            font-weight: 400 !important;
+        }
         
         .hero-image {
             position: relative;
@@ -783,7 +788,7 @@
             <!-- Hero Section -->
             <div class="hero-section">
                 <div class="project-description">
-                    <p>Inversión de EUR 20M "Build to Sale" de corto plazo (3 años) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid.</p>
+                    <p style="font-weight:400 !important;">Inversión de EUR 20M "Build to Sale" de corto plazo (3 años) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid.</p>
                     
                     <p>Oportunidad de invertir hasta un máximo de 20.2M€ en la fase de construcción y estabilización de un edificio residencial de alquiler asequible en Valdebebas, una de las zonas con mayor crecimiento y revalorización de Madrid.</p>
                     

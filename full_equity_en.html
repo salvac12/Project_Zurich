@@ -49,7 +49,7 @@
         .documentation-section { margin: 60px 0; }
         .section-title { font-size: 24px; font-weight: 600; color: #1F3A8A; margin-bottom: 30px; text-align: center; }
         .doc-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .doc-button { background-color: #1F3A8A; color: white; border: none; padding: 30px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
+        .doc-button { background-color: #1F3A8A; color: white; border: none; padding: 30px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; text-align: center; text-decoration: none; display: inline-block; }
         .doc-button:hover { background-color: #1E3A8A; transform: translateY(-2px); }
         .doc-button i { font-size: 24px; margin-bottom: 10px; display: block; }
         
@@ -125,7 +125,7 @@
                 <nav class="nav-links">
                     <a href="#" class="nav-link"><i class="fas fa-file-pdf"></i> Teaser Download</a>
                     <a href="#" class="nav-link"><i class="fas fa-file-alt"></i> Term-Sheet Download</a>
-                    <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Project Economics Download</a>
+                    <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/c53280f7-e2b7-4d79-a374-8e01edb351f1" class="nav-link" download="Sheets_FullEquity_15y.xlsx"><i class="fas fa-chart-line"></i> Project Economics Download</a>
                 </nav>
             </div>
         </div>
@@ -179,7 +179,7 @@
                 <h2 class="section-title">Available Documentation</h2>
                 <div class="doc-buttons">
                     <button class="doc-button"><i class="fas fa-file-pdf"></i> TEASER</button>
-                    <button class="doc-button"><i class="fas fa-chart-line"></i> PROJECT ECONOMICS</button>
+                    <a class="doc-button" href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/c53280f7-e2b7-4d79-a374-8e01edb351f1" download="Sheets_FullEquity_15y.xlsx"><i class="fas fa-chart-line"></i> PROJECT ECONOMICS</a>
                 </div>
             </div>
 
@@ -331,13 +331,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const docButtons = document.querySelectorAll('.doc-button');
-            const navLinks = document.querySelectorAll('.nav-link');
             const ctaButton = document.querySelector('.cta-button');
-
-            function notify() { alert('Please contact our investment team to access documentation.'); }
-            docButtons.forEach(b => b.addEventListener('click', notify));
-            navLinks.forEach(l => l.addEventListener('click', function(e){ e.preventDefault(); notify(); }));
+            // Note: Documentation buttons/links now handle direct downloads where applicable.
             ctaButton?.addEventListener('click', function(){ alert('Thank you for your interest! Our team will contact you shortly.'); });
         });
     </script>

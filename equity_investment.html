@@ -1047,6 +1047,18 @@
     </footer>
     
     <!-- Document Manager JavaScript -->
+    <script>
+      // Safety: remove any bold wrappers from the first hero paragraph if present
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          const firstP = document.querySelector('.project-description p:first-of-type');
+          if (firstP) {
+            firstP.innerHTML = firstP.textContent; // drop any strong/b
+            firstP.style.fontWeight = '400';
+          }
+        } catch (e) { /* no-op */ }
+      });
+    </script>
     <script src="js/document-manager.js?v=20250924-02"></script>
     <script src="js/tracking.js"></script>
 

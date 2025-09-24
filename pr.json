@@ -1,0 +1,6 @@
+{
+  "title": "feat: Visual parity + Project Economics + Full Equity 6%/10%",
+  "head": "genspark_ai_developer",
+  "base": "main",
+  "body": "- Apply ES equity visual style to EN\n- Apply Zurich equity layout to Senior Financing EN\n- Rename Financial Model -> Project Economics (EN/ES), including modals\n- Full Equity EN/ES: highlight cards 6% protected, 10% total IRR; Key Metrics last two boxes 6%/10%\n- Horizons to 3–17 years; Post Year 17 labels\n- vercel.json: name Project_ZUrich; 308 redirect project-zurich-equity.html -> senior_financing_es.html\n- .vercel-force bump to trigger redeploy"
+}

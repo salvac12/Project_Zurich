@@ -541,7 +541,7 @@
                     <i class="fas fa-cube"></i> ALTER 5
                 </div>
                 <nav class="nav-links">
-                    <a href="#" class="nav-link">
+                    <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/6af32e2c-91e1-4737-b90f-a9f0527d8cd8" class="nav-link" download="ENG- Project ZURICH_Alter5-LONG TERM SENIOR FINANCING.pdf">
                         <i class="fas fa-file-pdf"></i>
                         Download Teaser
                     </a>
@@ -549,7 +549,7 @@
                         <i class="fas fa-file-alt"></i>
                         Term-Sheet Download
                     </a>
-                    <a href="#" class="nav-link">
+                    <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/2fcf4bc1-00d1-46a0-a298-0dfdc949fb7b" class="nav-link" download="Sheets_Deuda_30y.xlsx">
                         <i class="fas fa-chart-line"></i>
                         Project Economics Download
                     </a>
@@ -619,10 +619,10 @@
                         <i class="fas fa-file-alt"></i>
                         TERM SHEET
                     </button>
-                    <button class="doc-button">
+                    <a class="doc-button" href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/2fcf4bc1-00d1-46a0-a298-0dfdc949fb7b" download="Sheets_Deuda_30y.xlsx">
                         <i class="fas fa-chart-line"></i>
                         PROJECT ECONOMICS
-                    </button>
+                    </a>
                 </div>
             </div>
 
@@ -868,20 +868,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
     const ctaButton = document.querySelector('.cta-button');
 
-    // Handle documentation buttons
-    docButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            alert('Please contact our investment team to access documentation.');
-        });
-    });
-
-    // Handle navigation links
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Please contact our investment team to access documentation.');
-        });
-    });
+    // Note: Nav and certain doc buttons now download directly (Teaser / Project Economics). No interception here.
 
     // Handle CTA button
     if (ctaButton) {

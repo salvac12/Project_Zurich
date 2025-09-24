@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project ZURICH - Equity Investment | Alter5</title>
-    <meta name="description" content="EUR 21M Build-to-Sale equity investment with 32-month horizon in Spanish REIT structure for affordable housing development in prime Madrid location">
+    <meta name="description" content="EUR 20M Build-to-Sale equity investment with 3-year horizon in Spanish REIT structure for affordable housing development in prime Madrid location">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -138,7 +138,7 @@
         /* Key metrics */
         .key-metrics {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin: 40px 0;
         }
@@ -180,8 +180,10 @@
         }
         
         .doc-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
             gap: 20px;
         }
         .doc-button i {
@@ -199,6 +201,9 @@
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
+            width: 280px;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .doc-button:hover {
@@ -624,8 +629,10 @@
             }
             
             .doc-buttons {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: center;
             }
+            .doc-button { width: 100%; }
             
             .developer-stats {
                 grid-template-columns: repeat(2, 1fr);
@@ -756,15 +763,11 @@
                     ALTER5
                 </div>
                 <nav class="nav-links">
-                    <a href="#" class="nav-link">
+                    <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/b67b6a85-7c69-4c33-8a96-d926141d9ec6" class="nav-link" download="ENG - Project ZURICH_Alter5-EQUITY SHORT-TERM.pdf">
                         <i class="fas fa-file-pdf"></i>
                         Download Teaser
                     </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-file-alt"></i>
-                        Download Term Sheet
-                    </a>
-                    <a href="#" class="nav-link" id="financial-model-nav">
+                    <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" class="nav-link" id="financial-model-nav" download="Sheets_Equity_ST.xlsx">
                         <i class="fas fa-chart-line"></i>
                         Project Economics
                     </a>
@@ -782,7 +785,7 @@
             <!-- Hero Section -->
             <div class="hero-section">
                 <div class="project-description">
-                    <p>EUR 21M Build-to-Sale equity investment with 32-month horizon through Spanish REIT structure for affordable housing development in prime Madrid location.</p>
+                    <p>EUR 20M Build-to-Sale equity investment with 3-year horizon through Spanish REIT structure for affordable housing development in prime Madrid location.</p>
                     
                     <p>Investment opportunity of up to EUR 20.2M maximum in the construction and stabilisation phase of an affordable rental residential building in Valdebebas, one of Madrid's highest growth and value appreciation areas.</p>
                     
@@ -801,20 +804,16 @@
             <!-- Key Metrics -->
             <div class="key-metrics">
                 <div class="metric-box">
-                    <div class="metric-value">EUR 21M</div>
+                    <div class="metric-value">EUR 20M</div>
                     <div class="metric-label">TOTAL INVESTMENT</div>
                 </div>
                 <div class="metric-box">
-                    <div class="metric-value">32</div>
+                    <div class="metric-value">3</div>
                     <div class="metric-label">YEARS</div>
                 </div>
                 <div class="metric-box">
-                    <div class="metric-value">13.5%</div>
+                    <div class="metric-value">10%-12%</div>
                     <div class="metric-label">TARGET IRR</div>
-                </div>
-                <div class="metric-box">
-                    <div class="metric-value">71%</div>
-                    <div class="metric-label">LOAN TO COST</div>
                 </div>
                 <div class="metric-box">
                     <div class="metric-value">251</div>
@@ -826,18 +825,14 @@
             <div class="documentation-section">
                 <h2 class="section-title">Available Documentation</h2>
                 <div class="doc-buttons">
-                    <button class="doc-button">
+                    <a class="doc-button" href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/b67b6a85-7c69-4c33-8a96-d926141d9ec6" download="ENG - Project ZURICH_Alter5-EQUITY SHORT-TERM.pdf">
                         <i class="fas fa-file-pdf"></i>
                         INVESTMENT TEASER
-                    </button>
-                    <button class="doc-button">
-                        <i class="fas fa-file-alt"></i>
-                        TERM SHEET
-                    </button>
-                    <button class="doc-button" id="financial-model-btn">
+                    </a>
+                    <a class="doc-button" id="financial-model-btn" href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" download="Sheets_Equity_ST.xlsx">
                         <i class="fas fa-chart-line"></i>
                         PROJECT ECONOMICS
-                    </button>
+                    </a>
                 </div>
             </div>
             
@@ -877,8 +872,8 @@
                         <p>The investment is channelled through a SOCIMI (Spanish Listed Real Estate Investment Trust), which allows capital gains generated from the asset disposal to be exempt from corporation tax.</p>
                         <ul>
                             <li>Tax advantage on capital gains through REIT structure</li>
-                            <li>Investment horizon: 32 months (construction + stabilisation)</li>
-                            <li>Target return: 13.5% IRR per annum</li>
+                            <li>Investment horizon: 3 years (construction + stabilisation)</li>
+                            <li>Target return: 10%-12% IRR per annum</li>
                             <li>Land acquired with construction licence already approved</li>
                         </ul>
                     </div>
@@ -942,17 +937,17 @@
                     </div>
                     <div class="param-item">
                         <div class="param-label">HORIZON</div>
-                        <div class="param-value">32 months</div>
+                        <div class="param-value">3 years</div>
                         <div class="param-note">Construction + stabilisation</div>
                     </div>
                     <div class="param-item">
                         <div class="param-label">TARGET IRR</div>
-                        <div class="param-value">13.5%</div>
+                        <div class="param-value">10%-12%</div>
                         <div class="param-note">Per annum return</div>
                     </div>
                     <div class="param-item">
-                        <div class="param-label">AVERAGE YIELD</div>
-                        <div class="param-value">6%</div>
+                        <div class="param-label">HORIZON</div>
+                        <div class="param-value">3 years</div>
                         <div class="param-note">During protection period</div>
                     </div>
                     <div class="param-item">
@@ -1038,40 +1033,7 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // NDA Modal functionality
-            const financialModelBtn = document.getElementById('financial-model-btn');
-            const financialModelNav = document.getElementById('financial-model-nav');
-            const ndaModal = document.getElementById('nda-modal');
-            const ndaModalClose = document.getElementById('nda-modal-close');
-            const ndaRequestBtn = document.getElementById('nda-request-btn');
-            
-            const openNda = (e) => {
-                e.preventDefault();
-                ndaModal.classList.add('show');
-            };
-
-            if (financialModelBtn) financialModelBtn.addEventListener('click', openNda);
-            if (financialModelNav) financialModelNav.addEventListener('click', openNda);
-            
-            if (ndaModalClose) {
-                ndaModalClose.addEventListener('click', function() {
-                    ndaModal.classList.remove('show');
-                });
-            }
-            
-            if (ndaRequestBtn) {
-                ndaRequestBtn.addEventListener('click', function() {
-                    alert('Your NDA request has been sent. Our team will contact you shortly.');
-                    ndaModal.classList.remove('show');
-                });
-            }
-            
-            // Close modal when clicking outside
-            ndaModal?.addEventListener('click', function(e) {
-                if (e.target === ndaModal) {
-                    ndaModal.classList.remove('show');
-                }
-            });
+            // Note: Project Economics now downloads the Excel directly via link+download.
         });
     </script>
 

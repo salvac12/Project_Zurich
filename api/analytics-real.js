@@ -173,6 +173,16 @@ function processSessionEnd(visitor, data) {
   visitorData.totalTime += total_time || 0;
 }
 
+// Map page path to project key
+function deriveProject(page) {
+  if (!page) return 'unknown';
+  if (page.includes('senior_financing')) return 'senior_financing';
+  if (page.includes('equity_investment')) return 'equity_investment';
+  if (page.includes('full_equity')) return 'full_equity';
+  if (page === 'index.html' || page === '/' || page.includes('index')) return 'index';
+  return 'unknown';
+}
+
 // Generar analytics basados en datos reales
 function generateRealAnalytics() {
   const now = new Date();
@@ -207,12 +217,13 @@ function generateRealAnalytics() {
   
   // Generar lista de visitantes reales
   const visitorsData = Array.from(analyticsStorage.visitors.entries()).map(([token, visitor]) => {
+    const project = deriveProject(visitor.lastPage || '');
     return {
       id: token,
       email: `visitor_${token.slice(-6)}@***.com`,
       name: `Visitante ${token.slice(-4).toUpperCase()}`,
       company: 'Empresa Anónima',
-      project: visitor.sessions % 2 === 0 ? 'senior_financing' : 'equity_investment',
+      project,
       lastAccess: visitor.lastSeen,
       lastPage: visitor.lastPage || '',
       lastRef: visitor.lastRef || '',

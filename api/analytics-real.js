@@ -183,6 +183,26 @@ function deriveProject(page) {
   return 'unknown';
 }
 
+// Map page path to project key
+function deriveProject(page) {
+  if (!page) return 'unknown';
+  if (page.includes('senior_financing')) return 'senior_financing';
+  if (page.includes('equity_investment')) return 'equity_investment';
+  if (page.includes('full_equity')) return 'full_equity';
+  if (page === 'index.html' || page === '/' || page.includes('index')) return 'index';
+  return 'unknown';
+}
+
+function deriveLanguage(page) {
+  if (!page) return '';
+  if (/_en\.html?$/.test(page) || page.includes('_en.')) return 'en';
+  if (/_es\.html?$/.test(page) || page.includes('_es.')) return 'es';
+  // senior_financing_en.html / senior_financing_es.html
+  if (page.includes('senior_financing_en')) return 'en';
+  if (page.includes('senior_financing_es')) return 'es';
+  return '';
+}
+
 // Generar analytics basados en datos reales
 function generateRealAnalytics() {
   const now = new Date();
@@ -217,15 +237,18 @@ function generateRealAnalytics() {
   
   // Generar lista de visitantes reales
   const visitorsData = Array.from(analyticsStorage.visitors.entries()).map(([token, visitor]) => {
-    const project = deriveProject(visitor.lastPage || '');
+    const page = visitor.lastPage || '';
+    const project = deriveProject(page);
+    const language = deriveLanguage(page);
     return {
       id: token,
       email: `visitor_${token.slice(-6)}@***.com`,
       name: `Visitante ${token.slice(-4).toUpperCase()}`,
       company: 'Empresa Anónima',
       project,
+      language,
       lastAccess: visitor.lastSeen,
-      lastPage: visitor.lastPage || '',
+      lastPage: page,
       lastRef: visitor.lastRef || '',
       lastClick: visitor.lastClick || null,
       downloads: visitor.downloads,

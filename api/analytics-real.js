@@ -123,20 +123,23 @@ function processEvent(event) {
 }
 
 function processDownload(visitor, data) {
-  const { file_type } = data;
+  const { file_type, href = '', label = '', page = '', source = '' } = data || {};
+  const key = file_type || 'unknown';
   
-  if (!analyticsStorage.downloads.has(file_type)) {
-    analyticsStorage.downloads.set(file_type, 0);
+  if (!analyticsStorage.downloads.has(key)) {
+    analyticsStorage.downloads.set(key, 0);
   }
-  
-  analyticsStorage.downloads.set(file_type, analyticsStorage.downloads.get(file_type) + 1);
+  analyticsStorage.downloads.set(key, analyticsStorage.downloads.get(key) + 1);
   
   // Actualizar datos del visitante
   const visitorData = analyticsStorage.visitors.get(visitor);
-  if (!visitorData.downloads[file_type]) {
-    visitorData.downloads[file_type] = 0;
+  if (!visitorData.downloads[key]) {
+    visitorData.downloads[key] = 0;
   }
-  visitorData.downloads[file_type]++;
+  visitorData.downloads[key]++;
+  
+  // Log per-visitor last clicks
+  visitorData.lastClick = { file_type: key, href, label, page, source, at: new Date().toISOString() };
 }
 
 function processNDARequest(visitor, data) {
@@ -159,6 +162,9 @@ function processNDARequest(visitor, data) {
 function processPageVisit(visitor, data) {
   const visitorData = analyticsStorage.visitors.get(visitor);
   visitorData.sessions++;
+  // Save last page and referrer for dashboard context
+  visitorData.lastPage = data?.page || visitorData.lastPage || '';
+  visitorData.lastRef = data?.ref || visitorData.lastRef || '';
 }
 
 function processSessionEnd(visitor, data) {
@@ -208,6 +214,9 @@ function generateRealAnalytics() {
       company: 'Empresa Anónima',
       project: visitor.sessions % 2 === 0 ? 'senior_financing' : 'equity_investment',
       lastAccess: visitor.lastSeen,
+      lastPage: visitor.lastPage || '',
+      lastRef: visitor.lastRef || '',
+      lastClick: visitor.lastClick || null,
       downloads: visitor.downloads,
       ndaStatus: visitor.ndaStatus,
       totalTime: visitor.totalTime,
@@ -225,6 +234,11 @@ function generateRealAnalytics() {
       timestamp: event.timestamp,
       type: event.type,
       file: event.data?.file_type || 'unknown',
+      href: event.data?.href || '',
+      label: event.data?.label || '',
+      page: event.data?.page || '',
+      source: event.data?.source || '',
+      visitorToken: event.visitor,
       visitor: `visitor_${event.visitor.slice(-6)}@***.com`
     }));
   

@@ -70,10 +70,12 @@
         const explicit = el.getAttribute('data-file_type') || el.dataset.file_type;
         const inferred = normalizeTypeFromText(el.textContent || el.innerText);
         const file_type = explicit || inferred;
+        const href = (el.getAttribute('href') || '');
+        const label = (el.textContent || el.innerText || '').trim();
         postJSON(ANALYTICS_ENDPOINT, {
           eventType: 'download',
           visitorToken: token,
-          data: { file_type, source: src, page: currentPageId() }
+          data: { file_type, source: src, page: currentPageId(), href, label }
         });
       }, { capture: true });
     }

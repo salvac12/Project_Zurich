@@ -253,109 +253,74 @@
             }
 
             async loadMainMetrics() {
-                // Simulated data - en producción vendría de Supabase
-                document.getElementById('totalVisitors').textContent = '23';
-                document.getElementById('visitorsChange').textContent = '+15% vs mes anterior';
-                
-                document.getElementById('totalDownloads').textContent = '47';
-                document.getElementById('downloadsChange').textContent = '+32% vs mes anterior';
-                
-                document.getElementById('totalNDARequests').textContent = '8';
-                document.getElementById('ndaChange').textContent = '+12% vs mes anterior';
-                
-                document.getElementById('avgTimeOnSite').textContent = '4:23';
-                document.getElementById('timeChange').textContent = '+8% vs mes anterior';
+                const res = await fetch('/api/analytics-real');
+                const real = await res.json();
+                const s = real.summary || {};
+                document.getElementById('totalVisitors').textContent = s.totalVisitors ?? '-';
+                document.getElementById('visitorsChange').textContent = 'real-time';
+                document.getElementById('totalDownloads').textContent = s.totalDownloads ?? '-';
+                document.getElementById('downloadsChange').textContent = 'real-time';
+                document.getElementById('totalNDARequests').textContent = s.totalNDARequests ?? '-';
+                document.getElementById('ndaChange').textContent = 'real-time';
+                const secs = s.avgTimeOnSite || 0;
+                const mm = String(Math.floor(secs/60)).padStart(1,'0');
+                const ss = String(secs%60).padStart(2,'0');
+                document.getElementById('avgTimeOnSite').textContent = `${mm}:${ss}`;
+                document.getElementById('timeChange').textContent = 'real-time';
             }
 
             async loadDownloadsChart() {
                 const ctx = document.getElementById('downloadsChart').getContext('2d');
-                
-                if (this.charts.downloads) {
-                    this.charts.downloads.destroy();
-                }
-
+                if (this.charts.downloads) this.charts.downloads.destroy();
+                const res = await fetch('/api/analytics-real');
+                const real = await res.json();
+                const d = real.downloads || [];
+                const labels = d.map(x => ({'term-sheet':'Term Sheet','teaser':'Teaser','financial-model':'Modelo Financiero','nda':'NDA'}[x.type]||x.type));
+                const values = d.map(x => x.count||0);
                 this.charts.downloads = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Term Sheet', 'Teaser', 'Modelo Financiero', 'NDA'],
+                        labels,
                         datasets: [{
-                            data: [15, 20, 8, 4],
-                            backgroundColor: [
-                                'var(--alter-blue)',
-                                'var(--alter-green)',
-                                '#f59e0b',
-                                '#8b5cf6'
-                            ]
+                            data: values,
+                            backgroundColor: ['var(--alter-blue)','var(--alter-green)','#f59e0b','#8b5cf6']
                         }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
-                    }
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
                 });
             }
 
             async loadVisitorsChart() {
                 const ctx = document.getElementById('visitorsChart').getContext('2d');
-                
-                if (this.charts.visitors) {
-                    this.charts.visitors.destroy();
-                }
-
-                // Simulated data for the last 30 days
-                const labels = [];
-                const data = [];
-                for (let i = 29; i >= 0; i--) {
-                    const date = new Date();
-                    date.setDate(date.getDate() - i);
-                    labels.push(date.toLocaleDateString('es-ES', { month: 'short', day: 'numeric' }));
-                    data.push(Math.floor(Math.random() * 5) + 1);
-                }
-
+                if (this.charts.visitors) this.charts.visitors.destroy();
+                const res = await fetch('/api/analytics-real');
+                const real = await res.json();
+                const days = real.dailyStats || [];
+                const labels = days.map(d=>d.date);
+                const data = days.map(d=>d.visitors);
                 this.charts.visitors = new Chart(ctx, {
                     type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Visitantes',
-                            data: data,
-                            borderColor: 'var(--alter-blue)',
-                            backgroundColor: 'rgba(30, 58, 138, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
+                    data: { labels, datasets: [{ label: 'Visitantes', data, borderColor: 'var(--alter-blue)', backgroundColor: 'rgba(30,58,138,0.1)', tension: 0.4, fill: true }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display:false } }, scales: { y: { beginAtZero: true } } }
                 });
             }
 
             async loadTopVisitors() {
-                const mockData = [
-                    { name: 'Juan García', email: 'j.garcia@***.com', company: 'InvestCorp', downloads: 5, time: '12:30', nda: 'Sí' },
-                    { name: 'María López', email: 'm.lopez@***.com', company: 'Capital Partners', downloads: 3, time: '8:45', nda: 'Pendiente' },
-                    { name: 'Pedro Martín', email: 'p.martin@***.com', company: 'Equity Fund', downloads: 4, time: '6:20', nda: 'Sí' }
-                ];
-
+                const [analyticsRes, visitorsRes] = await Promise.all([
+                    fetch('/api/analytics-real'),
+                    fetch('/api/tables/visitors')
+                ]);
+                const real = await analyticsRes.json();
+                const vjson = await visitorsRes.json();
+                const profiles = (vjson.data||[]).reduce((acc,v)=>{ if(v.token) acc[v.token]=v; return acc; },{});
+                const visitors = (real.visitors||[]).map(v=>{
+                    const p = profiles[v.id];
+                    const downloads = Object.values(v.downloads||{}).reduce((a,b)=>a+b,0);
+                    const time = `${String(Math.floor((v.totalTime||0)/60)).padStart(1,'0')}:${String((v.totalTime||0)%60).padStart(2,'0')}`;
+                    return { name: p?.name||v.name, company: p?.company||'—', downloads, time, nda: v.ndaStatus==='signed'?'Sí':(v.ndaStatus==='requested'?'Pendiente':'—') };
+                }).sort((a,b)=>b.downloads-a.downloads).slice(0,10);
                 const tbody = document.getElementById('topVisitorsTable');
-                tbody.innerHTML = mockData.map(visitor => `
+                tbody.innerHTML = visitors.map(visitor => `
                     <tr class="border-b border-gray-100">
                         <td class="py-3">
                             <div class="text-sm font-medium text-gray-900">${visitor.name}</div>
@@ -364,7 +329,7 @@
                         <td class="py-3 text-sm text-gray-900">${visitor.downloads}</td>
                         <td class="py-3 text-sm text-gray-900">${visitor.time}</td>
                         <td class="py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${visitor.nda === 'Sí' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${visitor.nda === 'Sí' ? 'bg-green-100 text-green-800' : (visitor.nda==='Pendiente'?'bg-yellow-100 text-yellow-800':'bg-gray-100 text-gray-600')}">
                                 ${visitor.nda}
                             </span>
                         </td>
@@ -373,53 +338,43 @@
             }
 
             async loadTopFiles() {
-                const mockFiles = [
-                    { name: 'Project ZURICH - Term Sheet', downloads: 15, type: 'term-sheet' },
-                    { name: 'Investment Teaser', downloads: 20, type: 'teaser' },
-                    { name: 'Financial Model', downloads: 8, type: 'financial-model' },
-                    { name: 'NDA Agreement', downloads: 4, type: 'nda' }
-                ];
-
+                const res = await fetch('/api/analytics-real');
+                const real = await res.json();
+                const files = (real.downloads||[]).sort((a,b)=>b.count-a.count);
+                const nameMap = {'term-sheet':'Project ZURICH - Term Sheet','teaser':'Investment Teaser','financial-model':'Financial Model','nda':'NDA Agreement'};
                 const container = document.getElementById('topFilesContainer');
-                container.innerHTML = mockFiles.map(file => `
+                container.innerHTML = files.map(file => `
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div class="flex items-center">
                             <div class="w-2 h-2 rounded-full mr-3" style="background-color: ${this.getFileTypeColor(file.type)}"></div>
-                            <span class="text-sm font-medium text-gray-900">${file.name}</span>
+                            <span class="text-sm font-medium text-gray-900">${nameMap[file.type]||file.type}</span>
                         </div>
-                        <span class="text-sm font-semibold text-gray-600">${file.downloads}</span>
+                        <span class="text-sm font-semibold text-gray-600">${file.count}</span>
                     </div>
                 `).join('');
             }
 
             async loadDetailedAnalysis() {
-                const mockAnalysis = [
-                    { 
-                        email: 'j.garcia@investcorp.com', 
-                        company: 'InvestCorp', 
-                        project: 'Senior', 
-                        lastAccess: '2024-01-15 14:30', 
-                        termSheet: 2, 
-                        teaser: 1, 
-                        financial: 1, 
-                        nda: 'Firmado', 
-                        totalTime: '25:30' 
-                    },
-                    { 
-                        email: 'm.lopez@capital.com', 
-                        company: 'Capital Partners', 
-                        project: 'Equity', 
-                        lastAccess: '2024-01-14 16:45', 
-                        termSheet: 1, 
-                        teaser: 2, 
-                        financial: 0, 
-                        nda: 'Pendiente', 
-                        totalTime: '18:22' 
-                    }
-                ];
-
+                const [analyticsRes, visitorsRes] = await Promise.all([
+                    fetch('/api/analytics-real'),
+                    fetch('/api/tables/visitors')
+                ]);
+                const real = await analyticsRes.json();
+                const vjson = await visitorsRes.json();
+                const profiles = (vjson.data||[]).reduce((acc,v)=>{ if(v.token) acc[v.token]=v; return acc; },{});
+                const rows = (real.visitors||[]).map(v=>{
+                    const p = profiles[v.id]||{};
+                    const termSheet = v.downloads?.['term-sheet']||0;
+                    const teaser = v.downloads?.['teaser']||0;
+                    const financial = v.downloads?.['financial-model']||0;
+                    const nda = v.ndaStatus==='signed'?'Firmado':(v.ndaStatus==='requested'?'Pendiente':'—');
+                    const dt = new Date(v.lastAccess||Date.now());
+                    const lastAccess = dt.toISOString().replace('T',' ').slice(0,16);
+                    const totalTime = `${String(Math.floor((v.totalTime||0)/60)).padStart(1,'0')}:${String((v.totalTime||0)%60).padStart(2,'0')}`;
+                    return { email: p.email||`visitor_${v.id.slice(-6)}@***.com`, company: p.company||'—', project: v.project==='senior_financing'?'Senior':'Equity', lastAccess, termSheet, teaser, financial, nda, totalTime };
+                });
                 const tbody = document.getElementById('detailedAnalysisTable');
-                tbody.innerHTML = mockAnalysis.map(row => `
+                tbody.innerHTML = rows.map(row => `
                     <tr class="border-b border-gray-100 hover:bg-gray-50">
                         <td class="py-3 text-sm text-gray-900">${row.email}</td>
                         <td class="py-3 text-sm text-gray-900">${row.company}</td>
@@ -433,7 +388,7 @@
                         <td class="py-3 text-sm text-center text-gray-900">${row.teaser}</td>
                         <td class="py-3 text-sm text-center text-gray-900">${row.financial}</td>
                         <td class="py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.nda === 'Firmado' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.nda === 'Firmado' ? 'bg-green-100 text-green-800' : (row.nda==='Pendiente'?'bg-yellow-100 text-yellow-800':'bg-gray-100 text-gray-600')}">
                                 ${row.nda}
                             </span>
                         </td>
@@ -452,32 +407,39 @@
                 this.updateRealTimeMetrics();
             }
 
-            updateRealTimeMetrics() {
-                // Simular datos en tiempo real
-                document.getElementById('activeVisitors').textContent = Math.floor(Math.random() * 8) + 1;
-                document.getElementById('recentDownloads').textContent = Math.floor(Math.random() * 5);
-                document.getElementById('recentNDAs').textContent = Math.floor(Math.random() * 3);
-
-                // Log de eventos recientes
-                this.updateRecentEvents();
+            async updateRealTimeMetrics() {
+                const [analyticsRes, visitorsRes] = await Promise.all([
+                    fetch('/api/analytics-real'),
+                    fetch('/api/tables/visitors')
+                ]);
+                const real = await analyticsRes.json();
+                const vjson = await visitorsRes.json();
+                const profiles = (vjson.data||[]).reduce((acc,v)=>{ if(v.token) acc[v.token]=v; return acc; },{});
+                const now = Date.now();
+                const activeCut = 5*60*1000; // last 5 minutes
+                const active = (real.visitors||[]).filter(v=> (now - new Date(v.lastAccess).getTime()) < activeCut ).length;
+                document.getElementById('activeVisitors').textContent = active;
+                const lastHour = real.recentEvents?.filter(e=> (now - new Date(e.timestamp).getTime()) < 60*60*1000 ) || [];
+                document.getElementById('recentDownloads').textContent = lastHour.filter(e=>e.type==='download').length;
+                document.getElementById('recentNDAs').textContent = lastHour.filter(e=>e.type==='nda_request').length;
+                this.updateRecentEvents(real.recentEvents||[], profiles);
             }
 
-            updateRecentEvents() {
-                const events = [
-                    { time: '14:32', event: 'Descarga: Term Sheet', user: 'j.garcia@***.com' },
-                    { time: '14:28', event: 'Solicitud NDA', user: 'm.lopez@***.com' },
-                    { time: '14:15', event: 'Nuevo visitante', user: 'p.martin@***.com' },
-                    { time: '14:02', event: 'Descarga: Teaser', user: 'a.rodriguez@***.com' }
-                ];
-
+            updateRecentEvents(events, profiles) {
                 const container = document.getElementById('recentEventsLog');
-                container.innerHTML = events.map(event => `
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-gray-900">${event.event}</span>
-                        <span class="text-gray-500">${event.time}</span>
-                    </div>
-                    <div class="text-xs text-gray-400 mb-2">${event.user}</div>
-                `).join('');
+                container.innerHTML = (events||[]).map(ev => {
+                    const p = profiles[ev.visitorToken]||{};
+                    const time = new Date(ev.timestamp).toTimeString().slice(0,5);
+                    const label = ev.type==='download' ? `Descarga: ${ev.file}` : (ev.type==='nda_request' ? 'Solicitud NDA' : ev.type);
+                    const who = p.email || `visitor_${(ev.visitorToken||'').slice(-6)}@***.com`;
+                    return `
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-900">${label}</span>
+                            <span class="text-gray-500">${time}</span>
+                        </div>
+                        <div class="text-xs text-gray-400 mb-2">${who} — ${ev.page||''} ${ev.label?('('+ev.label+')'):''}</div>
+                    `;
+                }).join('') || '<div class="text-sm text-gray-500">Sin eventos recientes</div>';
             }
 
             getFileTypeColor(type) {

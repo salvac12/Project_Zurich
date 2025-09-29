@@ -129,9 +129,39 @@
 
   <script>
     const API_VISITORS = '/api/tables/visitors';
+    const DEFAULT_TIMEOUT_MS = 7000;
+    let __apiAvailable = true;
 
     function $(s){ return document.querySelector(s); }
     function $all(s){ return Array.from(document.querySelectorAll(s)); }
+
+    async function fetchJson(url, options = {}, timeoutMs = DEFAULT_TIMEOUT_MS){
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeoutMs);
+      try{
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        if (!res.ok) {
+          const text = await res.text().catch(()=> '');
+          throw new Error(`HTTP ${res.status} ${res.statusText}: ${text?.slice(0,200)}`);
+        }
+        const ct = res.headers.get('content-type') || '';
+        if (ct.includes('application/json')) return res.json();
+        return res.text();
+      } finally {
+        clearTimeout(id);
+      }
+    }
+
+    async function checkApi(){
+      try{
+        // Nuestro handler acepta OPTIONS y devuelve 200
+        const res = await fetch(API_VISITORS, { method:'OPTIONS' });
+        __apiAvailable = res.ok;
+      }catch(e){
+        __apiAvailable = false;
+      }
+      return __apiAvailable;
+    }
 
     function savePrefs(){
       const baseUrl = $('#baseUrl').value.trim();
@@ -185,14 +215,12 @@
     }
 
     async function registerVisitor(visitor){
-      // POST /api/tables/visitors
-      const res = await fetch(API_VISITORS, {
+      // POST /api/tables/visitors con timeout y manejo de errores
+      return fetchJson(API_VISITORS, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(visitor)
       });
-      if (!res.ok) throw new Error(`Error ${res.status}`);
-      return res.json();
     }
 
     function renderResults(rows){
@@ -243,6 +271,12 @@
     }
 
     async function handleGenerate({ dryRun = false } = {}){
+      // Detectar si la API está disponible; si no, forzamos previsualización
+      await checkApi();
+      if (!__apiAvailable && !dryRun){
+        status('API no disponible en este despliegue. Se generará PREVISUALIZACIÓN sin registrar.', 'error');
+        dryRun = true;
+      }
       savePrefs();
       const contacts = parseContacts();
       if (contacts.length === 0){ status('No se han encontrado emails válidos.', 'error'); return; }
@@ -254,18 +288,25 @@
       status('Generando tokens y construyendo enlaces...', '');
 
       const rows = [];
-      let ok = 0, fails = 0;
+      let ok = 0, fails = 0, idx = 0;
       for (const c of contacts){
         const token = genToken(prefix);
         const links = buildLinks(baseUrl, pages, token);
         const row = { email: c.email, name: c.name, company: c.company, token, links };
         if (!dryRun){
           try{
+            status(`Registrando (${idx+1}/${contacts.length})...`, '');
             await registerVisitor({ email: c.email, name: c.name, company: c.company, token, status: 'active' });
             ok++;
-          }catch(e){ fails++; }
+          }catch(e){
+            console.warn('Registro fallido', e);
+            fails++;
+          }
         }
         rows.push(row);
+        idx++;
+        // ceder control al UI para evitar sensación de bloqueo
+        await new Promise(r => setTimeout(r, 0));
       }
 
       renderResults(rows);

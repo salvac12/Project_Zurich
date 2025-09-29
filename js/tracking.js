@@ -66,6 +66,14 @@
     const navLinks = Array.from(document.querySelectorAll('.nav-link'));
 
     function trackEl(el, src) {
+      // Force teaser/doc links to open in new tab
+      try {
+        const href = el.getAttribute('href') || '';
+        if (href.startsWith('https://page.gensparksite.com')) {
+          el.setAttribute('target', '_blank');
+          el.setAttribute('rel', 'noopener noreferrer');
+        }
+      } catch(e) { /* no-op */ }
       el.addEventListener('click', function(e){
         const explicit = el.getAttribute('data-file_type') || el.dataset.file_type;
         const inferred = normalizeTypeFromText(el.textContent || el.innerText);
@@ -138,6 +146,14 @@
   document.addEventListener('DOMContentLoaded', function(){
     const token = resolveToken();
     const start = Date.now();
+
+    // Ensure external document links open in a new tab (teasers, models, etc.)
+    try {
+      document.querySelectorAll('a[href^="https://page.gensparksite.com"]').forEach(a => {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+      });
+    } catch(e) { /* no-op */ }
 
     // Track initial page visit
     sendPageVisit(token);

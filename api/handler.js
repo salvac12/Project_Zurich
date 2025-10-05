@@ -50,8 +50,30 @@ module.exports = async (req, res) => {
   console.log(`${req.method} ${req.url}`);
   
   try {
-    // POST = Create visitor
+    // POST = Create visitor OR analytics event
     if (req.method === 'POST') {
+      
+      // Analytics event (has eventType field)
+      if (body.eventType) {
+        const event = {
+          id: `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          event_type: body.eventType,
+          visitor_token: body.visitorToken || body.visitor_token || '',
+          visitor_email: body.visitor_email || '',
+          event_data: body.data || {},
+          timestamp: new Date().toISOString()
+        };
+        
+        const saved = await supabase('analytics', {
+          method: 'POST',
+          body: JSON.stringify(event)
+        });
+        
+        console.log('✅ Analytics event:', event.event_type, event.visitor_token);
+        return res.status(201).json(saved[0] || event);
+      }
+      
+      // Visitor creation (has email field)
       const visitor = {
         id: `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         email: body.email || '',

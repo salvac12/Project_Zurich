@@ -253,51 +253,99 @@
             }
 
             async loadMainMetrics() {
-                // Simulated data - en producción vendría de Supabase
-                document.getElementById('totalVisitors').textContent = '23';
-                document.getElementById('visitorsChange').textContent = '+15% vs mes anterior';
-                
-                document.getElementById('totalDownloads').textContent = '47';
-                document.getElementById('downloadsChange').textContent = '+32% vs mes anterior';
-                
-                document.getElementById('totalNDARequests').textContent = '8';
-                document.getElementById('ndaChange').textContent = '+12% vs mes anterior';
-                
-                document.getElementById('avgTimeOnSite').textContent = '4:23';
-                document.getElementById('timeChange').textContent = '+8% vs mes anterior';
+                try {
+                    // Fetch real data from APIs
+                    const [visitorsRes, analyticsRes] = await Promise.all([
+                        fetch('/api/tables/visitors'),
+                        fetch('/api/analytics-real')
+                    ]);
+                    
+                    const visitors = await visitorsRes.json();
+                    const analytics = await analyticsRes.json();
+                    
+                    // Calculate metrics
+                    const totalVisitors = visitors.length;
+                    const downloads = analytics.filter(e => e.event_type === 'download').length;
+                    const ndaRequests = analytics.filter(e => e.event_type === 'nda_request').length;
+                    
+                    // Calculate average time on site from session_end events
+                    const sessionEnds = analytics.filter(e => e.event_type === 'session_end');
+                    const avgTime = sessionEnds.length > 0 
+                        ? Math.floor(sessionEnds.reduce((sum, e) => sum + (e.event_data.total_time || 0), 0) / sessionEnds.length)
+                        : 0;
+                    const avgMinutes = Math.floor(avgTime / 60);
+                    const avgSeconds = avgTime % 60;
+                    
+                    // Update UI
+                    document.getElementById('totalVisitors').textContent = totalVisitors;
+                    document.getElementById('visitorsChange').textContent = `${visitors.length} registrados`;
+                    
+                    document.getElementById('totalDownloads').textContent = downloads;
+                    document.getElementById('downloadsChange').textContent = `${analytics.length} eventos totales`;
+                    
+                    document.getElementById('totalNDARequests').textContent = ndaRequests;
+                    document.getElementById('ndaChange').textContent = ndaRequests > 0 ? 'Solicitudes activas' : 'Sin solicitudes';
+                    
+                    document.getElementById('avgTimeOnSite').textContent = `${avgMinutes}:${avgSeconds.toString().padStart(2, '0')}`;
+                    document.getElementById('timeChange').textContent = `${sessionEnds.length} sesiones`;
+                    
+                    console.log('✅ Metrics loaded:', { totalVisitors, downloads, ndaRequests, avgTime });
+                } catch (error) {
+                    console.error('❌ Error loading metrics:', error);
+                    // Show error state
+                    document.getElementById('totalVisitors').textContent = '0';
+                    document.getElementById('visitorsChange').textContent = 'Error cargando datos';
+                }
             }
 
             async loadDownloadsChart() {
-                const ctx = document.getElementById('downloadsChart').getContext('2d');
-                
-                if (this.charts.downloads) {
-                    this.charts.downloads.destroy();
-                }
+                try {
+                    const analyticsRes = await fetch('/api/analytics-real');
+                    const analytics = await analyticsRes.json();
+                    
+                    // Count downloads by type
+                    const downloads = analytics.filter(e => e.event_type === 'download');
+                    const downloadsByType = {};
+                    
+                    downloads.forEach(event => {
+                        const fileType = event.event_data?.file_type || 'unknown';
+                        downloadsByType[fileType] = (downloadsByType[fileType] || 0) + 1;
+                    });
+                    
+                    const labels = Object.keys(downloadsByType);
+                    const data = Object.values(downloadsByType);
+                    const colors = ['var(--alter-blue)', 'var(--alter-green)', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4'];
+                    
+                    const ctx = document.getElementById('downloadsChart').getContext('2d');
+                    
+                    if (this.charts.downloads) {
+                        this.charts.downloads.destroy();
+                    }
 
-                this.charts.downloads = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Term Sheet', 'Teaser', 'Modelo Financiero', 'NDA'],
-                        datasets: [{
-                            data: [15, 20, 8, 4],
-                            backgroundColor: [
-                                'var(--alter-blue)',
-                                'var(--alter-green)',
-                                '#f59e0b',
-                                '#8b5cf6'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
+                    this.charts.downloads = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels.length > 0 ? labels : ['Sin datos'],
+                            datasets: [{
+                                data: data.length > 0 ? data : [1],
+                                backgroundColor: data.length > 0 ? colors.slice(0, labels.length) : ['#e5e7eb']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                    
+                    console.log('✅ Downloads chart loaded:', downloadsByType);
+                } catch (error) {
+                    console.error('❌ Error loading downloads chart:', error);
+                }
             }
 
             async loadVisitorsChart() {
@@ -348,28 +396,68 @@
             }
 
             async loadTopVisitors() {
-                const mockData = [
-                    { name: 'Juan García', email: 'j.garcia@***.com', company: 'InvestCorp', downloads: 5, time: '12:30', nda: 'Sí' },
-                    { name: 'María López', email: 'm.lopez@***.com', company: 'Capital Partners', downloads: 3, time: '8:45', nda: 'Pendiente' },
-                    { name: 'Pedro Martín', email: 'p.martin@***.com', company: 'Equity Fund', downloads: 4, time: '6:20', nda: 'Sí' }
-                ];
+                try {
+                    const [visitorsRes, analyticsRes] = await Promise.all([
+                        fetch('/api/tables/visitors'),
+                        fetch('/api/analytics-real')
+                    ]);
+                    
+                    const visitors = await visitorsRes.json();
+                    const analytics = await analyticsRes.json();
+                    
+                    // Calculate downloads per visitor
+                    const visitorData = visitors.map(visitor => {
+                        const downloads = analytics.filter(e => 
+                            e.event_type === 'download' && e.visitor_token === visitor.token
+                        ).length;
+                        
+                        const ndaRequests = analytics.filter(e => 
+                            e.event_type === 'nda_request' && e.visitor_token === visitor.token
+                        ).length;
+                        
+                        const lastAccess = visitor.last_access ? new Date(visitor.last_access) : null;
+                        const timeStr = lastAccess ? lastAccess.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '-';
+                        
+                        return {
+                            name: visitor.name || 'Anónimo',
+                            email: visitor.email || '-',
+                            company: visitor.company || '-',
+                            downloads,
+                            time: timeStr,
+                            nda: ndaRequests > 0 ? 'Solicitado' : 'No'
+                        };
+                    });
+                    
+                    // Sort by downloads (descending)
+                    visitorData.sort((a, b) => b.downloads - a.downloads);
 
-                const tbody = document.getElementById('topVisitorsTable');
-                tbody.innerHTML = mockData.map(visitor => `
-                    <tr class="border-b border-gray-100">
-                        <td class="py-3">
-                            <div class="text-sm font-medium text-gray-900">${visitor.name}</div>
-                            <div class="text-sm text-gray-500">${visitor.company}</div>
-                        </td>
-                        <td class="py-3 text-sm text-gray-900">${visitor.downloads}</td>
-                        <td class="py-3 text-sm text-gray-900">${visitor.time}</td>
-                        <td class="py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${visitor.nda === 'Sí' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-                                ${visitor.nda}
-                            </span>
-                        </td>
-                    </tr>
-                `).join('');
+                    const tbody = document.getElementById('topVisitorsTable');
+                    if (visitorData.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-gray-500">No hay visitantes registrados</td></tr>';
+                    } else {
+                        tbody.innerHTML = visitorData.slice(0, 10).map(visitor => `
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3">
+                                    <div class="text-sm font-medium text-gray-900">${visitor.name}</div>
+                                    <div class="text-sm text-gray-500">${visitor.company}</div>
+                                </td>
+                                <td class="py-3 text-sm text-gray-900">${visitor.downloads}</td>
+                                <td class="py-3 text-sm text-gray-900">${visitor.time}</td>
+                                <td class="py-3">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${visitor.nda === 'Solicitado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                                        ${visitor.nda}
+                                    </span>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                    
+                    console.log('✅ Top visitors loaded:', visitorData.length);
+                } catch (error) {
+                    console.error('❌ Error loading top visitors:', error);
+                    const tbody = document.getElementById('topVisitorsTable');
+                    tbody.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-red-500">Error cargando visitantes</td></tr>';
+                }
             }
 
             async loadTopFiles() {

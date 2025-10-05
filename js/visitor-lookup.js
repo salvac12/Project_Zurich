@@ -93,7 +93,7 @@ class VisitorLookup {
         last_access: new Date().toISOString()
       };
 
-      const response = await fetch('/api/tables/visitors', {
+      const response = await fetch('/api/visitors', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newVisitor)

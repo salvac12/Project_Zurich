@@ -1,6 +1,6 @@
 (function(){
-  const ANALYTICS_ENDPOINT = '/api/tables/analytics';
-  const VISITORS_ENDPOINT = '/api/tables/visitors';
+  const ANALYTICS_ENDPOINT = '/api/analytics-events';
+  const VISITORS_ENDPOINT = '/api/visitors';
   
   let visitorEmail = null; // Cache del email asociado al token
 

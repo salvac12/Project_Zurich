@@ -1,16 +1,3 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/visitors",
-      "destination": "/api/handler"
-    },
-    {
-      "source": "/api/analytics-events",
-      "destination": "/api/handler"
-    },
-    {
-      "source": "/",
-      "destination": "/index.html"
-    }
-  ]
+  "cleanUrls": true
 }

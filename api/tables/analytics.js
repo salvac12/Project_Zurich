@@ -1,7 +1,12 @@
-// API Analytics - Sistema híbrido optimizado
+// API Analytics - Sistema con persistencia en Supabase
 // Registra eventos reales de tracking de visitantes
 
-let realEvents = []; // Almacenamiento temporal en memoria
+import getSupabase from '../_supabase.js';
+
+const supabase = getSupabase();
+
+// Fallback en memoria si Supabase no está disponible
+let realEvents = [];
 
 export default async function handler(req, res) {
   // Configurar CORS
@@ -69,6 +74,33 @@ export default async function handler(req, res) {
         const eventType = query.event_type;
         const visitorToken = query.visitor_token;
         
+        // Intentar obtener de Supabase primero
+        if (supabase.enabled) {
+          try {
+            const offset = (page - 1) * limit;
+            const filters = { limit, offset };
+            if (eventType) filters.event_type = eventType;
+            if (visitorToken) filters.visitor_token = visitorToken;
+            
+            const supabaseEvents = await supabase.getAnalytics(filters);
+            
+            console.log(`📊 Returning ${supabaseEvents.length} events from Supabase`);
+            
+            res.status(200).json({
+              data: supabaseEvents,
+              total: supabaseEvents.length,
+              page,
+              limit,
+              table: 'analytics',
+              source: 'supabase'
+            });
+            return;
+          } catch (error) {
+            console.error('Supabase query error, falling back to memory:', error.message);
+          }
+        }
+        
+        // Fallback a memoria + demos
         let filteredEvents = allEvents;
         
         // Aplicar filtros
@@ -105,7 +137,8 @@ export default async function handler(req, res) {
           limit,
           table: 'analytics',
           real_count: realEvents.length,
-          demo_count: demoEvents.length
+          demo_count: demoEvents.length,
+          source: 'memory'
         });
         break;
 
@@ -125,9 +158,27 @@ export default async function handler(req, res) {
           created_at: new Date().toISOString()
         };
         
+        // Intentar guardar en Supabase primero
+        if (supabase.enabled) {
+          try {
+            const saved = await supabase.createEvent(newEvent);
+            console.log('✅ Event saved to Supabase:', {
+              id: saved[0]?.id,
+              type: newEvent.event_type,
+              visitor: newEvent.visitor_token?.substring(0, 8) + '...',
+              email: newEvent.visitor_email
+            });
+            res.status(201).json(saved[0]);
+            return;
+          } catch (error) {
+            console.error('❌ Supabase save error, falling back to memory:', error.message);
+          }
+        }
+        
+        // Fallback a memoria
         realEvents.push(newEvent);
         
-        console.log('📊 New REAL event recorded:', {
+        console.log('📊 New REAL event recorded (memory):', {
           id: newEvent.id,
           type: newEvent.event_type,
           visitor: newEvent.visitor_token?.substring(0, 8) + '...',

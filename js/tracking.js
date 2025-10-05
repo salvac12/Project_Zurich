@@ -1,5 +1,8 @@
 (function(){
-  const ANALYTICS_ENDPOINT = '/api/analytics-real';
+  const ANALYTICS_ENDPOINT = '/api/tables/analytics';
+  const VISITORS_ENDPOINT = '/api/tables/visitors';
+  
+  let visitorEmail = null; // Cache del email asociado al token
 
   // Utility: safe fetch with timeout
   function postJSON(url, body) {
@@ -11,6 +14,27 @@
         keepalive: true
       }).catch(()=>{});
     } catch (e) { /* noop */ }
+  }
+  
+  // Buscar email asociado al token
+  async function fetchVisitorEmail(token) {
+    if (visitorEmail) return visitorEmail; // Ya lo tenemos en cache
+    
+    try {
+      const response = await fetch(`${VISITORS_ENDPOINT}?limit=1000`);
+      const result = await response.json();
+      const visitors = result.data || result;
+      
+      const visitor = visitors.find(v => v.token === token);
+      if (visitor && visitor.email) {
+        visitorEmail = visitor.email;
+        return visitorEmail;
+      }
+    } catch (e) {
+      console.warn('Could not fetch visitor email:', e);
+    }
+    
+    return null;
   }
 
   function getParam(name) {
@@ -66,13 +90,15 @@
     const navLinks = Array.from(document.querySelectorAll('.nav-link'));
 
     function trackEl(el, src) {
-      el.addEventListener('click', function(e){
+      el.addEventListener('click', async function(e){
         const explicit = el.getAttribute('data-file_type') || el.dataset.file_type;
         const inferred = normalizeTypeFromText(el.textContent || el.innerText);
         const file_type = explicit || inferred;
+        const email = await fetchVisitorEmail(token);
         postJSON(ANALYTICS_ENDPOINT, {
           eventType: 'download',
           visitorToken: token,
+          visitor_email: email || '',
           data: { file_type, source: src, page: currentPageId() }
         });
       }, { capture: true });
@@ -86,10 +112,12 @@
     // NDA request buttons
     const ndaBtn = document.getElementById('nda-request-btn');
     if (ndaBtn) {
-      ndaBtn.addEventListener('click', function(){
+      ndaBtn.addEventListener('click', async function(){
+        const email = await fetchVisitorEmail(token);
         postJSON(ANALYTICS_ENDPOINT, {
           eventType: 'nda_request',
           visitorToken: token,
+          visitor_email: email || '',
           data: { signed: false, page: currentPageId() }
         });
       }, { capture: true });
@@ -98,30 +126,36 @@
     // CTA button
     const cta = document.querySelector('.cta-button');
     if (cta) {
-      cta.addEventListener('click', function(){
+      cta.addEventListener('click', async function(){
+        const email = await fetchVisitorEmail(token);
         postJSON(ANALYTICS_ENDPOINT, {
           eventType: 'cta_click',
           visitorToken: token,
+          visitor_email: email || '',
           data: { page: currentPageId() }
         });
       }, { capture: true });
     }
   }
 
-  function sendPageVisit(token) {
+  async function sendPageVisit(token) {
+    const email = await fetchVisitorEmail(token);
     postJSON(ANALYTICS_ENDPOINT, {
       eventType: 'page_visit',
       visitorToken: token,
+      visitor_email: email || '',
       data: { page: currentPageId(), ref: document.referrer || '' }
     });
   }
 
   function bindSessionEnd(token, startedAt) {
-    function sendEnd(){
+    async function sendEnd(){
       const total = Math.round((Date.now() - startedAt)/1000);
+      const email = await fetchVisitorEmail(token);
       postJSON(ANALYTICS_ENDPOINT, {
         eventType: 'session_end',
         visitorToken: token,
+        visitor_email: email || '',
         data: { total_time: total, page: currentPageId() }
       });
     }
@@ -133,12 +167,15 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', function(){
+  document.addEventListener('DOMContentLoaded', async function(){
     const token = resolveToken();
     const start = Date.now();
+    
+    // Pre-fetch visitor email for better performance
+    await fetchVisitorEmail(token);
 
     // Track initial page visit
-    sendPageVisit(token);
+    await sendPageVisit(token);
 
     // Bind interactions
     bindDownloadTracking(token);

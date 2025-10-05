@@ -1,7 +1,12 @@
-// API Visitors - Sistema híbrido optimizado
+// API Visitors - Sistema con persistencia en Supabase
 // Combina datos demo con visitantes reales generados
 
-let realVisitors = []; // Almacenamiento temporal en memoria
+import getSupabase from '../_supabase.js';
+
+const supabase = getSupabase();
+
+// Fallback en memoria si Supabase no está disponible
+let realVisitors = [];
 
 export default async function handler(req, res) {
   // Configurar CORS
@@ -65,6 +70,32 @@ export default async function handler(req, res) {
           const limit = parseInt(query.limit) || 100;
           const search = query.search || '';
           
+          // Intentar obtener de Supabase primero
+          if (supabase.enabled) {
+            try {
+              const offset = (page - 1) * limit;
+              const filters = { limit, offset };
+              if (search) filters.search = search;
+              
+              const supabaseVisitors = await supabase.getVisitors(filters);
+              
+              console.log(`📊 Returning ${supabaseVisitors.length} visitors from Supabase`);
+              
+              res.status(200).json({
+                data: supabaseVisitors,
+                total: supabaseVisitors.length,
+                page,
+                limit,
+                table: 'visitors',
+                source: 'supabase'
+              });
+              return;
+            } catch (error) {
+              console.error('Supabase query error, falling back to memory:', error.message);
+            }
+          }
+          
+          // Fallback a memoria + demos
           let filteredVisitors = allVisitors;
           
           if (search) {
@@ -88,7 +119,8 @@ export default async function handler(req, res) {
             limit,
             table: 'visitors',
             real_count: realVisitors.length,
-            demo_count: demoVisitors.length
+            demo_count: demoVisitors.length,
+            source: 'memory'
           });
         }
         break;
@@ -108,9 +140,26 @@ export default async function handler(req, res) {
           created_at: new Date().toISOString()
         };
         
+        // Intentar guardar en Supabase primero
+        if (supabase.enabled) {
+          try {
+            const saved = await supabase.createVisitor(newVisitor);
+            console.log('✅ Visitor saved to Supabase:', {
+              id: saved[0]?.id,
+              email: newVisitor.email,
+              token: newVisitor.token.substring(0, 8) + '...'
+            });
+            res.status(201).json(saved[0]);
+            return;
+          } catch (error) {
+            console.error('❌ Supabase save error, falling back to memory:', error.message);
+          }
+        }
+        
+        // Fallback a memoria
         realVisitors.push(newVisitor);
         
-        console.log('✅ New REAL visitor created:', {
+        console.log('✅ New REAL visitor created (memory):', {
           id: newVisitor.id,
           email: newVisitor.email,
           token: newVisitor.token.substring(0, 8) + '...',

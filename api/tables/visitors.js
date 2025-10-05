@@ -7,6 +7,22 @@ const supabase = getSupabase();
 // Fallback en memoria si Supabase no está disponible
 let realVisitors = [];
 
+// Helper to parse body in Vercel
+async function parseBody(req) {
+  if (req.body) return req.body;
+  return new Promise((resolve) => {
+    let data = '';
+    req.on('data', chunk => { data += chunk; });
+    req.on('end', () => {
+      try {
+        resolve(JSON.parse(data));
+      } catch (e) {
+        resolve({});
+      }
+    });
+  });
+}
+
 module.exports = async function handler(req, res) {
   // Configurar CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -20,8 +36,9 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { method, query, body } = req;
+    const { method, query } = req;
     const { id } = query;
+    const body = await parseBody(req);
 
     // Datos demo para mostrar funcionalidad
     const demoVisitors = [

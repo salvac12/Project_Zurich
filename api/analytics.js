@@ -1,7 +1,7 @@
 // Analytics API para Vercel
 // Sistema de tracking sin base de datos externa
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Configurar CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');

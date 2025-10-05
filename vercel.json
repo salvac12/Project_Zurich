@@ -1,12 +1,6 @@
 {
   "version": 2,
   "name": "Project_ZUrich",
-  "builds": [
-    {
-      "src": "./**",
-      "use": "@vercel/static"
-    }
-  ],
   "routes": [
     {
       "src": "/",

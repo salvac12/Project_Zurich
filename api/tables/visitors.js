@@ -1,14 +1,13 @@
 // API Visitors - Sistema con persistencia en Supabase
 // Combina datos demo con visitantes reales generados
 
-import getSupabase from '../_supabase.js';
-
+const getSupabase = require('../_supabase.js');
 const supabase = getSupabase();
 
 // Fallback en memoria si Supabase no está disponible
 let realVisitors = [];
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Configurar CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');

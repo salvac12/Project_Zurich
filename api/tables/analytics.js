@@ -1,14 +1,13 @@
 // API Analytics - Sistema con persistencia en Supabase
 // Registra eventos reales de tracking de visitantes
 
-import getSupabase from '../_supabase.js';
-
+const getSupabase = require('../_supabase.js');
 const supabase = getSupabase();
 
 // Fallback en memoria si Supabase no está disponible
 let realEvents = [];
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Configurar CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');

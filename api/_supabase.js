@@ -143,11 +143,13 @@ class SupabaseAPI {
 // Export singleton instance
 let supabaseInstance = null;
 
-export function getSupabase() {
+function getSupabase() {
   if (!supabaseInstance) {
     supabaseInstance = new SupabaseAPI();
   }
   return supabaseInstance;
 }
 
-export default getSupabase;
+module.exports = getSupabase;
+module.exports.getSupabase = getSupabase;
+module.exports.default = getSupabase;

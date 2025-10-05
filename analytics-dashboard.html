@@ -461,73 +461,164 @@
             }
 
             async loadTopFiles() {
-                const mockFiles = [
-                    { name: 'Project ZURICH - Term Sheet', downloads: 15, type: 'term-sheet' },
-                    { name: 'Investment Teaser', downloads: 20, type: 'teaser' },
-                    { name: 'Financial Model', downloads: 8, type: 'financial-model' },
-                    { name: 'NDA Agreement', downloads: 4, type: 'nda' }
-                ];
-
-                const container = document.getElementById('topFilesContainer');
-                container.innerHTML = mockFiles.map(file => `
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div class="flex items-center">
-                            <div class="w-2 h-2 rounded-full mr-3" style="background-color: ${this.getFileTypeColor(file.type)}"></div>
-                            <span class="text-sm font-medium text-gray-900">${file.name}</span>
-                        </div>
-                        <span class="text-sm font-semibold text-gray-600">${file.downloads}</span>
-                    </div>
-                `).join('');
+                try {
+                    const analyticsRes = await fetch('/api/analytics-real');
+                    const analytics = await analyticsRes.json();
+                    
+                    // Count downloads by file type
+                    const downloads = analytics.filter(e => e.event_type === 'download');
+                    const fileTypeMap = {
+                        'teaser': 'Investment Teaser',
+                        'term-sheet': 'Term Sheet',
+                        'financial-model': 'Financial Model',
+                        'nda': 'NDA Agreement',
+                        'unknown': 'Other Documents'
+                    };
+                    
+                    const downloadsByType = {};
+                    downloads.forEach(event => {
+                        const fileType = event.event_data?.file_type || 'unknown';
+                        const displayName = fileTypeMap[fileType] || fileType;
+                        if (!downloadsByType[fileType]) {
+                            downloadsByType[fileType] = { name: displayName, count: 0, type: fileType };
+                        }
+                        downloadsByType[fileType].count++;
+                    });
+                    
+                    // Convert to array and sort by count
+                    const filesArray = Object.values(downloadsByType).sort((a, b) => b.count - a.count);
+                    
+                    const container = document.getElementById('topFilesContainer');
+                    if (filesArray.length === 0) {
+                        container.innerHTML = '<div class="p-3 text-center text-gray-500">No hay descargas registradas</div>';
+                    } else {
+                        container.innerHTML = filesArray.map(file => `
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full mr-3" style="background-color: ${this.getFileTypeColor(file.type)}"></div>
+                                    <span class="text-sm font-medium text-gray-900">${file.name}</span>
+                                </div>
+                                <span class="text-sm font-semibold text-gray-600">${file.count}</span>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    console.log('✅ Top files loaded:', filesArray.length);
+                } catch (error) {
+                    console.error('❌ Error loading top files:', error);
+                    const container = document.getElementById('topFilesContainer');
+                    container.innerHTML = '<div class="p-3 text-center text-red-500">Error cargando archivos</div>';
+                }
             }
 
             async loadDetailedAnalysis() {
-                const mockAnalysis = [
-                    { 
-                        email: 'j.garcia@investcorp.com', 
-                        company: 'InvestCorp', 
-                        project: 'Senior', 
-                        lastAccess: '2024-01-15 14:30', 
-                        termSheet: 2, 
-                        teaser: 1, 
-                        financial: 1, 
-                        nda: 'Firmado', 
-                        totalTime: '25:30' 
-                    },
-                    { 
-                        email: 'm.lopez@capital.com', 
-                        company: 'Capital Partners', 
-                        project: 'Equity', 
-                        lastAccess: '2024-01-14 16:45', 
-                        termSheet: 1, 
-                        teaser: 2, 
-                        financial: 0, 
-                        nda: 'Pendiente', 
-                        totalTime: '18:22' 
-                    }
-                ];
+                try {
+                    const [visitorsRes, analyticsRes] = await Promise.all([
+                        fetch('/api/tables/visitors'),
+                        fetch('/api/analytics-real')
+                    ]);
+                    
+                    const visitors = await visitorsRes.json();
+                    const analytics = await analyticsRes.json();
+                    
+                    // Build detailed analysis per visitor
+                    const analysis = visitors.map(visitor => {
+                        const visitorEvents = analytics.filter(e => e.visitor_token === visitor.token);
+                        
+                        // Determine project based on last page visited
+                        const pageVisits = visitorEvents.filter(e => e.event_type === 'page_visit');
+                        let project = 'Unknown';
+                        if (pageVisits.length > 0) {
+                            const lastPage = pageVisits[pageVisits.length - 1].event_data?.page || '';
+                            if (lastPage.includes('senior')) project = 'Senior';
+                            else if (lastPage.includes('equity')) project = 'Equity';
+                            else if (lastPage.includes('full')) project = 'Full Equity';
+                            else project = 'Hub';
+                        }
+                        
+                        // Count downloads by type
+                        const downloads = visitorEvents.filter(e => e.event_type === 'download');
+                        const termSheet = downloads.filter(d => d.event_data?.file_type === 'term-sheet').length;
+                        const teaser = downloads.filter(d => d.event_data?.file_type === 'teaser').length;
+                        const financial = downloads.filter(d => d.event_data?.file_type === 'financial-model').length;
+                        
+                        // Check NDA status
+                        const ndaRequests = visitorEvents.filter(e => e.event_type === 'nda_request');
+                        const nda = ndaRequests.length > 0 ? 'Solicitado' : 'No';
+                        
+                        // Calculate total time
+                        const sessionEnds = visitorEvents.filter(e => e.event_type === 'session_end');
+                        const totalSeconds = sessionEnds.reduce((sum, e) => sum + (e.event_data?.total_time || 0), 0);
+                        const totalMinutes = Math.floor(totalSeconds / 60);
+                        const totalSecs = totalSeconds % 60;
+                        const totalTime = `${totalMinutes}:${totalSecs.toString().padStart(2, '0')}`;
+                        
+                        // Last access formatted
+                        const lastAccess = visitor.last_access 
+                            ? new Date(visitor.last_access).toLocaleString('es-ES', { 
+                                year: 'numeric', month: '2-digit', day: '2-digit', 
+                                hour: '2-digit', minute: '2-digit' 
+                              })
+                            : '-';
+                        
+                        return {
+                            email: visitor.email || '-',
+                            company: visitor.company || '-',
+                            project,
+                            lastAccess,
+                            termSheet,
+                            teaser,
+                            financial,
+                            nda,
+                            totalTime
+                        };
+                    });
+                    
+                    // Sort by last access (most recent first)
+                    analysis.sort((a, b) => {
+                        if (a.lastAccess === '-') return 1;
+                        if (b.lastAccess === '-') return -1;
+                        return new Date(b.lastAccess) - new Date(a.lastAccess);
+                    });
 
-                const tbody = document.getElementById('detailedAnalysisTable');
-                tbody.innerHTML = mockAnalysis.map(row => `
-                    <tr class="border-b border-gray-100 hover:bg-gray-50">
-                        <td class="py-3 text-sm text-gray-900">${row.email}</td>
-                        <td class="py-3 text-sm text-gray-900">${row.company}</td>
-                        <td class="py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.project === 'Senior' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}">
-                                ${row.project}
-                            </span>
-                        </td>
-                        <td class="py-3 text-sm text-gray-900">${row.lastAccess}</td>
-                        <td class="py-3 text-sm text-center text-gray-900">${row.termSheet}</td>
-                        <td class="py-3 text-sm text-center text-gray-900">${row.teaser}</td>
-                        <td class="py-3 text-sm text-center text-gray-900">${row.financial}</td>
-                        <td class="py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.nda === 'Firmado' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-                                ${row.nda}
-                            </span>
-                        </td>
-                        <td class="py-3 text-sm text-gray-900">${row.totalTime}</td>
-                    </tr>
-                `).join('');
+                    const tbody = document.getElementById('detailedAnalysisTable');
+                    if (analysis.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="9" class="py-6 text-center text-gray-500">No hay datos de análisis disponibles</td></tr>';
+                    } else {
+                        tbody.innerHTML = analysis.map(row => `
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-3 text-sm text-gray-900">${row.email}</td>
+                                <td class="py-3 text-sm text-gray-900">${row.company}</td>
+                                <td class="py-3">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                        row.project === 'Senior' ? 'bg-blue-100 text-blue-800' : 
+                                        row.project === 'Equity' ? 'bg-green-100 text-green-800' : 
+                                        row.project === 'Full Equity' ? 'bg-purple-100 text-purple-800' :
+                                        'bg-gray-100 text-gray-800'
+                                    }">
+                                        ${row.project}
+                                    </span>
+                                </td>
+                                <td class="py-3 text-sm text-gray-900">${row.lastAccess}</td>
+                                <td class="py-3 text-sm text-center text-gray-900">${row.termSheet}</td>
+                                <td class="py-3 text-sm text-center text-gray-900">${row.teaser}</td>
+                                <td class="py-3 text-sm text-center text-gray-900">${row.financial}</td>
+                                <td class="py-3">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.nda === 'Solicitado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                                        ${row.nda}
+                                    </span>
+                                </td>
+                                <td class="py-3 text-sm text-gray-900">${row.totalTime}</td>
+                            </tr>
+                        `).join('');
+                    }
+                    
+                    console.log('✅ Detailed analysis loaded:', analysis.length);
+                } catch (error) {
+                    console.error('❌ Error loading detailed analysis:', error);
+                    const tbody = document.getElementById('detailedAnalysisTable');
+                    tbody.innerHTML = '<tr><td colspan="9" class="py-6 text-center text-red-500">Error cargando análisis detallado</td></tr>';
+                }
             }
 
             startRealTimeUpdates() {

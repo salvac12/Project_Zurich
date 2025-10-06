@@ -256,7 +256,7 @@
                 try {
                     // Fetch real data from APIs
                     const [visitorsRes, analyticsRes] = await Promise.all([
-                        fetch('/api/visitors'),
+                        fetch('/api/handler'),
                         fetch('/api/analytics-real')
                     ]);
                     
@@ -398,7 +398,7 @@
             async loadTopVisitors() {
                 try {
                     const [visitorsRes, analyticsRes] = await Promise.all([
-                        fetch('/api/visitors'),
+                        fetch('/api/handler'),
                         fetch('/api/analytics-real')
                     ]);
                     
@@ -514,7 +514,7 @@
             async loadDetailedAnalysis() {
                 try {
                     const [visitorsRes, analyticsRes] = await Promise.all([
-                        fetch('/api/visitors'),
+                        fetch('/api/handler'),
                         fetch('/api/analytics-real')
                     ]);
                     

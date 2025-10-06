@@ -96,8 +96,20 @@ module.exports = async (req, res) => {
       return res.status(201).json(saved[0] || visitor);
     }
     
-    // GET = List visitors
+    // GET = List visitors or analytics
     if (req.method === 'GET') {
+      // Check URL path to determine what to return
+      const url = new URL(req.url, `http://${req.headers.host}`);
+      const path = url.pathname;
+      
+      // Analytics endpoint
+      if (path.includes('analytics')) {
+        const events = await supabase('analytics?select=*&order=timestamp.desc&limit=1000');
+        console.log('✅ Retrieved analytics events:', events.length);
+        return res.status(200).json(events);
+      }
+      
+      // Visitors endpoint (default)
       const visitors = await supabase('visitors?select=*&order=created_at.desc&limit=100');
       console.log('✅ Retrieved visitors:', visitors.length);
       return res.status(200).json({ data: visitors, source: 'supabase' });

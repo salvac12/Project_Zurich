@@ -2,6 +2,7 @@
   "version": 2,
   "rewrites": [
     { "source": "/api/visitors", "destination": "/api/handler" },
-    { "source": "/api/analytics-events", "destination": "/api/handler" }
+    { "source": "/api/analytics-events", "destination": "/api/handler" },
+    { "source": "/api/analytics-real", "destination": "/api/handler" }
   ]
 }

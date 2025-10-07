@@ -260,8 +260,12 @@
                         fetch('/api/analytics-real')
                     ]);
                     
-                    const visitors = await visitorsRes.json();
-                    const analytics = await analyticsRes.json();
+                    const visitorsData = await visitorsRes.json();
+                    const analyticsData = await analyticsRes.json();
+                    
+                    // Extract arrays from API responses
+                    const visitors = visitorsData.data || visitorsData || [];
+                    const analytics = analyticsData.data || analyticsData || [];
                     
                     // Calculate metrics
                     const totalVisitors = visitors.length;
@@ -301,7 +305,8 @@
             async loadDownloadsChart() {
                 try {
                     const analyticsRes = await fetch('/api/analytics-real');
-                    const analytics = await analyticsRes.json();
+                    const analyticsData = await analyticsRes.json();
+                    const analytics = analyticsData.data || analyticsData || [];
                     
                     // Count downloads by type
                     const downloads = analytics.filter(e => e.event_type === 'download');
@@ -402,8 +407,11 @@
                         fetch('/api/analytics-real')
                     ]);
                     
-                    const visitors = await visitorsRes.json();
-                    const analytics = await analyticsRes.json();
+                    const visitorsData = await visitorsRes.json();
+                    const analyticsData = await analyticsRes.json();
+                    
+                    const visitors = visitorsData.data || visitorsData || [];
+                    const analytics = analyticsData.data || analyticsData || [];
                     
                     // Calculate downloads per visitor
                     const visitorData = visitors.map(visitor => {
@@ -463,7 +471,8 @@
             async loadTopFiles() {
                 try {
                     const analyticsRes = await fetch('/api/analytics-real');
-                    const analytics = await analyticsRes.json();
+                    const analyticsData = await analyticsRes.json();
+                    const analytics = analyticsData.data || analyticsData || [];
                     
                     // Count downloads by file type
                     const downloads = analytics.filter(e => e.event_type === 'download');
@@ -518,8 +527,11 @@
                         fetch('/api/analytics-real')
                     ]);
                     
-                    const visitors = await visitorsRes.json();
-                    const analytics = await analyticsRes.json();
+                    const visitorsData = await visitorsRes.json();
+                    const analyticsData = await analyticsRes.json();
+                    
+                    const visitors = visitorsData.data || visitorsData || [];
+                    const analytics = analyticsData.data || analyticsData || [];
                     
                     // Build detailed analysis per visitor
                     const analysis = visitors.map(visitor => {

@@ -765,6 +765,164 @@
             font-size: 12px;
             opacity: 0.8;
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1A3366;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .modal-body {
+            color: #333;
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+
+        .modal-body strong {
+            color: #1A3366;
+            font-weight: 600;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .modal-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .modal-btn-primary {
+            background: #10B981;
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .modal-btn-secondary {
+            background: #E5E7EB;
+            color: #374151;
+        }
+
+        .modal-btn-secondary:hover {
+            background: #D1D5DB;
+        }
+
+        .gabriela-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            border-radius: 50%;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -783,6 +941,10 @@
                     <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" class="nav-link" id="financial-model-nav" download="Sheets_Equity_ST.xlsx" target="_blank">
                         <i class="fas fa-chart-line"></i>
                         Project Economics
+                    </a>
+                    <a href="#" class="nav-link" id="gabriela-report-btn" onclick="event.preventDefault(); openGabrielaModal();">
+                        <span class="gabriela-icon">G</span>
+                        Gabriela Report
                     </a>
                 </nav>
             </div>
@@ -1104,6 +1266,68 @@
             </button>
         </div>
     </div>
+
+    <!-- Gabriela Report Modal -->
+    <div id="gabriela-modal" class="modal-overlay" onclick="closeGabrielaModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeGabrielaModal()">&times;</button>
+            
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="gabriela-icon" style="width: 32px; height: 32px; font-size: 16px; margin-right: 10px;">G</span>
+                    Disclaimer – Gabriela Report
+                </div>
+                <div class="modal-subtitle">Análisis de IA especializado en inversiones inmobiliarias</div>
+            </div>
+            
+            <div class="modal-body">
+                <p>
+                    <strong>Gabriela Report</strong> es un informe desarrollado por nuestro modelo de inteligencia artificial especializado en el análisis de inversiones inmobiliarias.
+                </p>
+                <p>
+                    Gabriela integra información procedente de fuentes estadísticas, financieras, sociodemográficas, macro y microeconómicas, así como de transacciones reales, para ofrecer una lectura precisa y basada en evidencia del mercado.
+                </p>
+                <p>
+                    Su motor es <strong>agnóstico, transparente y analítico</strong>: evalúa hipótesis de inversión mediante modelos probabilísticos y escenarios de sensibilidad, sin incorporar sesgos ni interpretaciones subjetivas.
+                </p>
+                <p>
+                    Los informes generados por Gabriela <strong>no constituyen una recomendación ni una opinión de inversión</strong>, sino un análisis técnico e independiente fundamentado en datos contrastados y metodologías cuantitativas.
+                </p>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-secondary" onclick="closeGabrielaModal()">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <a href="docs/gabriela-report-zurich.pdf" class="modal-btn modal-btn-primary" download="Gabriela_Report_Project_Zurich.pdf" target="_blank">
+                    <i class="fas fa-download"></i>
+                    Descargar Gabriela Report Project Zurich
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openGabrielaModal() {
+            document.getElementById('gabriela-modal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeGabrielaModal(event) {
+            if (!event || event.target.id === 'gabriela-modal') {
+                document.getElementById('gabriela-modal').classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeGabrielaModal();
+            }
+        });
+    </script>
 
 </body>
 </html><!-- sync -->

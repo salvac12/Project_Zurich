@@ -230,6 +230,38 @@
             margin-bottom: 10px;
             display: block;
         }
+
+        /* Gabriela Doc Button - Special Styling */
+        .gabriela-doc-button {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gabriela-doc-button:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .gabriela-doc-button .gabriela-icon {
+            display: inline-flex !important;
+            margin-bottom: 8px;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+        }
         
         /* About developer */
         .about-developer {
@@ -1007,6 +1039,11 @@
                     <a class="doc-button" id="financial-model-btn" href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" download="Sheets_Equity_ST.xlsx" target="_blank">
                         <i class="fas fa-chart-line"></i>
                         PROJECT ECONOMICS
+                    </a>
+                    <a class="doc-button gabriela-doc-button" href="#" onclick="event.preventDefault(); openGabrielaModal();">
+                        <span class="gabriela-icon" style="width: 28px; height: 28px; font-size: 14px;">G</span>
+                        GABRIELA REPORT
+                        <span class="ai-badge">AI</span>
                     </a>
                 </div>
             </div>

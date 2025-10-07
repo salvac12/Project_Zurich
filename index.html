@@ -29,7 +29,7 @@
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #1A2B44 0%, #3B82F6 100%);
+            background: linear-gradient(135deg, #103971 0%, #3B82F6 100%);
             min-height: 100vh;
         }
         
@@ -54,16 +54,18 @@
         }
         
         .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 12px;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .logo:hover {
+            opacity: 0.85;
         }
         
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
         }
         
@@ -165,7 +167,7 @@
             text-align: center;
             font-size: 36px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 50px;
         }
         
@@ -196,7 +198,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #1A2B44, #10B981);
+            background: linear-gradient(90deg, #103971, #10B981);
         }
         
         .investment-card:hover {
@@ -221,7 +223,7 @@
         }
         
         .debt-card .card-icon {
-            background: linear-gradient(45deg, #1A2B44, #3B82F6);
+            background: linear-gradient(45deg, #103971, #3B82F6);
         }
         
         .admin-card .card-icon {
@@ -231,7 +233,7 @@
         .card-title {
             font-size: 22px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 15px;
         }
         
@@ -254,7 +256,7 @@
         .metric-value {
             font-size: 18px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
         }
         
         .metric-label {
@@ -266,7 +268,7 @@
         .card-button {
             width: 100%;
             padding: 12px 24px;
-            background: #1A2B44;
+            background: #103971;
             color: white;
             border: none;
             border-radius: 8px;
@@ -285,15 +287,15 @@
         
         .card-button-secondary {
             background: transparent !important;
-            border: 2px solid #1A2B44 !important;
-            color: #1A2B44 !important;
+            border: 2px solid #103971 !important;
+            color: #103971 !important;
             margin-top: 10px;
             font-size: 14px;
             padding: 10px 20px !important;
         }
         
         .card-button-secondary:hover {
-            background: #1A2B44 !important;
+            background: #103971 !important;
             color: white !important;
             transform: translateY(-2px);
         }
@@ -324,7 +326,7 @@
         .additional-title {
             font-size: 24px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 30px;
             text-align: center;
         }
@@ -344,13 +346,13 @@
         }
         
         .page-item:hover {
-            border-color: #1A2B44;
+            border-color: #103971;
             transform: translateY(-2px);
         }
         
         .page-link {
             text-decoration: none;
-            color: #1A2B44;
+            color: #103971;
             font-weight: 600;
             font-size: 16px;
             display: flex;
@@ -418,10 +420,9 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <img src="images/alter5-logo.png" alt="Alter5 Logo">
-                    ALTER 5
-                </div>
+                <a href="https://www.alter-5.com" target="_blank" class="logo">
+                    <img src="images/alter5-logo-full.png" alt="Alter5 Logo">
+                </a>
                 <div class="header-nav">
                     <span>Investment Portfolio Hub</span>
                     <span style="margin-left: 20px; padding: 4px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; font-size: 12px;">
@@ -440,7 +441,7 @@
         <div class="container">
             <h1 class="hero-title">Project ZURICH</h1>
             <h2 class="hero-subtitle">Investment Opportunities Hub</h2>
-            <div style="background: #FFD700; color: #1A2B44; padding: 10px; border-radius: 5px; margin: 10px 0; font-weight: bold; text-align: center;">
+            <div style="background: #FFD700; color: #103971; padding: 10px; border-radius: 5px; margin: 10px 0; font-weight: bold; text-align: center;">
                 ✅ NEW VERSION ACTIVE - September 19, 2024 11:35 UTC
             </div>
             <p class="hero-description">

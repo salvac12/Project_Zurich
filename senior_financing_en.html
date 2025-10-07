@@ -37,7 +37,7 @@
         
         /* Header */
         .header {
-            background-color: #1A2B44;
+            background-color: #103971;
             padding: 12px 0;
             position: fixed;
             top: 0;
@@ -55,8 +55,13 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
             font-size: 18px;
+        }
+        
+        .logo:hover {
+            opacity: 0.85;
         }
         
         .logo img {
@@ -94,7 +99,7 @@
         .project-title {
             font-size: 48px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 30px;
         }
         
@@ -109,7 +114,7 @@
             background-color: #ffffff;
             padding: 30px;
             border-radius: 8px;
-            border-left: 4px solid #1A2B44;
+            border-left: 4px solid #103971;
         }
         
         .project-description p {
@@ -171,7 +176,7 @@
         .metric-value {
             font-size: 24px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 5px;
         }
         
@@ -191,7 +196,7 @@
         .section-title {
             font-size: 28px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 30px;
         }
         
@@ -202,7 +207,7 @@
         }
         
         .doc-button {
-            background-color: #1A2B44;
+            background-color: #103971;
             color: white;
             border: none;
             padding: 30px 20px;
@@ -245,7 +250,7 @@
         .stat-value {
             font-size: 24px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 5px;
         }
         
@@ -284,7 +289,7 @@
         .detail-column h3 {
             font-size: 20px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 20px;
         }
         
@@ -313,7 +318,7 @@
         .characteristic-number {
             font-size: 24px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
         }
         
         .characteristic-label {
@@ -351,7 +356,7 @@
         .timeline-title {
             font-size: 18px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 15px;
         }
         
@@ -391,7 +396,7 @@
         .transaction-value {
             font-size: 16px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
         }
         
         /* Risk mitigation */
@@ -425,14 +430,14 @@
         }
         
         .risk-icon i {
-            color: #1A2B44;
+            color: #103971;
             font-size: 20px;
         }
         
         .risk-title {
             font-size: 18px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 15px;
         }
         
@@ -465,7 +470,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #1A2B44;
+            background-color: #103971;
             color: white;
             display: flex;
             align-items: center;
@@ -478,7 +483,7 @@
         .step-title {
             font-size: 16px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 10px;
         }
         
@@ -490,7 +495,7 @@
         
         /* CTA Section */
         .cta-section {
-            background-color: #1A2B44;
+            background-color: #103971;
             padding: 60px 0;
             text-align: center;
             color: white;
@@ -503,7 +508,7 @@
         
         .cta-button {
             background-color: white;
-            color: #1A2B44;
+            color: #103971;
             border: none;
             padding: 20px 40px;
             border-radius: 8px;
@@ -546,10 +551,9 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <img src="images/alter5-logo.png" alt="Alter5 Logo">
-                    <span class="logo-text">Project ZURICH</span>
-                </div>
+                <a href="https://www.alter-5.com" target="_blank" class="logo">
+                    <img src="images/alter5-logo-full.png" alt="Alter5 Logo">
+                </a>
                 <nav class="nav-links">
                     <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/6af32e2c-91e1-4737-b90f-a9f0527d8cd8" class="nav-link" download="ENG- Project ZURICH_Alter5-LONG TERM SENIOR FINANCING.pdf" target="_blank">
                         <i class="fas fa-file-pdf"></i>
@@ -564,8 +568,8 @@
                         Project Economics Download
                     </a>
                 </nav>
-            </div>
-        </div>
+            </a>
+        </a>
     </header>
 
     <!-- Main Content -->
@@ -582,40 +586,40 @@
                     <p>The facility benefits from a protective and adaptive covenant structure including minimum DSCR requirements, supported by regulated rental income and expected occupancy rates exceeding 97% during the protection period.</p>
                     
                     <p>The loan is structured with a 30-year term featuring a 3-year principal moratorium period. Senior financing provides comprehensive credit enhancement through robust DSCR covenants ensuring sound lender protection.</p>
-                </div>
+                </a>
                 
                 <div class="hero-image">
                     <img src="images/project-zurich-new.jpg" alt="Project ZURICH - Valdebebas Madrid Residential Development">
                     <div class="location-tag">
                         <i class="fas fa-map-marker-alt"></i>
                         Valdebebas, Madrid
-                    </div>
-                </div>
-            </div>
+                    </a>
+                </a>
+            </a>
             
             <!-- Key Metrics -->
             <div class="key-metrics">
                 <div class="metric-box">
-                    <div class="metric-value">EUR 42M</div>
-                    <div class="metric-label">FACILITY AMOUNT</div>
-                </div>
+                    <div class="metric-value">EUR 42M</a>
+                    <div class="metric-label">FACILITY AMOUNT</a>
+                </a>
                 <div class="metric-box">
-                    <div class="metric-value">30</div>
-                    <div class="metric-label">YEARS</div>
-                </div>
+                    <div class="metric-value">30</a>
+                    <div class="metric-label">YEARS</a>
+                </a>
                 <div class="metric-box">
-                    <div class="metric-value">3</div>
-                    <div class="metric-label">YEAR GRACE PERIOD</div>
-                </div>
+                    <div class="metric-value">3</a>
+                    <div class="metric-label">YEAR GRACE PERIOD</a>
+                </a>
                 <div class="metric-box">
-                    <div class="metric-value">70%</div>
-                    <div class="metric-label">LOAN-TO-COST</div>
-                </div>
+                    <div class="metric-value">70%</a>
+                    <div class="metric-label">LOAN-TO-COST</a>
+                </a>
                 <div class="metric-box">
-                    <div class="metric-value">251</div>
-                    <div class="metric-label">RESIDENTIAL UNITS</div>
-                </div>
-            </div>
+                    <div class="metric-value">251</a>
+                    <div class="metric-label">RESIDENTIAL UNITS</a>
+                </a>
+            </a>
             
             <!-- Available Documentation -->
             <div class="documentation-section">
@@ -633,35 +637,35 @@
                         <i class="fas fa-chart-line"></i>
                         PROJECT ECONOMICS
                     </a>
-                </div>
-            </div>
+                </a>
+            </a>
 
             <!-- About the Developer -->
             <div class="about-developer">
                 <h2 class="section-title">About the Borrower</h2>
                 <div class="developer-stats">
                     <div class="stat-box">
-                        <div class="stat-value">+20</div>
-                        <div class="stat-label">Years of experience</div>
-                    </div>
+                        <div class="stat-value">+20</a>
+                        <div class="stat-label">Years of experience</a>
+                    </a>
                     <div class="stat-box">
-                        <div class="stat-value">€1.1B</div>
-                        <div class="stat-label">Real estate investment managed</div>
-                    </div>
+                        <div class="stat-value">€1.1B</a>
+                        <div class="stat-label">Real estate investment managed</a>
+                    </a>
                     <div class="stat-box">
-                        <div class="stat-value">+1,000</div>
-                        <div class="stat-label">Residential units delivered</div>
-                    </div>
+                        <div class="stat-value">+1,000</a>
+                        <div class="stat-label">Residential units delivered</a>
+                    </a>
                     <div class="stat-box">
-                        <div class="stat-value">+10</div>
-                        <div class="stat-label">Residential developments</div>
-                    </div>
-                </div>
+                        <div class="stat-value">+10</a>
+                        <div class="stat-label">Residential developments</a>
+                    </a>
+                </a>
                 <div class="developer-description">
                     <p>The borrowing entity is sponsored by a development group with more than 20 years' experience in the Spanish real estate sector, specialising in the development and management of residential assets in prime and expanding locations.</p>
                     <p>Their solid track record includes the delivery of more than 1,000 residential units and comprehensive project management under different financing structures, consistently achieving high quality standards and meeting execution deadlines.</p>
-                </div>
-            </div>
+                </a>
+            </a>
 
             <!-- Project Description -->
             <div class="project-details">
@@ -676,89 +680,89 @@
                             <li>70% Loan-to-Cost ensuring substantial equity cushion</li>
                             <li>Security package over project assets and rental agreements</li>
                         </ul>
-                    </div>
+                    </a>
                     <div class="detail-column asset-characteristics">
                         <h3>Underlying Asset Profile</h3>
                         <p>Total of 251 residential units across varied typologies designed to meet Madrid market demand characteristics.</p>
                         
                         <div class="characteristic-item">
-                            <div class="characteristic-number">50</div>
-                            <div class="characteristic-label">one-bedroom units</div>
-                        </div>
+                            <div class="characteristic-number">50</a>
+                            <div class="characteristic-label">one-bedroom units</a>
+                        </a>
                         <div class="characteristic-item">
-                            <div class="characteristic-number">186</div>
-                            <div class="characteristic-label">two-bedroom units</div>
-                        </div>
+                            <div class="characteristic-number">186</a>
+                            <div class="characteristic-label">two-bedroom units</a>
+                        </a>
                         <div class="characteristic-item">
-                            <div class="characteristic-number">15</div>
-                            <div class="characteristic-label">three-bedroom units</div>
-                        </div>
+                            <div class="characteristic-number">15</a>
+                            <div class="characteristic-label">three-bedroom units</a>
+                        </a>
                         
                         <p style="font-size: 12px; color: #9CA3AF; margin-top: 15px;">Including allocated parking spaces, storage facilities, and landscaped communal areas.</p>
-                    </div>
-                </div>
-            </div>
+                    </a>
+                </a>
+            </a>
 
             <!-- Project Timeline -->
             <div class="timeline-section">
                 <h2 class="section-title">Project Timeline</h2>
                 <div class="timeline-grid">
                     <div class="timeline-item">
-                        <div class="timeline-period">JANUARY 2024 - MARCH 2026</div>
-                        <div class="timeline-title">Construction Phase</div>
-                        <div class="timeline-description">Complete execution of residential development</div>
-                    </div>
+                        <div class="timeline-period">JANUARY 2024 - MARCH 2026</a>
+                        <div class="timeline-title">Construction Phase</a>
+                        <div class="timeline-description">Complete execution of residential development</a>
+                    </a>
                     <div class="timeline-item">
-                        <div class="timeline-period">APRIL 2026 - SEPTEMBER 2026</div>
-                        <div class="timeline-title">Rental Stabilisation</div>
-                        <div class="timeline-description">Target occupancy >97% during protection period</div>
-                    </div>
+                        <div class="timeline-period">APRIL 2026 - SEPTEMBER 2026</a>
+                        <div class="timeline-title">Rental Stabilisation</a>
+                        <div class="timeline-description">Target occupancy >97% during protection period</a>
+                    </a>
                     <div class="timeline-item">
-                        <div class="timeline-period">FEBRUARY 2029</div>
-                        <div class="timeline-title">Principal Repayment Commencement</div>
-                        <div class="timeline-description">Moratorium expiry and amortisation schedule begins</div>
-                    </div>
-                </div>
-            </div>
+                        <div class="timeline-period">FEBRUARY 2029</a>
+                        <div class="timeline-title">Principal Repayment Commencement</a>
+                        <div class="timeline-description">Moratorium expiry and amortisation schedule begins</a>
+                    </a>
+                </a>
+            </a>
 
             <!-- Transaction Details -->
             <div class="transaction-details">
                 <h2 class="section-title">Facility Terms</h2>
                 <div class="transaction-grid">
                     <div class="transaction-item">
-                        <div class="transaction-label">BORROWER</div>
-                        <div class="transaction-value">SPV ("AssetCo") consolidating all project assets</div>
-                    </div>
+                        <div class="transaction-label">BORROWER</a>
+                        <div class="transaction-value">SPV ("AssetCo") consolidating all project assets</a>
+                    </a>
                     <div class="transaction-item">
-                        <div class="transaction-label">FACILITY AMOUNT</div>
-                        <div class="transaction-value">€42,000,000</div>
-                    </div>
+                        <div class="transaction-label">FACILITY AMOUNT</a>
+                        <div class="transaction-value">€42,000,000</a>
+                    </a>
                     <div class="transaction-item">
-                        <div class="transaction-label">STRUCTURE</div>
-                        <div class="transaction-value">Senior secured facility with 36-month moratorium</div>
-                    </div>
+                        <div class="transaction-label">STRUCTURE</a>
+                        <div class="transaction-value">Senior secured facility with 36-month moratorium</a>
+                    </a>
                     <div class="transaction-item">
-                        <div class="transaction-label">LOAN-TO-COST</div>
-                        <div class="transaction-value">70%</div>
-                    </div>
+                        <div class="transaction-label">LOAN-TO-COST</a>
+                        <div class="transaction-value">70%</a>
+                    </a>
                     <div class="transaction-item">
-                        <div class="transaction-label">REFERENCE RATE</div>
-                        <div class="transaction-value">3-month Euribor (IRS hedge to be determined)</div>
-                    </div>
+                        <div class="transaction-label">REFERENCE RATE</a>
+                        <div class="transaction-value">3-month Euribor (IRS hedge to be determined)</a>
+                    </a>
                     <div class="transaction-item">
-                        <div class="transaction-label">CREDIT MARGIN</div>
-                        <div class="transaction-value">125 basis points</div>
-                    </div>
+                        <div class="transaction-label">CREDIT MARGIN</a>
+                        <div class="transaction-value">125 basis points</a>
+                    </a>
                     <div class="transaction-item">
-                        <div class="transaction-label">TENOR</div>
-                        <div class="transaction-value">30 years</div>
-                    </div>
+                        <div class="transaction-label">TENOR</a>
+                        <div class="transaction-value">30 years</a>
+                    </a>
                     <div class="transaction-item">
-                        <div class="transaction-label">MORATORIUM PERIOD</div>
-                        <div class="transaction-value">3 years (interest-only)</div>
-                    </div>
-                </div>
-            </div>
+                        <div class="transaction-label">MORATORIUM PERIOD</a>
+                        <div class="transaction-value">3 years (interest-only)</a>
+                    </a>
+                </a>
+            </a>
 
             <!-- Risk Mitigation Factors -->
             <div class="risk-mitigation">
@@ -768,98 +772,98 @@
                         <div class="risk-item">
                             <div class="risk-icon">
                                 <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div class="risk-title">Substantial Equity Buffer</div>
-                            <div class="risk-description">The SOCIMI investment vehicle contributes approximately €20M of equity capital, providing first-loss absorption and ensuring alignment of sponsor interests.</div>
-                        </div>
+                            </a>
+                            <div class="risk-title">Substantial Equity Buffer</a>
+                            <div class="risk-description">The SOCIMI investment vehicle contributes approximately €20M of equity capital, providing first-loss absorption and ensuring alignment of sponsor interests.</a>
+                        </a>
                         <div class="risk-item">
                             <div class="risk-icon">
                                 <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="risk-title">Prime Location Fundamentals</div>
-                            <div class="risk-description">Valdebebas combines modern infrastructure, excellent transport connectivity, and structurally higher demand than available supply.</div>
-                        </div>
+                            </a>
+                            <div class="risk-title">Prime Location Fundamentals</a>
+                            <div class="risk-description">Valdebebas combines modern infrastructure, excellent transport connectivity, and structurally higher demand than available supply.</a>
+                        </a>
                         <div class="risk-item">
                             <div class="risk-icon">
                                 <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="risk-title">Regulated Income Stream</div>
-                            <div class="risk-description">Protected rental regime provides predictable cash flows with built-in inflation adjustments and occupancy rate protection during stabilisation period.</div>
-                        </div>
+                            </a>
+                            <div class="risk-title">Regulated Income Stream</a>
+                            <div class="risk-description">Protected rental regime provides predictable cash flows with built-in inflation adjustments and occupancy rate protection during stabilisation period.</a>
+                        </a>
                         <div class="risk-item">
                             <div class="risk-icon">
                                 <i class="fas fa-users"></i>
-                            </div>
-                            <div class="risk-title">Experienced Sponsor Team</div>
-                            <div class="risk-description">Management team with proven track record in Spanish residential development and strong institutional relationships.</div>
-                        </div>
+                            </a>
+                            <div class="risk-title">Experienced Sponsor Team</a>
+                            <div class="risk-description">Management team with proven track record in Spanish residential development and strong institutional relationships.</a>
+                        </a>
                         <div class="risk-item">
                             <div class="risk-icon">
                                 <i class="fas fa-certificate"></i>
-                            </div>
-                            <div class="risk-title">Pre-Approved Planning</div>
-                            <div class="risk-description">Construction licence already obtained, significantly reducing planning and execution risk factors.</div>
-                        </div>
+                            </a>
+                            <div class="risk-title">Pre-Approved Planning</a>
+                            <div class="risk-description">Construction licence already obtained, significantly reducing planning and execution risk factors.</a>
+                        </a>
                         <div class="risk-item">
                             <div class="risk-icon">
                                 <i class="fas fa-building"></i>
-                            </div>
-                            <div class="risk-title">Institutional Exit Strategy</div>
-                            <div class="risk-description">Asset suitable for institutional ownership upon stabilisation, providing multiple exit options for debt refinancing or asset disposal.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </a>
+                            <div class="risk-title">Institutional Exit Strategy</a>
+                            <div class="risk-description">Asset suitable for institutional ownership upon stabilisation, providing multiple exit options for debt refinancing or asset disposal.</a>
+                        </a>
+                    </a>
+                </a>
+            </a>
 
             <!-- Project Finance Protections -->
             <div class="risk-mitigation">
                 <h2 class="section-title">Project Finance Standard Protections</h2>
                 <div class="risk-grid">
                     <div class="risk-item">
-                        <div class="risk-icon"><i class="fas fa-file-contract"></i></div>
-                        <div class="risk-title">Security & Control</div>
-                        <div class="risk-description">Asset pledge over project SPV shares and material assets; assignment of rental receivables and bank accounts with control agreements.</div>
-                    </div>
+                        <div class="risk-icon"><i class="fas fa-file-contract"></i></a>
+                        <div class="risk-title">Security & Control</a>
+                        <div class="risk-description">Asset pledge over project SPV shares and material assets; assignment of rental receivables and bank accounts with control agreements.</a>
+                    </a>
                     <div class="risk-item">
-                        <div class="risk-icon"><i class="fas fa-hard-hat"></i></div>
-                        <div class="risk-title">EPC & Step-in Rights</div>
-                        <div class="risk-description">Fixed-price, date-certain EPC contract with performance guarantees; lender step-in rights and cure periods.</div>
-                    </div>
+                        <div class="risk-icon"><i class="fas fa-hard-hat"></i></a>
+                        <div class="risk-title">EPC & Step-in Rights</a>
+                        <div class="risk-description">Fixed-price, date-certain EPC contract with performance guarantees; lender step-in rights and cure periods.</a>
+                    </a>
                     <div class="risk-item">
-                        <div class="risk-icon"><i class="fas fa-clipboard-check"></i></div>
-                        <div class="risk-title">Covenants & Reserves</div>
-                        <div class="risk-description">DSCR maintenance, distribution lock-up triggers, and funded reserve accounts (debt service, capex, contingencies).</div>
-                    </div>
-                </div>
-            </div>
+                        <div class="risk-icon"><i class="fas fa-clipboard-check"></i></a>
+                        <div class="risk-title">Covenants & Reserves</a>
+                        <div class="risk-description">DSCR maintenance, distribution lock-up triggers, and funded reserve accounts (debt service, capex, contingencies).</a>
+                    </a>
+                </a>
+            </a>
 
             <!-- Next Steps -->
             <div class="next-steps">
                 <h2 class="section-title">Facility Arrangement Process</h2>
                 <div class="steps-grid">
                     <div class="step-item">
-                        <div class="step-number">1</div>
-                        <div class="step-title">Initial Assessment</div>
-                        <div class="step-description">Credit memorandum review and preliminary structuring discussion</div>
-                    </div>
+                        <div class="step-number">1</a>
+                        <div class="step-title">Initial Assessment</a>
+                        <div class="step-description">Credit memorandum review and preliminary structuring discussion</a>
+                    </a>
                     <div class="step-item">
-                        <div class="step-number">2</div>
-                        <div class="step-title">Due Diligence</div>
-                        <div class="step-description">Comprehensive technical, legal, and financial due diligence process</div>
-                    </div>
+                        <div class="step-number">2</a>
+                        <div class="step-title">Due Diligence</a>
+                        <div class="step-description">Comprehensive technical, legal, and financial due diligence process</a>
+                    </a>
                     <div class="step-item">
-                        <div class="step-number">3</div>
-                        <div class="step-title">Credit Committee</div>
-                        <div class="step-description">Formal credit approval and final term sheet negotiation</div>
-                    </div>
+                        <div class="step-number">3</a>
+                        <div class="step-title">Credit Committee</a>
+                        <div class="step-description">Formal credit approval and final term sheet negotiation</a>
+                    </a>
                     <div class="step-item">
-                        <div class="step-number">4</div>
-                        <div class="step-title">Legal Documentation</div>
-                        <div class="step-description">Facility agreement execution and security documentation completion</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <div class="step-number">4</a>
+                        <div class="step-title">Legal Documentation</a>
+                        <div class="step-description">Facility agreement execution and security documentation completion</a>
+                    </a>
+                </a>
+            </a>
+        </a>
     </main>
 
     <script src="js/tracking.js"></script>
@@ -868,9 +872,9 @@
     <div class="cta-section">
         <div class="container">
             <button class="cta-button">SIGN NDA AND ACCESS INVESTMENT DETAILS</button>
-            <div class="cta-disclaimer">Interest confirmation required before October 30, 2025</div>
-        </div>
-    </div>
+            <div class="cta-disclaimer">Interest confirmation required before October 30, 2025</a>
+        </a>
+    </a>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Simple button interactions (same as project-zurich-equity)

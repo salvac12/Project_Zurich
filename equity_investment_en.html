@@ -37,7 +37,7 @@
         
         /* Header */
         .header {
-            background-color: #1A2B44;
+            background-color: #103971;
             padding: 12px 0;
             position: fixed;
             top: 0;
@@ -55,16 +55,17 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 18px;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .logo:hover {
+            opacity: 0.85;
         }
         
         .logo img {
-            height: 35px;
+            height: 40px;
             width: auto;
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
         }
         
         .nav-links {
@@ -94,7 +95,7 @@
         .project-title {
             font-size: 48px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 30px;
         }
         
@@ -109,7 +110,7 @@
             background-color: #ffffff;
             padding: 30px;
             border-radius: 8px;
-            border-left: 4px solid #1A2B44;
+            border-left: 4px solid #103971;
         }
         
         .project-description p {
@@ -164,7 +165,7 @@
         .metric-value {
             font-size: 24px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 5px;
         }
         
@@ -183,7 +184,7 @@
         .section-title {
             font-size: 24px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 30px;
             text-align: center;
         }
@@ -202,7 +203,7 @@
         }
         
         .doc-button {
-            background-color: #1A2B44;
+            background-color: #103971;
             color: white;
             border: none;
             padding: 30px 20px;
@@ -287,11 +288,11 @@
         }
         
         .nda-modal-close:hover {
-            color: #1A2B44;
+            color: #103971;
         }
         
         .nda-modal h3 {
-            color: #1A2B44;
+            color: #103971;
             font-size: 24px;
             margin-bottom: 20px;
         }
@@ -304,7 +305,7 @@
         }
         
         .nda-request-btn {
-            background: linear-gradient(135deg, #1A2B44 0%, #3B82F6 100%);
+            background: linear-gradient(135deg, #103971 0%, #3B82F6 100%);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -323,7 +324,7 @@
         .stat-value {
             font-size: 24px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 5px;
         }
         
@@ -358,7 +359,7 @@
         .detail-column h3 {
             font-size: 20px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 20px;
         }
         
@@ -392,7 +393,7 @@
         .characteristic-number {
             font-size: 24px;
             font-weight: 700;
-            color: #1A2B44;
+            color: #103971;
         }
         
         .characteristic-label {
@@ -430,7 +431,7 @@
         .timeline-title {
             font-size: 18px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 10px;
         }
         
@@ -472,7 +473,7 @@
         .param-value {
             font-size: 18px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 5px;
         }
         
@@ -521,7 +522,7 @@
         .esg-title {
             font-size: 18px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 15px;
         }
         
@@ -554,7 +555,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #1A2B44;
+            background-color: #103971;
             color: white;
             display: flex;
             align-items: center;
@@ -567,7 +568,7 @@
         .step-title {
             font-size: 16px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 10px;
         }
         
@@ -579,7 +580,7 @@
         
         /* CTA Section */
         .cta-section {
-            background-color: #1A2B44;
+            background-color: #103971;
             padding: 60px 0;
             text-align: center;
             color: white;
@@ -587,7 +588,7 @@
         
         .cta-button {
             background-color: white;
-            color: #1A2B44;
+            color: #103971;
             border: none;
             padding: 20px 40px;
             font-size: 16px;
@@ -704,7 +705,7 @@
             width: 60px;
             height: 60px;
             border-radius: 12px;
-            background: linear-gradient(45deg, #1A2B44, #3B82F6);
+            background: linear-gradient(45deg, #103971, #3B82F6);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -716,7 +717,7 @@
         .doc-title {
             font-size: 20px;
             font-weight: 600;
-            color: #1A2B44;
+            color: #103971;
             margin-bottom: 10px;
         }
 
@@ -735,7 +736,7 @@
         }
 
         .document-download-btn {
-            background: #1A2B44 !important;
+            background: #103971 !important;
             color: white !important;
             border: none !important;
             padding: 10px 16px !important;
@@ -767,10 +768,9 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-building"></i>
-                    ALTER5
-                </div>
+                <a href="https://www.alter-5.com" target="_blank" class="logo">
+                    <img src="images/alter5-logo-full.png" alt="Alter5 Logo">
+                </a>
                 <nav class="nav-links">
                     <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/4792af76-1330-4733-af64-a02571877071" class="nav-link" download="ENG - Project ZURICH_Alter5-EQUITY SHORT-TERM.pdf" target="_blank">
                         <i class="fas fa-file-pdf"></i>
@@ -781,8 +781,8 @@
                         Project Economics
                     </a>
                 </nav>
-            </div>
-        </div>
+            </a>
+        </a>
     </header>
 
     <!-- Main Content -->
@@ -799,36 +799,36 @@
                     <p>Investment opportunity of up to EUR 20.2M maximum in the construction and stabilisation phase of an affordable rental residential building in Valdebebas, one of Madrid's highest growth and value appreciation areas.</p>
                     
                     <p>The asset benefits from Law 3/2024, enabling conversion from office to protected residential use, generating value from inception.</p>
-                </div>
+                </a>
                 
                 <div class="hero-image">
                     <img src="images/project-zurich-new.jpg" alt="Project ZURICH - Valdebebas Madrid Residential Development">
                     <div class="location-tag">
                         <i class="fas fa-map-marker-alt"></i>
                         Valdebebas, Madrid
-                    </div>
-                </div>
-            </div>
+                    </a>
+                </a>
+            </a>
             
             <!-- Key Metrics -->
             <div class="key-metrics">
                 <div class="metric-box">
-                    <div class="metric-value">EUR 20M</div>
-                    <div class="metric-label">TOTAL INVESTMENT</div>
-                </div>
+                    <div class="metric-value">EUR 20M</a>
+                    <div class="metric-label">TOTAL INVESTMENT</a>
+                </a>
                 <div class="metric-box">
-                    <div class="metric-value">3</div>
-                    <div class="metric-label">YEARS</div>
-                </div>
+                    <div class="metric-value">3</a>
+                    <div class="metric-label">YEARS</a>
+                </a>
                 <div class="metric-box">
-                    <div class="metric-value">10%-12%</div>
-                    <div class="metric-label">TARGET IRR</div>
-                </div>
+                    <div class="metric-value">10%-12%</a>
+                    <div class="metric-label">TARGET IRR</a>
+                </a>
                 <div class="metric-box">
-                    <div class="metric-value">251</div>
-                    <div class="metric-label">RESIDENTIAL UNITS</div>
-                </div>
-            </div>
+                    <div class="metric-value">251</a>
+                    <div class="metric-label">RESIDENTIAL UNITS</a>
+                </a>
+            </a>
             
             <!-- Available Documentation -->
             <div class="documentation-section">
@@ -842,35 +842,35 @@
                         <i class="fas fa-chart-line"></i>
                         PROJECT ECONOMICS
                     </a>
-                </div>
-            </div>
+                </a>
+            </a>
             
             <!-- About the Developer -->
             <div class="about-developer">
                 <h2 class="section-title">About the Developer</h2>
                 <div class="developer-stats">
                     <div class="stat-box">
-                        <div class="stat-value">+20</div>
-                        <div class="stat-label">Years of experience</div>
-                    </div>
+                        <div class="stat-value">+20</a>
+                        <div class="stat-label">Years of experience</a>
+                    </a>
                     <div class="stat-box">
-                        <div class="stat-value">€1.1B</div>
-                        <div class="stat-label">Assets under management</div>
-                    </div>
+                        <div class="stat-value">€1.1B</a>
+                        <div class="stat-label">Assets under management</a>
+                    </a>
                     <div class="stat-box">
-                        <div class="stat-value">+1,000</div>
-                        <div class="stat-label">Units delivered</div>
-                    </div>
+                        <div class="stat-value">+1,000</a>
+                        <div class="stat-label">Units delivered</a>
+                    </a>
                     <div class="stat-box">
-                        <div class="stat-value">+10</div>
-                        <div class="stat-label">Residential developments</div>
-                    </div>
-                </div>
+                        <div class="stat-value">+10</a>
+                        <div class="stat-label">Residential developments</a>
+                    </a>
+                </a>
                 <div class="developer-description">
                     <p>The project is promoted by a development group with over 20 years' experience in the Spanish real estate sector, specialising in the development and management of residential assets in prime and expansion locations.</p>
                     <p>Over the past decade, the management team has overseen more than EUR 1.1 billion in property investment, successfully delivering over 10 residential developments ranging from high-rise housing in prime areas to Build-to-Rent developments.</p>
-                </div>
-            </div>
+                </a>
+            </a>
             
             <!-- Project Description -->
             <div class="project-details">
@@ -885,87 +885,87 @@
                             <li>Target return: 10%-12% IRR per annum</li>
                             <li>Land acquired with construction licence already approved</li>
                         </ul>
-                    </div>
+                    </a>
                     <div class="detail-column asset-characteristics">
                         <h3>Asset Composition</h3>
                         <p>Total of 251 residential units distributed across different typologies adapted to Madrid market demand.</p>
                         
                         <div class="characteristic-item">
-                            <div class="characteristic-number">50</div>
-                            <div class="characteristic-label">one-bedroom flats</div>
-                        </div>
+                            <div class="characteristic-number">50</a>
+                            <div class="characteristic-label">one-bedroom flats</a>
+                        </a>
                         <div class="characteristic-item">
-                            <div class="characteristic-number">186</div>
-                            <div class="characteristic-label">two-bedroom flats</div>
-                        </div>
+                            <div class="characteristic-number">186</a>
+                            <div class="characteristic-label">two-bedroom flats</a>
+                        </a>
                         <div class="characteristic-item">
-                            <div class="characteristic-number">15</div>
-                            <div class="characteristic-label">three-bedroom flats</div>
-                        </div>
+                            <div class="characteristic-number">15</a>
+                            <div class="characteristic-label">three-bedroom flats</a>
+                        </a>
                         
                         <p style="font-size: 12px; color: #9CA3AF; margin-top: 15px;">Includes car parking spaces, storage units, and landscaped common areas.</p>
-                    </div>
-                </div>
-            </div>
+                    </a>
+                </a>
+            </a>
             
             <!-- Project Timeline -->
             <div class="timeline-section">
                 <h2 class="section-title">Project Timeline</h2>
                 <div class="timeline-grid">
                     <div class="timeline-item">
-                        <div class="timeline-period">JANUARY 2026 - MARCH 2028</div>
-                        <div class="timeline-title">Construction</div>
-                        <div class="timeline-description">Complete execution of residential project</div>
-                    </div>
+                        <div class="timeline-period">JANUARY 2026 - MARCH 2028</a>
+                        <div class="timeline-title">Construction</a>
+                        <div class="timeline-description">Complete execution of residential project</a>
+                    </a>
                     <div class="timeline-item">
-                        <div class="timeline-period">APRIL 2028 - SEPTEMBER 2028</div>
-                        <div class="timeline-title">Rental Stabilisation</div>
-                        <div class="timeline-description">Target occupancy >97% during protected period</div>
-                    </div>
+                        <div class="timeline-period">APRIL 2028 - SEPTEMBER 2028</a>
+                        <div class="timeline-title">Rental Stabilisation</a>
+                        <div class="timeline-description">Target occupancy >97% during protected period</a>
+                    </a>
                     <div class="timeline-item">
-                        <div class="timeline-period">SEPTEMBER 2029</div>
-                        <div class="timeline-title">Exit</div>
-                        <div class="timeline-description">Sale to core investor or institutional refinancing</div>
-                    </div>
-                </div>
-            </div>
+                        <div class="timeline-period">SEPTEMBER 2029</a>
+                        <div class="timeline-title">Exit</a>
+                        <div class="timeline-description">Sale to core investor or institutional refinancing</a>
+                    </a>
+                </a>
+            </a>
             
             <!-- Investment Parameters -->
             <div class="investment-params">
                 <h2 class="section-title">Investment Parameters</h2>
                 <div class="params-grid">
                     <div class="param-item">
-                        <div class="param-label">EQUITY CONTRIBUTION</div>
-                        <div class="param-value">EUR 20.2M</div>
-                        <div class="param-note">Maximum sought</div>
-                    </div>
+                        <div class="param-label">EQUITY CONTRIBUTION</a>
+                        <div class="param-value">EUR 20.2M</a>
+                        <div class="param-note">Maximum sought</a>
+                    </a>
                     <div class="param-item">
-                        <div class="param-label">INVESTMENT VEHICLE</div>
-                        <div class="param-value">SOCIMI</div>
-                        <div class="param-note">Tax advantage on capital gains</div>
-                    </div>
+                        <div class="param-label">INVESTMENT VEHICLE</a>
+                        <div class="param-value">SOCIMI</a>
+                        <div class="param-note">Tax advantage on capital gains</a>
+                    </a>
                     <div class="param-item">
-                        <div class="param-label">HORIZON</div>
-                        <div class="param-value">3 years</div>
-                        <div class="param-note">Construction + stabilisation</div>
-                    </div>
+                        <div class="param-label">HORIZON</a>
+                        <div class="param-value">3 years</a>
+                        <div class="param-note">Construction + stabilisation</a>
+                    </a>
                     <div class="param-item">
-                        <div class="param-label">TARGET IRR</div>
-                        <div class="param-value">10%-12%</div>
-                        <div class="param-note">Per annum return</div>
-                    </div>
+                        <div class="param-label">TARGET IRR</a>
+                        <div class="param-value">10%-12%</a>
+                        <div class="param-note">Per annum return</a>
+                    </a>
                     <div class="param-item">
-                        <div class="param-label">HORIZON</div>
-                        <div class="param-value">3 years</div>
-                        <div class="param-note">During protection period</div>
-                    </div>
+                        <div class="param-label">HORIZON</a>
+                        <div class="param-value">3 years</a>
+                        <div class="param-note">During protection period</a>
+                    </a>
                     <div class="param-item">
-                        <div class="param-label">EXPECTED OCCUPANCY</div>
-                        <div class="param-value">>97%</div>
-                        <div class="param-note">Comparable product</div>
-                    </div>
-                </div>
-            </div>
+                        <div class="param-label">EXPECTED OCCUPANCY</a>
+                        <div class="param-value">>97%</a>
+                        <div class="param-note">Comparable product</a>
+                    </a>
+                </a>
+            </a>
             
             <!-- ESG Section -->
             <div class="esg-section">
@@ -975,27 +975,27 @@
                         <div class="esg-item">
                             <div class="esg-icon">
                                 <i class="fas fa-users"></i>
-                            </div>
-                            <div class="esg-title">Social Impact</div>
-                            <div class="esg-description">Development of affordable housing contributing to social housing needs in Madrid, improving accessibility for local communities.</div>
-                        </div>
+                            </a>
+                            <div class="esg-title">Social Impact</a>
+                            <div class="esg-description">Development of affordable housing contributing to social housing needs in Madrid, improving accessibility for local communities.</a>
+                        </a>
                         <div class="esg-item">
                             <div class="esg-icon">
                                 <i class="fas fa-leaf"></i>
-                            </div>
-                            <div class="esg-title">Environmental Standards</div>
-                            <div class="esg-description">Construction incorporating sustainable materials and energy-efficient systems, targeting high environmental certification standards.</div>
-                        </div>
+                            </a>
+                            <div class="esg-title">Environmental Standards</a>
+                            <div class="esg-description">Construction incorporating sustainable materials and energy-efficient systems, targeting high environmental certification standards.</a>
+                        </a>
                         <div class="esg-item">
                             <div class="esg-icon">
                                 <i class="fas fa-balance-scale"></i>
-                            </div>
-                            <div class="esg-title">Governance Framework</div>
-                            <div class="esg-description">Transparent governance structure through SOCIMI vehicle with regular reporting and institutional-grade oversight mechanisms.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </a>
+                            <div class="esg-title">Governance Framework</a>
+                            <div class="esg-description">Transparent governance structure through SOCIMI vehicle with regular reporting and institutional-grade oversight mechanisms.</a>
+                        </a>
+                    </a>
+                </a>
+            </a>
             
 
             
@@ -1004,37 +1004,37 @@
                 <h2 class="section-title">Investment Process</h2>
                 <div class="steps-grid">
                     <div class="step-item">
-                        <div class="step-number">1</div>
-                        <div class="step-title">Initial Review</div>
-                        <div class="step-description">Documentation review and preliminary due diligence</div>
-                    </div>
+                        <div class="step-number">1</a>
+                        <div class="step-title">Initial Review</a>
+                        <div class="step-description">Documentation review and preliminary due diligence</a>
+                    </a>
                     <div class="step-item">
-                        <div class="step-number">2</div>
-                        <div class="step-title">Due Diligence</div>
-                        <div class="step-description">Comprehensive technical, legal, and financial assessment</div>
-                    </div>
+                        <div class="step-number">2</a>
+                        <div class="step-title">Due Diligence</a>
+                        <div class="step-description">Comprehensive technical, legal, and financial assessment</a>
+                    </a>
                     <div class="step-item">
-                        <div class="step-number">3</div>
-                        <div class="step-title">Investment Committee</div>
-                        <div class="step-description">Formal investment approval and term sheet negotiation</div>
-                    </div>
+                        <div class="step-number">3</a>
+                        <div class="step-title">Investment Committee</a>
+                        <div class="step-description">Formal investment approval and term sheet negotiation</a>
+                    </a>
                     <div class="step-item">
-                        <div class="step-number">4</div>
-                        <div class="step-title">Legal Documentation</div>
-                        <div class="step-description">Subscription agreements and SOCIMI structure completion</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <div class="step-number">4</a>
+                        <div class="step-title">Legal Documentation</a>
+                        <div class="step-description">Subscription agreements and SOCIMI structure completion</a>
+                    </a>
+                </a>
+            </a>
+        </a>
     </main>
 
     <!-- CTA Section -->
     <div class="cta-section">
         <div class="container">
             <button class="cta-button">SIGN NDA AND ACCESS INVESTMENT DETAILS</button>
-            <div class="cta-disclaimer">Interest confirmation required before October 30, 2025</div>
-        </div>
-    </div>
+            <div class="cta-disclaimer">Interest confirmation required before October 30, 2025</a>
+        </a>
+    </a>
 
     <!-- Document Manager JavaScript -->
     <script src="js/document-manager.js?v=20250924-02"></script>
@@ -1056,8 +1056,8 @@
             <button id="nda-request-btn" class="nda-request-btn">
                 📋 Request NDA
             </button>
-        </div>
-    </div>
+        </a>
+    </a>
 
 <script>
 // CTA button interaction (aligned with ES version)

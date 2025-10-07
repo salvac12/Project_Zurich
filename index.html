@@ -637,6 +637,58 @@
     <script src="js/tracking.js"></script>
 
     <script>
+        // Password protection for index page
+        (function() {
+            const CORRECT_PASSWORD = 'Zurich2025'; // Cambia esta contraseña
+            const PASSWORD_KEY = 'zurich_auth';
+            const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 horas
+            
+            function checkAuth() {
+                try {
+                    const authData = localStorage.getItem(PASSWORD_KEY);
+                    if (authData) {
+                        const { timestamp } = JSON.parse(authData);
+                        const now = Date.now();
+                        if (now - timestamp < SESSION_DURATION) {
+                            return true; // Autenticado y sesión válida
+                        }
+                        localStorage.removeItem(PASSWORD_KEY); // Sesión expirada
+                    }
+                } catch(e) {}
+                return false;
+            }
+            
+            function promptPassword() {
+                const password = prompt('🔒 Acceso Restringido\n\nIntroduce la contraseña para acceder a Project ZURICH:');
+                
+                if (password === null) {
+                    // Usuario canceló
+                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Inter,sans-serif;"><div style="text-align:center;"><h1 style="color:#2c5f7d;">🔒 Acceso Denegado</h1><p>Se requiere contraseña para acceder.</p></div></div>';
+                    return false;
+                }
+                
+                if (password === CORRECT_PASSWORD) {
+                    // Guardar autenticación
+                    try {
+                        localStorage.setItem(PASSWORD_KEY, JSON.stringify({
+                            timestamp: Date.now()
+                        }));
+                    } catch(e) {}
+                    return true;
+                } else {
+                    alert('❌ Contraseña incorrecta');
+                    return promptPassword(); // Volver a preguntar
+                }
+            }
+            
+            // Verificar autenticación al cargar
+            if (!checkAuth()) {
+                if (!promptPassword()) {
+                    return; // Bloquear carga
+                }
+            }
+        })();
+
         document.addEventListener('DOMContentLoaded', function() {
             // Add smooth scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {

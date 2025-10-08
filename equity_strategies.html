@@ -1030,9 +1030,11 @@
                 // Track NDA download event
                 if (window.postJSON) {
                     const token = window.resolveToken ? window.resolveToken() : null;
+                    const email = window.fetchVisitorEmail ? await window.fetchVisitorEmail(token) : null;
                     window.postJSON('/api/analytics-events', {
                         eventType: 'download',
                         visitorToken: token,
+                        visitor_email: email || '',
                         data: { 
                             file_type: 'nda',
                             source: 'cta-button',

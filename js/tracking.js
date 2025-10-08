@@ -76,6 +76,14 @@
     return path;
   }
 
+  function detectLanguage() {
+    const page = currentPageId();
+    if (page.includes('_en.html')) return 'en';
+    if (page.includes('_es.html')) return 'es';
+    // Default to Spanish for pages without language suffix
+    return 'es';
+  }
+
   function normalizeTypeFromText(text) {
     const t = (text || '').toLowerCase();
     if (t.includes('term')) return 'term-sheet';
@@ -100,7 +108,12 @@
           eventType: 'download',
           visitorToken: token,
           visitor_email: email || '',
-          data: { file_type, source: src, page: currentPageId() }
+          data: { 
+            file_type, 
+            source: src, 
+            page: currentPageId(),
+            language: detectLanguage()
+          }
         });
       }, { capture: true });
     }
@@ -168,6 +181,11 @@
       sendEnd();
     });
   }
+
+  // Expose functions globally for inline scripts
+  window.postJSON = postJSON;
+  window.resolveToken = resolveToken;
+  window.fetchVisitorEmail = fetchVisitorEmail;
 
   document.addEventListener('DOMContentLoaded', async function(){
     const token = resolveToken();

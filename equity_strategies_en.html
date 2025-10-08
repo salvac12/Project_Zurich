@@ -1081,7 +1081,7 @@
                     <i class="fas fa-times"></i>
                     Cancel
                 </button>
-                <a href="docs/gabriela-report-zurich.pdf" class="modal-btn modal-btn-primary" download="Gabriela_Report_Project_Zurich.pdf" target="_blank">
+                <a href="docs/gabriela-report-zurich.pdf" class="modal-btn modal-btn-primary" id="gabriela-download-btn" download="Gabriela_Report_Project_Zurich.pdf" target="_blank" data-file_type="gabriela-report">
                     <i class="fas fa-download"></i>
                     Download Gabriela Report Project Zurich
                 </a>
@@ -1106,6 +1106,31 @@
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeGabrielaModal();
+            }
+        });
+
+        // Track Gabriela Report download
+        document.addEventListener('DOMContentLoaded', function() {
+            const gabrielaDownloadBtn = document.getElementById('gabriela-download-btn');
+            if (gabrielaDownloadBtn) {
+                gabrielaDownloadBtn.addEventListener('click', async function() {
+                    // Track download event
+                    if (window.postJSON) {
+                        const token = window.resolveToken ? window.resolveToken() : null;
+                        const email = window.fetchVisitorEmail ? await window.fetchVisitorEmail(token) : null;
+                        window.postJSON('/api/analytics-events', {
+                            eventType: 'download',
+                            visitorToken: token,
+                            visitor_email: email || '',
+                            data: { 
+                                file_type: 'gabriela-report',
+                                source: 'gabriela-modal',
+                                page: 'equity_strategies_en.html',
+                                language: 'en'
+                            }
+                        });
+                    }
+                });
             }
         });
     </script>

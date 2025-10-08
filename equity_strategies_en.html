@@ -901,7 +901,7 @@
                         </div>
                         
                         <div class="strategy-cta">
-                            <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/c53280f7-e2b7-4d79-a374-8e01edb351f1" class="strategy-button" download="Sheets_FullEquity_BTR_15y.xlsx" target="_blank">
+                            <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/c53280f7-e2b7-4d79-a374-8e01edb351f1" class="strategy-button" download="Sheets_FullEquity_BTR_15y.xlsx" target="_blank" data-file_type="financial-model">
                                 <i class="fas fa-download"></i>
                                 Project Economics Build to Rent
                             </a>
@@ -958,7 +958,7 @@
                         </div>
                         
                         <div class="strategy-cta">
-                            <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" class="strategy-button" download="Sheets_Equity_BTS_36m.xlsx" target="_blank">
+                            <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" class="strategy-button" download="Sheets_Equity_BTS_36m.xlsx" target="_blank" data-file_type="financial-model">
                                 <i class="fas fa-download"></i>
                                 Project Economics Build to Sale 36 meses
                             </a>
@@ -1013,10 +1013,37 @@
     <!-- Page Interactions -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // CTA button interaction
+            // CTA button interaction - Download NDA and track event
             const ctaButton = document.querySelector('.cta-button');
-            ctaButton?.addEventListener('click', function() {
-                alert('¡Gracias por su interés! Nuestro equipo de inversión se pondrá en contacto con usted en breve.');
+            ctaButton?.addEventListener('click', async function() {
+                // Track CTA click event (already tracked by tracking.js)
+                
+                // Download NDA document
+                const link = document.createElement('a');
+                link.href = 'docs/NDA-Project-ZURICH-EN.docx';
+                link.download = 'NDA_Project_ZURICH_Alter5.docx';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Track NDA download event
+                if (window.postJSON) {
+                    const token = window.resolveToken ? window.resolveToken() : null;
+                    window.postJSON('/api/analytics-events', {
+                        eventType: 'download',
+                        visitorToken: token,
+                        data: { 
+                            file_type: 'nda',
+                            source: 'cta-button',
+                            page: 'equity_strategies_en.html',
+                            language: 'en'
+                        }
+                    });
+                }
+                
+                // Show confirmation message
+                alert('Thank you for your interest! The NDA has been downloaded. Our investment team will contact you shortly.');
             });
         });
     </script>

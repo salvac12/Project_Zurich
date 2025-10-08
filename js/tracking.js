@@ -88,6 +88,7 @@
   function bindDownloadTracking(token) {
     const docButtons = Array.from(document.querySelectorAll('.doc-button'));
     const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+    const strategyButtons = Array.from(document.querySelectorAll('.strategy-button'));
 
     function trackEl(el, src) {
       el.addEventListener('click', async function(e){
@@ -106,6 +107,7 @@
 
     docButtons.forEach(el => trackEl(el, 'doc-button'));
     navLinks.forEach(el => trackEl(el, 'nav-link'));
+    strategyButtons.forEach(el => trackEl(el, 'strategy-button'));
   }
 
   function bindNDAandCTA(token) {

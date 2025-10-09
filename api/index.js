@@ -69,6 +69,39 @@ module.exports = async (req, res) => {
           body: JSON.stringify(event)
         });
         
+        // Update visitor's last_access timestamp on page_visit events
+        if (body.eventType === 'page_visit' && event.visitor_token) {
+          try {
+            // Find visitor by token
+            const visitors = await supabase(`visitors?token=eq.${event.visitor_token}&select=*`);
+            if (visitors && visitors.length > 0) {
+              const visitor = visitors[0];
+              const now = new Date().toISOString();
+              
+              // Update last_access and first_access if needed
+              const updateData = {
+                last_access: now,
+                access_count: (visitor.access_count || 0) + 1
+              };
+              
+              // Set first_access if this is the first visit
+              if (!visitor.first_access) {
+                updateData.first_access = now;
+              }
+              
+              await supabase(`visitors?token=eq.${event.visitor_token}`, {
+                method: 'PATCH',
+                body: JSON.stringify(updateData)
+              });
+              
+              console.log('✅ Updated visitor last_access:', event.visitor_token);
+            }
+          } catch (updateError) {
+            console.error('⚠️ Error updating visitor last_access:', updateError.message);
+            // Don't fail the event creation if visitor update fails
+          }
+        }
+        
         console.log('✅ Analytics event:', event.event_type, event.visitor_token);
         return res.status(201).json(saved[0] || event);
       }

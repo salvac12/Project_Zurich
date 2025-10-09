@@ -671,32 +671,108 @@
                 this.updateRealTimeMetrics();
             }
 
-            updateRealTimeMetrics() {
-                // Simular datos en tiempo real
-                document.getElementById('activeVisitors').textContent = Math.floor(Math.random() * 8) + 1;
-                document.getElementById('recentDownloads').textContent = Math.floor(Math.random() * 5);
-                document.getElementById('recentNDAs').textContent = Math.floor(Math.random() * 3);
-
-                // Log de eventos recientes
-                this.updateRecentEvents();
+            async updateRealTimeMetrics() {
+                try {
+                    const analyticsRes = await fetch('/api/analytics-real');
+                    const analyticsData = await analyticsRes.json();
+                    const analytics = analyticsData.data || analyticsData || [];
+                    
+                    const now = Date.now();
+                    const oneHourAgo = now - (60 * 60 * 1000);
+                    const fiveMinutesAgo = now - (5 * 60 * 1000);
+                    
+                    // Filter events from last hour
+                    const recentEvents = analytics.filter(e => {
+                        const eventTime = new Date(e.timestamp).getTime();
+                        return eventTime > oneHourAgo;
+                    });
+                    
+                    // Count active visitors (visited in last 5 minutes)
+                    const activeVisitorTokens = new Set();
+                    analytics.filter(e => {
+                        const eventTime = new Date(e.timestamp).getTime();
+                        return eventTime > fiveMinutesAgo;
+                    }).forEach(e => {
+                        if (e.visitor_token) {
+                            activeVisitorTokens.add(e.visitor_token);
+                        }
+                    });
+                    
+                    // Count downloads in last hour
+                    const recentDownloads = recentEvents.filter(e => e.event_type === 'download').length;
+                    
+                    // Count NDAs in last hour
+                    const recentNDAs = recentEvents.filter(e => 
+                        e.event_type === 'nda_request' || 
+                        (e.event_type === 'download' && e.event_data?.file_type === 'nda')
+                    ).length;
+                    
+                    // Update UI
+                    document.getElementById('activeVisitors').textContent = activeVisitorTokens.size;
+                    document.getElementById('recentDownloads').textContent = recentDownloads;
+                    document.getElementById('recentNDAs').textContent = recentNDAs;
+                    
+                    // Update recent events log
+                    this.updateRecentEvents(analytics);
+                    
+                } catch (error) {
+                    console.error('❌ Error updating real-time metrics:', error);
+                    document.getElementById('activeVisitors').textContent = '-';
+                    document.getElementById('recentDownloads').textContent = '-';
+                    document.getElementById('recentNDAs').textContent = '-';
+                }
             }
 
-            updateRecentEvents() {
-                const events = [
-                    { time: '14:32', event: 'Descarga: Term Sheet', user: 'j.garcia@***.com' },
-                    { time: '14:28', event: 'Solicitud NDA', user: 'm.lopez@***.com' },
-                    { time: '14:15', event: 'Nuevo visitante', user: 'p.martin@***.com' },
-                    { time: '14:02', event: 'Descarga: Teaser', user: 'a.rodriguez@***.com' }
-                ];
+            updateRecentEvents(analytics) {
+                if (!analytics || analytics.length === 0) {
+                    const container = document.getElementById('recentEventsLog');
+                    container.innerHTML = '<div class="text-sm text-gray-500">No hay eventos recientes</div>';
+                    return;
+                }
+                
+                // Get last 10 events
+                const recentEvents = analytics
+                    .filter(e => e.event_type === 'download' || e.event_type === 'nda_request' || e.event_type === 'page_visit')
+                    .slice(0, 10)
+                    .map(e => {
+                        const time = new Date(e.timestamp).toLocaleTimeString('es-ES', { 
+                            hour: '2-digit', 
+                            minute: '2-digit' 
+                        });
+                        
+                        let eventText = '';
+                        if (e.event_type === 'download') {
+                            const fileType = e.event_data?.file_type || 'documento';
+                            eventText = `Descarga: ${fileType}`;
+                        } else if (e.event_type === 'nda_request') {
+                            eventText = 'Solicitud NDA';
+                        } else if (e.event_type === 'page_visit') {
+                            const page = e.event_data?.page || '';
+                            eventText = `Visita: ${page}`;
+                        }
+                        
+                        // Mask email for privacy
+                        let userEmail = e.visitor_email || 'Anónimo';
+                        if (userEmail && userEmail.includes('@')) {
+                            const parts = userEmail.split('@');
+                            userEmail = parts[0].substring(0, 1) + '***@' + parts[1];
+                        }
+                        
+                        return { time, event: eventText, user: userEmail };
+                    });
 
                 const container = document.getElementById('recentEventsLog');
-                container.innerHTML = events.map(event => `
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-gray-900">${event.event}</span>
-                        <span class="text-gray-500">${event.time}</span>
-                    </div>
-                    <div class="text-xs text-gray-400 mb-2">${event.user}</div>
-                `).join('');
+                if (recentEvents.length === 0) {
+                    container.innerHTML = '<div class="text-sm text-gray-500">No hay eventos recientes</div>';
+                } else {
+                    container.innerHTML = recentEvents.map(event => `
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-900">${event.event}</span>
+                            <span class="text-gray-500">${event.time}</span>
+                        </div>
+                        <div class="text-xs text-gray-400 mb-2">${event.user}</div>
+                    `).join('');
+                }
             }
 
             getFileTypeColor(type) {

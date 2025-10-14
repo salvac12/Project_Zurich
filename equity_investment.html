@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project ZURICH - Inversión Equity | Alter5</title>
-    <meta name="description" content="Inversión de EUR 21M Build to Sale de corto plazo (32 meses) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <meta name="version" content="no-turquoise-v3-<?php echo time(); ?>">
+    <meta name="description" content="Inversión de EUR 20M Build to Sale de corto plazo (3 años) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +37,7 @@
         
         /* Header */
         .header {
-            background-color: #1F3A8A;
+            background-color: #103971;
             padding: 12px 0;
             position: fixed;
             top: 0;
@@ -57,9 +53,19 @@
         }
         
         .logo {
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .logo:hover {
+            opacity: 0.85;
+        }
+        
+        .logo img {
+            height: 40px;
+            width: auto;
         }
         
         .nav-links {
@@ -89,7 +95,7 @@
         .project-title {
             font-size: 48px;
             font-weight: 700;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 30px;
         }
         
@@ -104,12 +110,22 @@
             background-color: #ffffff;
             padding: 30px;
             border-radius: 8px;
+            border-left: 4px solid #103971;
         }
         
         .project-description p {
             margin-bottom: 15px;
             color: #374151;
             line-height: 1.6;
+            font-weight: 400;
+        }
+        .project-description p:first-of-type {
+            font-weight: 400;
+        }
+        /* Ensure no bold text inside project description */
+        .project-description strong,
+        .project-description b {
+            font-weight: 400 !important;
         }
         
         .hero-image {
@@ -141,7 +157,7 @@
         /* Key metrics */
         .key-metrics {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin: 40px 0;
         }
@@ -158,7 +174,7 @@
         .metric-value {
             font-size: 24px;
             font-weight: 700;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 5px;
         }
         
@@ -177,19 +193,21 @@
         .section-title {
             font-size: 24px;
             font-weight: 600;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 30px;
             text-align: center;
         }
         
         .doc-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
             gap: 20px;
         }
         
         .doc-button {
-            background-color: #1F3A8A;
+            background-color: #103971;
             color: white;
             border: none;
             padding: 30px 20px;
@@ -197,6 +215,9 @@
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: center;
+            width: 280px;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .doc-button:hover {
@@ -208,6 +229,38 @@
             font-size: 24px;
             margin-bottom: 10px;
             display: block;
+        }
+
+        /* Gabriela Doc Button - Special Styling */
+        .gabriela-doc-button {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gabriela-doc-button:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .gabriela-doc-button .gabriela-icon {
+            display: inline-flex !important;
+            margin-bottom: 8px;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
         }
         
         /* About developer */
@@ -224,18 +277,90 @@
         
         .stat-box {
             background-color: #ffffff;
-            border: 1px solid #E5E7EB;
+            border: 1px solid #BFDBFE;
             border-radius: 8px;
             padding: 20px;
             text-align: center;
         }
         
-
+        /* NDA Modal */
+        .nda-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .nda-modal.show {
+            display: flex;
+        }
+        
+        .nda-modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nda-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #6B7280;
+            cursor: pointer;
+        }
+        
+        .nda-modal-close:hover {
+            color: #103971;
+        }
+        
+        .nda-modal h3 {
+            color: #103971;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .nda-modal p {
+            color: #374151;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .nda-request-btn {
+            background: linear-gradient(135deg, #103971 0%, #3B82F6 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nda-request-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(31, 58, 138, 0.3);
+        }
         
         .stat-value {
             font-size: 24px;
             font-weight: 700;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 5px;
         }
         
@@ -270,7 +395,7 @@
         .detail-column h3 {
             font-size: 20px;
             font-weight: 600;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 20px;
         }
         
@@ -304,7 +429,7 @@
         .characteristic-number {
             font-size: 24px;
             font-weight: 700;
-            color: #1F3A8A;
+            color: #103971;
         }
         
         .characteristic-label {
@@ -342,7 +467,7 @@
         .timeline-title {
             font-size: 18px;
             font-weight: 600;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 10px;
         }
         
@@ -352,7 +477,96 @@
             line-height: 1.5;
         }
         
-
+        /* Investment parameters */
+        .investment-params {
+            margin: 60px 0;
+            background-color: #F9FAFB;
+            padding: 40px;
+            border-radius: 12px;
+        }
+        
+        .params-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .param-item {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #10B981;
+        }
+        
+        .param-label {
+            font-size: 12px;
+            color: #6B7280;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .param-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #103971;
+            margin-bottom: 5px;
+        }
+        
+        .param-note {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+        
+        /* ESG section */
+        .esg-section {
+            margin: 60px 0;
+            background-color: #ECFDF5;
+            padding: 40px;
+            border-radius: 12px;
+        }
+        
+        .esg-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .esg-item {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .esg-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #10B981;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .esg-icon i {
+            color: white;
+            font-size: 20px;
+        }
+        
+        .esg-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #103971;
+            margin-bottom: 15px;
+        }
+        
+        .esg-description {
+            color: #6B7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
         
         /* Next steps */
         .next-steps {
@@ -377,7 +591,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: #1F3A8A;
+            background-color: #103971;
             color: white;
             display: flex;
             align-items: center;
@@ -390,7 +604,7 @@
         .step-title {
             font-size: 16px;
             font-weight: 600;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 10px;
         }
         
@@ -402,7 +616,7 @@
         
         /* CTA Section */
         .cta-section {
-            background-color: #1F3A8A;
+            background-color: #103971;
             padding: 60px 0;
             text-align: center;
             color: white;
@@ -410,7 +624,7 @@
         
         .cta-button {
             background-color: white;
-            color: #1F3A8A;
+            color: #103971;
             border: none;
             padding: 20px 40px;
             font-size: 16px;
@@ -428,7 +642,7 @@
         
         .cta-disclaimer {
             font-size: 14px;
-            color: #9CA3AF;
+            color: #BFDBFE;
             font-style: italic;
         }
         
@@ -450,87 +664,6 @@
             color: #9CA3AF;
         }
         
-        /* Transaction details */
-        .transaction-details {
-            margin: 60px 0;
-        }
-        
-        .transaction-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        
-        .transaction-item {
-            background-color: white;
-            border: 1px solid #E5E7EB;
-            border-radius: 8px;
-            padding: 25px;
-            text-align: center;
-        }
-        
-        .transaction-label {
-            font-size: 12px;
-            color: #6B7280;
-            text-transform: uppercase;
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-        
-        .transaction-value {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1F3A8A;
-        }
-        
-        /* Risk mitigation */
-        .risk-mitigation {
-            margin: 60px 0;
-        }
-        
-        .risk-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-        }
-        
-        .risk-item {
-            background-color: white;
-            border: 1px solid #E5E7EB;
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .risk-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-        
-        .risk-icon i {
-            font-size: 24px;
-            color: #1F3A8A;
-        }
-        
-        .risk-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1F3A8A;
-            margin-bottom: 15px;
-        }
-        
-        .risk-description {
-            font-size: 14px;
-            color: #6B7280;
-            line-height: 1.6;
-        }
-        
         /* Responsive */
         @media (max-width: 768px) {
             .hero-section {
@@ -542,8 +675,10 @@
             }
             
             .doc-buttons {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: center;
             }
+            .doc-button { width: 100%; }
             
             .developer-stats {
                 grid-template-columns: repeat(2, 1fr);
@@ -557,20 +692,269 @@
                 grid-template-columns: 1fr;
             }
             
-            .transaction-grid {
+            .params-grid {
                 grid-template-columns: 1fr;
             }
             
-            .risk-grid {
+            .esg-grid {
                 grid-template-columns: 1fr;
             }
             
             .steps-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
+            .docs-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
+        /* Documentation Section */
+        .documentation-section {
+            background: #F8FAFC;
+            padding: 60px 40px;
+            margin-bottom: 60px;
+        }
 
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .doc-item {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #E2E8F0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .doc-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .doc-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, #103971, #3B82F6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .doc-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #103971;
+            margin-bottom: 10px;
+        }
+
+        .doc-description {
+            color: #64748B;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .document-downloads {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .document-download-btn {
+            background: #103971 !important;
+            color: white !important;
+            border: none !important;
+            padding: 10px 16px !important;
+            border-radius: 6px !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+            transition: all 0.2s !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        .document-download-btn:hover {
+            background: #1E3A8A !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .file-size {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1A3366;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .modal-body {
+            color: #333;
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+
+        .modal-body strong {
+            color: #1A3366;
+            font-weight: 600;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .modal-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .modal-btn-primary {
+            background: #10B981;
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .modal-btn-secondary {
+            background: #E5E7EB;
+            color: #374151;
+        }
+
+        .modal-btn-secondary:hover {
+            background: #D1D5DB;
+        }
+
+        .gabriela-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            border-radius: 50%;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -578,21 +962,21 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-cube"></i> ALTER 5
-                </div>
+                <a href="https://www.alter-5.com" target="_blank" class="logo">
+                    <img src="images/alter5-logo-full.png" alt="Alter5 Logo">
+                </a>
                 <nav class="nav-links">
-                    <a href="#" class="nav-link">
+                    <a href="docs/equity-short-term-teaser.pdf" class="nav-link" download="ESP - Project ZURICH_Alter5-EQUITY SHORT-TERM.pdf" target="_blank">
                         <i class="fas fa-file-pdf"></i>
                         Descargar Teaser
                     </a>
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-file-alt"></i>
-                        Descargar Term-Sheet
-                    </a>
-                    <a href="#" class="nav-link">
+                    <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" class="nav-link" id="financial-model-nav" download="Sheets_Equity_ST.xlsx" target="_blank">
                         <i class="fas fa-chart-line"></i>
-                        Modelo Financiero
+                        Project Economics
+                    </a>
+                    <a href="#" class="nav-link" id="gabriela-report-btn" onclick="event.preventDefault(); openGabrielaModal();">
+                        <span class="gabriela-icon">G</span>
+                        Gabriela Report
                     </a>
                 </nav>
             </div>
@@ -608,7 +992,7 @@
             <!-- Hero Section -->
             <div class="hero-section">
                 <div class="project-description">
-                    <p>Inversión de EUR 21M "Build to Sale" de corto plazo (32 meses) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid.</p>
+                    <p style="font-weight:400 !important;">Inversión de EUR 20M "Build to Sale" de corto plazo (3 años) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid.</p>
                     
                     <p>Oportunidad de invertir hasta un máximo de 20.2M€ en la fase de construcción y estabilización de un edificio residencial de alquiler asequible en Valdebebas, una de las zonas con mayor crecimiento y revalorización de Madrid.</p>
                     
@@ -627,20 +1011,16 @@
             <!-- Key Metrics -->
             <div class="key-metrics">
                 <div class="metric-box">
-                    <div class="metric-value">EUR 21M</div>
+                    <div class="metric-value">EUR 20M</div>
                     <div class="metric-label">INVERSIÓN TOTAL</div>
                 </div>
                 <div class="metric-box">
-                    <div class="metric-value">32</div>
-                    <div class="metric-label">MESES</div>
+                    <div class="metric-value">3</div>
+                    <div class="metric-label">AÑOS</div>
                 </div>
                 <div class="metric-box">
-                    <div class="metric-value">13.5%</div>
+                    <div class="metric-value">10%-12%</div>
                     <div class="metric-label">TIR OBJETIVO</div>
-                </div>
-                <div class="metric-box">
-                    <div class="metric-value">71%</div>
-                    <div class="metric-label">LOAN TO COST</div>
                 </div>
                 <div class="metric-box">
                     <div class="metric-value">251</div>
@@ -652,18 +1032,19 @@
             <div class="documentation-section">
                 <h2 class="section-title">Documentación Disponible</h2>
                 <div class="doc-buttons">
-                    <button class="doc-button">
+                    <a class="doc-button" href="docs/equity-short-term-teaser.pdf" download="ESP - Project ZURICH_Alter5-EQUITY SHORT-TERM.pdf" target="_blank">
                         <i class="fas fa-file-pdf"></i>
                         TEASER
-                    </button>
-                    <button class="doc-button">
-                        <i class="fas fa-file-alt"></i>
-                        TERM-SHEET
-                    </button>
-                    <button class="doc-button">
+                    </a>
+                    <a class="doc-button" id="financial-model-btn" href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" download="Sheets_Equity_ST.xlsx" target="_blank">
                         <i class="fas fa-chart-line"></i>
-                        MODELO FINANCIERO
-                    </button>
+                        PROJECT ECONOMICS
+                    </a>
+                    <a class="doc-button gabriela-doc-button" href="#" onclick="event.preventDefault(); openGabrielaModal();">
+                        <span class="gabriela-icon" style="width: 28px; height: 28px; font-size: 14px;">G</span>
+                        GABRIELA REPORT
+                        <span class="ai-badge">AI</span>
+                    </a>
                 </div>
             </div>
             
@@ -703,8 +1084,8 @@
                         <p>La inversión se canaliza a través de una SOCIMI (Sociedad Cotizada de Inversión en el Mercado Inmobiliario), lo que permite que las plusvalías generadas por la venta del activo estén exentas de impuesto sobre sociedades.</p>
                         <ul>
                             <li>Ventaja fiscal en plusvalías mediante estructura SOCIMI</li>
-                            <li>Horizonte de inversión: 32 meses (construcción + estabilización)</li>
-                            <li>Rentabilidad objetivo: 13.5% TIR anual</li>
+                            <li>Horizonte de inversión: 3 años</li>
+                            <li>Rentabilidad objetivo: 10%-12% TIR anual</li>
                             <li>Terrenos adquiridos con licencia de obra ya aprobada</li>
                         </ul>
                     </div>
@@ -745,87 +1126,86 @@
                         <div class="timeline-description">Ocupación objetivo >97% durante período protegido</div>
                     </div>
                     <div class="timeline-item">
-                        <div class="timeline-period">FEBRERO 2029</div>
-                        <div class="timeline-title">Salida / Comienzo Repago</div>
+                        <div class="timeline-period">SEPTIEMBRE 2029</div>
+                        <div class="timeline-title">Salida</div>
                         <div class="timeline-description">Venta a inversor core o refinanciación institucional</div>
                     </div>
                 </div>
             </div>
-
-            <!-- Transaction Details -->
-            <div class="transaction-details">
-                <h2 class="section-title">Detalles de la Transacción</h2>
-                <div class="transaction-grid">
-                    <div class="transaction-item">
-                        <div class="transaction-label">PROMOTOR</div>
-                        <div class="transaction-value">SPV ("AssetCo") agrupando todos los activos</div>
+            
+            <!-- Investment Parameters -->
+            <div class="investment-params">
+                <h2 class="section-title">Parámetros de Inversión</h2>
+                <div class="params-grid">
+                    <div class="param-item">
+                        <div class="param-label">APORTACIÓN DE EQUITY</div>
+                        <div class="param-value">EUR 20.2M</div>
+                        <div class="param-note">Máximo solicitado</div>
                     </div>
-                    <div class="transaction-item">
-                        <div class="transaction-label">MONTO DE EQUITY</div>
-                        <div class="transaction-value">€21,000,000</div>
+                    <div class="param-item">
+                        <div class="param-label">VEHÍCULO DE INVERSIÓN</div>
+                        <div class="param-value">SOCIMI</div>
+                        <div class="param-note">Ventaja fiscal en plusvalía</div>
                     </div>
-                    <div class="transaction-item">
-                        <div class="transaction-label">ESTRUCTURA</div>
-                        <div class="transaction-value">Inversión de equity con período de construcción 32 meses</div>
+                    <div class="param-item">
+                        <div class="param-label">HORIZONTE</div>
+                        <div class="param-value">3 años</div>
+                        <div class="param-note">Construcción + estabilización</div>
                     </div>
-                    <div class="transaction-item">
-                        <div class="transaction-label">LOAN TO COST</div>
-                        <div class="transaction-value">71%</div>
+                    <div class="param-item">
+                        <div class="param-label">TIR OBJETIVO</div>
+                        <div class="param-value">10%-12%</div>
+                        <div class="param-note">Rentabilidad anual</div>
                     </div>
-                    <div class="transaction-item">
-                        <div class="transaction-label">TIR OBJETIVO</div>
-                        <div class="transaction-value">13.5%</div>
+                    <div class="param-item">
+                        <div class="param-label">HORIZONTE</div>
+                        <div class="param-value">3 años</div>
+                        <div class="param-note">Durante período de protección</div>
                     </div>
-                    <div class="transaction-item">
-                        <div class="transaction-label">MARGEN DE SEGURIDAD</div>
-                        <div class="transaction-value">Alto colchón de equity</div>
-                    </div>
-                    <div class="transaction-item">
-                        <div class="transaction-label">PLAZO</div>
-                        <div class="transaction-value">32 meses</div>
-                    </div>
-                    <div class="transaction-item">
-                        <div class="transaction-label">SALIDA</div>
-                        <div class="transaction-value">Venta a inversor institucional</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Risk Mitigation Factors -->
-            <div class="risk-mitigation">
-                <h2 class="section-title">Factores de Mitigación de Riesgo</h2>
-                <div class="risk-grid">
-                    <div class="risk-item">
-                        <div class="risk-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="risk-title">Alta Cobertura de Equity</div>
-                        <div class="risk-description">El vehículo de inversión (SOCIMI) aporta aproximadamente €20M de equity, absorbiendo las primeras pérdidas y asegurando alineación de intereses.</div>
-                    </div>
-                    <div class="risk-item">
-                        <div class="risk-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="risk-title">Ubicación Estratégica</div>
-                        <div class="risk-description">Valdebebas combina infraestructura moderna, excelente conectividad y estructuralmente mayor demanda que oferta.</div>
-                    </div>
-                    <div class="risk-item">
-                        <div class="risk-icon">
-                            <i class="fas fa-file-contract"></i>
-                        </div>
-                        <div class="risk-title">Riesgo Urbanístico Eliminado</div>
-                        <div class="risk-description">Terrenos adquiridos con licencia otorgada y proyecto aprobado de acuerdo con la Ley 3/2024 (conversión de suelo de oficinas a residencial protegido).</div>
-                    </div>
-                    <div class="risk-item">
-                        <div class="risk-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="risk-title">Flujos de Caja Predecibles</div>
-                        <div class="risk-description">Alquiler asequible con ocupación esperada >97% durante el período de protección.</div>
+                    <div class="param-item">
+                        <div class="param-label">OCUPACIÓN ESPERADA</div>
+                        <div class="param-value">>97%</div>
+                        <div class="param-note">Producto comparable</div>
                     </div>
                 </div>
             </div>
             
+            <!-- ESG Section -->
+            <div class="esg-section">
+                <h2 class="section-title">Criterios ESG Integrados</h2>
+                <div class="esg-grid">
+                    <div class="esg-item">
+                        <div class="esg-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="esg-title">Social (S)</div>
+                        <div class="esg-description">
+                            Vivienda asequible regulada en mercado tensionado. Precio de alquiler 20-30% por debajo del mercado libre, contribuyendo a la reducción del déficit habitacional.
+                        </div>
+                    </div>
+                    <div class="esg-item">
+                        <div class="esg-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="esg-title">Medioambiental (E)</div>
+                        <div class="esg-description">
+                            Diseño bajo estándares de eficiencia energética y sostenibilidad. Certificaciones energéticas A/B y puntos de recarga para vehículos eléctricos.
+                        </div>
+                    </div>
+                    <div class="esg-item">
+                        <div class="esg-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="esg-title">Gobernanza (G)</div>
+                        <div class="esg-description">
+                            Inversión canalizada través de SOCIMI con estructura transparente. Reporting periódico incluyendo métricas ESG y de impacto social.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+
             <!-- Next Steps -->
             <div class="next-steps">
                 <h2 class="section-title">Próximos Pasos</h2>
@@ -859,7 +1239,7 @@
     <div class="cta-section">
         <div class="container">
             <button class="cta-button">FIRMAR NDA Y ACCEDER A DETALLES DE INVERSIÓN</button>
-            <div class="cta-disclaimer">Confirmación de interés requerida antes del 30 de septiembre de 2025</div>
+            <div class="cta-disclaimer">Confirmación de interés requerida antes del 30 de octubre de 2025</div>
         </div>
     </div>
     
@@ -876,7 +1256,20 @@
     </footer>
     
     <!-- Document Manager JavaScript -->
-    <script src="js/document-manager.js"></script>
+    <script>
+      // Safety: remove any bold wrappers from the first hero paragraph if present
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          const firstP = document.querySelector('.project-description p:first-of-type');
+          if (firstP) {
+            firstP.innerHTML = firstP.textContent; // drop any strong/b
+            firstP.style.fontWeight = '400';
+          }
+        } catch (e) { /* no-op */ }
+      });
+    </script>
+    <script src="js/document-manager.js?v=20250924-02"></script>
+    <script src="js/tracking.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -885,27 +1278,93 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const ctaButton = document.querySelector('.cta-button');
             
-            // Handle documentation buttons
-            docButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    alert('Por favor contacte con nuestro equipo de inversión para acceder a la documentación.');
-                });
-            });
+            // Nota: El botón de Project Economics descarga directamente el archivo (enlace con atributo download).
             
-            // Handle navigation links
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    alert('Por favor contacte con nuestro equipo de inversión para acceder a la documentación.');
-                });
-            });
+            // Nota: Los enlaces de navegación ahora descargan documentos directamente donde aplica (Teaser / Project Economics).
             
             // Handle CTA button
             ctaButton?.addEventListener('click', function() {
                 alert('¡Gracias por su interés! Nuestro equipo de inversión se pondrá en contacto con usted en breve.');
             });
         });
+        
+        // NDA modal deshabilitado para Project Economics: ahora descarga directamente el Excel.
+    </script>
+
+    <!-- NDA Modal -->
+    <div id="nda-modal" class="nda-modal">
+        <div class="nda-modal-content">
+            <button id="nda-modal-close" class="nda-modal-close">&times;</button>
+            <h3>🔒 Acceso a Project Economics</h3>
+            <p>Para acceder a Project Economics es necesario firmar el NDA (Acuerdo de Confidencialidad).</p>
+            <p>Una vez firmado, tendrá acceso completo a toda la información financiera detallada del proyecto.</p>
+            <button id="nda-request-btn" class="nda-request-btn">
+                📋 Solicitar NDA
+            </button>
+        </div>
+    </div>
+
+    <!-- Gabriela Report Modal -->
+    <div id="gabriela-modal" class="modal-overlay" onclick="closeGabrielaModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeGabrielaModal()">&times;</button>
+            
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="gabriela-icon" style="width: 32px; height: 32px; font-size: 16px; margin-right: 10px;">G</span>
+                    Disclaimer – Gabriela Report
+                </div>
+                <div class="modal-subtitle">Análisis de IA especializado en inversiones inmobiliarias</div>
+            </div>
+            
+            <div class="modal-body">
+                <p>
+                    <strong>Gabriela Report</strong> es un informe desarrollado por nuestro modelo de inteligencia artificial especializado en el análisis de inversiones inmobiliarias.
+                </p>
+                <p>
+                    Gabriela integra información procedente de fuentes estadísticas, financieras, sociodemográficas, macro y microeconómicas, así como de transacciones reales, para ofrecer una lectura precisa y basada en evidencia del mercado.
+                </p>
+                <p>
+                    Su motor es <strong>agnóstico, transparente y analítico</strong>: evalúa hipótesis de inversión mediante modelos probabilísticos y escenarios de sensibilidad, sin incorporar sesgos ni interpretaciones subjetivas.
+                </p>
+                <p>
+                    Los informes generados por Gabriela <strong>no constituyen una recomendación ni una opinión de inversión</strong>, sino un análisis técnico e independiente fundamentado en datos contrastados y metodologías cuantitativas.
+                </p>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-secondary" onclick="closeGabrielaModal()">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+                <a href="docs/gabriela-report-zurich.pdf" class="modal-btn modal-btn-primary" download="Gabriela_Report_Project_Zurich.pdf" target="_blank">
+                    <i class="fas fa-download"></i>
+                    Descargar Gabriela Report Project Zurich
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openGabrielaModal() {
+            document.getElementById('gabriela-modal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeGabrielaModal(event) {
+            if (!event || event.target.id === 'gabriela-modal') {
+                document.getElementById('gabriela-modal').classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeGabrielaModal();
+            }
+        });
     </script>
 
 </body>
-</html>
+</html><!-- sync -->

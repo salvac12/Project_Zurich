@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project ZURICH - Equity Investment Strategies | Alter5</title>
+    <meta name="description" content="Two equity investment strategies for Project ZURICH: Build to Sale (36 months) and Build to Rent (15 years). Select the strategy that aligns with your investment objectives.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background-color: #1A3366;
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .logo:hover {
+            opacity: 0.85;
+        }
+        
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content */
+        .main-content {
+            margin-top: 60px;
+            padding: 40px 0;
+        }
+        
+        .project-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1A3366;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .project-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            color: #6B7280;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .project-description {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #1A3366;
+        }
+        
+        .project-description p {
+            margin-bottom: 15px;
+            color: #374151;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+        
+        .hero-image {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .location-tag {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Strategy comparison section */
+        .strategies-section {
+            margin: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1A3366;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            font-size: 16px;
+            color: #6B7280;
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .strategies-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .strategy-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .strategy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #1A3366, #3B82F6);
+        }
+        
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: #1A3366;
+        }
+        
+        .strategy-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .strategy-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1A3366, #3B82F6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 36px;
+            color: white;
+        }
+        
+        .strategy-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1A3366;
+            margin-bottom: 10px;
+        }
+        
+        .strategy-tagline {
+            font-size: 14px;
+            color: #6B7280;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .strategy-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .metric-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #E5E7EB;
+        }
+        
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1A3366;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 11px;
+            color: #6B7280;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .strategy-features {
+            margin: 25px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+        }
+        
+        .feature-icon {
+            color: #10B981;
+            margin-right: 10px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .feature-text {
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.5;
+        }
+        
+        .strategy-cta {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .strategy-button {
+            background: #1A3366;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .strategy-button:hover {
+            background: #0F2752;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(26, 51, 102, 0.3);
+        }
+        
+        /* Available documentation */
+        .documentation-section {
+            margin: 60px 0;
+            background: #F9FAFB;
+            padding: 60px 40px;
+            border-radius: 12px;
+        }
+        
+        .doc-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .doc-button {
+            background-color: #1A3366;
+            color: white;
+            border: none;
+            padding: 30px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .doc-button:hover {
+            background-color: #0F2752;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(26, 51, 102, 0.3);
+        }
+        
+        .doc-button i {
+            font-size: 28px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .doc-button-text {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Gabriela Doc Button - Special Styling */
+        .gabriela-doc-button {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gabriela-doc-button:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .gabriela-doc-button .gabriela-icon {
+            display: inline-flex !important;
+            margin-bottom: 8px;
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* About project (Sobre la Promoción) */
+        .about-project {
+            margin: 60px 0;
+        }
+        
+        .project-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .detail-column {
+            background-color: #FAFAFA;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        .detail-column h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1A3366;
+            margin-bottom: 20px;
+        }
+        
+        .detail-column p {
+            color: #374151;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .characteristic-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .characteristic-item:last-child {
+            border-bottom: none;
+        }
+        
+        .characteristic-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A3366;
+        }
+        
+        .characteristic-label {
+            font-size: 14px;
+            color: #6B7280;
+        }
+        
+        /* About developer */
+        .about-developer {
+            margin: 60px 0;
+        }
+        
+        .developer-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-box {
+            background-color: #ffffff;
+            border: 1px solid #BFDBFE;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1A3366;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+        
+        .developer-description {
+            color: #6B7280;
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background-color: #1A3366;
+            padding: 60px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-button {
+            background-color: white;
+            color: #1A3366;
+            border: none;
+            padding: 20px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+        
+        .cta-button:hover {
+            background-color: #F3F4F6;
+        }
+        
+        .cta-disclaimer {
+            font-size: 14px;
+            color: #BFDBFE;
+            font-style: italic;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #374151;
+            padding: 40px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .confidential {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .copyright {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1A3366;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .modal-body {
+            color: #333;
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+
+        .modal-body strong {
+            color: #1A3366;
+            font-weight: 600;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .modal-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .modal-btn-primary {
+            background: #10B981;
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .modal-btn-secondary {
+            background: #E5E7EB;
+            color: #374151;
+        }
+
+        .modal-btn-secondary:hover {
+            background: #D1D5DB;
+        }
+
+        .gabriela-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            border-radius: 50%;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .strategies-vertical {
+                max-width: 100%;
+            }
+            
+            .doc-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .developer-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .strategy-metrics {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="https://www.alter-5.com" target="_blank" class="logo">
+                    <img src="images/alter5-logo-full.png" alt="Alter5 Logo">
+                </a>
+                <nav class="nav-links">
+                    <a href="docs/equity-strategies-teaser-v2.pdf" class="nav-link" download="ENG - Project ZURICH_Alter5-EQUITY_STRATEGIES_TEASER.pdf" target="_blank">
+                        <i class="fas fa-file-pdf"></i>
+                        Download Teaser
+                    </a>
+                    <a href="#" class="nav-link" id="gabriela-report-btn" onclick="event.preventDefault(); openGabrielaModal();">
+                        <span class="gabriela-icon">G</span>
+                        Gabriela Report
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Project Title -->
+            <h1 class="project-title">Project ZURICH</h1>
+<p class="project-subtitle">BTR Investment Opportunity in Affordable Housing, Prime Madrid Location</p>
+            
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="project-description">
+                    <p>Investment opportunity in an affordable residential development in Valdebebas, one of Madrid's fastest-growing and highest-appreciating districts.</p>
+                    
+                    <p>We present two equity investment strategies tailored to different investment profiles: <strong>Build to Sale</strong> (short-term, 32-36 months) and <strong>Build to Rent</strong> (long-term, 15-year hold with subsequent liberalization).</p>
+                    
+                    <p>The asset benefits from Law 3/2024, enabling conversion of office-zoned land to regulated residential use, unlocking value creation from inception through a SOCIMI (REIT) structure for tax optimization.</p>
+                </div>
+                
+                <div class="hero-image">
+                    <img src="images/project-zurich-new.jpg" alt="Project ZURICH - Residential Development Valdebebas Madrid">
+                    <div class="location-tag">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Valdebebas, Madrid
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About the Development -->
+            <div class="about-project">
+                <h2 class="section-title">About the Development</h2>
+                <div class="project-details-grid">
+                    <div class="detail-column">
+                        <h3>Asset Composition</h3>
+                        <p>Total of 251 residential units distributed across unit types optimized for Madrid market demand.</p>
+                        
+                        <div class="characteristic-item">
+                            <div class="characteristic-number">50</div>
+                            <div class="characteristic-label">1-bedroom units</div>
+                        </div>
+                        <div class="characteristic-item">
+                            <div class="characteristic-number">186</div>
+                            <div class="characteristic-label">2-bedroom units</div>
+                        </div>
+                        <div class="characteristic-item">
+                            <div class="characteristic-number">15</div>
+                            <div class="characteristic-label">3-bedroom units</div>
+                        </div>
+                        
+                        <p style="font-size: 12px; color: #9CA3AF; margin-top: 15px;">Includes parking spaces, storage units, and landscaped common areas.</p>
+                    </div>
+                    <div class="detail-column">
+                        <h3>Location & Legal Framework</h3>
+                        <p><strong>Prime Location:</strong> Valdebebas is one of Madrid's highest-growth and highest-appreciation districts, with superior connectivity and amenities.</p>
+                        <p><strong>Legal Framework:</strong> The project benefits from Law 3/2024, enabling conversion of office-zoned land to regulated residential use.</p>
+                        <p><strong>Tax Structure:</strong> SOCIMI (Spanish REIT) vehicle for capital gains tax optimization upon exit.</p>
+                        <p><strong>Permits:</strong> Land acquired with construction permits already approved, mitigating execution risk.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About the Sponsor -->
+            <div class="about-developer">
+                <h2 class="section-title">About the Sponsor</h2>
+                <div class="developer-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">+20</div>
+                        <div class="stat-label">Years of experience</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">€1.1B</div>
+                        <div class="stat-label">AUM</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">+1,000</div>
+                        <div class="stat-label">Units delivered</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">+10</div>
+                        <div class="stat-label">Residential projects</div>
+                    </div>
+                </div>
+                <div class="developer-description">
+                    <p>The project is sponsored by a development group with over 20 years of experience in the Spanish real estate sector, specialized in the development and asset management of residential properties in prime and high-growth locations.</p>
+                    <p>Over the past decade, the executive team has managed over EUR 1.1 billion in real estate investments, successfully delivering 10+ residential developments ranging from high-rise prime location assets to institutional-grade Build-to-Rent portfolios.</p>
+                </div>
+            </div>
+            
+            <!-- Investment Strategies -->
+            <div class="strategies-section">
+                <h2 class="section-title">Investment Strategies</h2>
+                <p class="section-subtitle">Two distinct approaches to maximize returns based on investment horizon and financial objectives.</p>
+                
+                <div class="strategies-vertical">
+                    <!-- Strategy 1: Build to Rent (Largo Plazo) -->
+                    <div class="strategy-card">
+                        <div class="strategy-header">
+                            <h3 class="strategy-name">Long-Term Hold — Build to Rent</h3>
+                            <p class="strategy-tagline">Extended hold with value-creation through liberalization</p>
+                        </div>
+                        
+                        <div class="strategy-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value">EUR 59M</div>
+                                <div class="metric-label">Total Investment</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">15</div>
+                                <div class="metric-label">Regulated Period</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">6%</div>
+                                <div class="metric-label">Yield (Regulated)</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">10%</div>
+                                <div class="metric-label">IRR Post-Liberalization</div>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">15-year regulated rental period with stabilized occupancy</div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">Post-regulation liberalization: market-rate rental or sale</div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">Captura de revalorización significativa en zona prime</div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">Vehículo SOCIMI con optimización fiscal en desinversión</div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">BTR asequible con gestión y amenidades institucionales</div>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-cta">
+                            <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/c53280f7-e2b7-4d79-a374-8e01edb351f1" class="strategy-button" download="Sheets_FullEquity_BTR_15y.xlsx" target="_blank" data-file_type="financial-model">
+                                <i class="fas fa-download"></i>
+                                Project Economics Build to Rent
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Strategy 2: Build to Sale (Corto Plazo) -->
+                    <div class="strategy-card">
+                        <div class="strategy-header">
+                            <h3 class="strategy-name">Short-Term Hold — Build to Sale</h3>
+                            <p class="strategy-tagline">Accelerated exit with return maximization</p>
+                        </div>
+                        
+                        <div class="strategy-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value">EUR 20M</div>
+                                <div class="metric-label">Total Investment</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">32-36</div>
+                                <div class="metric-label">Months</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">10-12%</div>
+                                <div class="metric-label">Target IRR</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">251</div>
+                                <div class="metric-label">Units</div>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">Construction and rental stabilization within 32-36 months</div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">Exit via sale to core investor or institutional refinancing</div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">Tax-advantaged capital gains through SOCIMI (REIT) structure</div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">Target occupancy >97% during regulated period</div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle feature-icon"></i>
+                                <div class="feature-text">Land acquired with construction permits in place</div>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-cta">
+                            <a href="https://page.gensparksite.com/get_upload_url/59b48c2a54ff276f4536b9f20f9d135c66cd8d193035d23adb7f8e5c4c4438ca/default/3ef1474e-6569-4f4a-8a11-4d59bf8815c2" class="strategy-button" download="Sheets_Equity_BTS_36m.xlsx" target="_blank" data-file_type="financial-model">
+                                <i class="fas fa-download"></i>
+                                Project Economics Build to Sale 36 meses
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Available Documentation -->
+            <div class="documentation-section">
+                <h2 class="section-title">Available Documentation</h2>
+                <div class="doc-buttons" style="grid-template-columns: repeat(2, 1fr); max-width: 700px; margin: 0 auto;">
+                    <a class="doc-button" href="docs/equity-strategies-teaser-v2.pdf" download="ENG - Project ZURICH_Alter5-EQUITY_STRATEGIES_TEASER.pdf" target="_blank">
+                        <i class="fas fa-file-pdf"></i>
+                        <div class="doc-button-text">TEASER</div>
+                    </a>
+                    <a class="doc-button gabriela-doc-button" href="#" onclick="event.preventDefault(); openGabrielaModal();">
+                        <span class="gabriela-icon" style="width: 32px; height: 32px; font-size: 16px;">G</span>
+                        <div class="doc-button-text">GABRIELA REPORT</div>
+                        <span class="ai-badge">AI</span>
+                    </a>
+                </div>
+            </div>
+            
+
+        </div>
+    </main>
+    
+    <!-- Call to Action Section -->
+    <div class="cta-section">
+        <div class="container">
+            <button class="cta-button">EXECUTE NDA AND ACCESS INVESTMENT DETAILS</button>
+            <div class="cta-disclaimer">Expression of interest required before October 30, 2025</div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="confidential">
+                <strong>CONFIDENTIAL</strong> - This document contains confidential and privileged information. Distribution is restricted to qualified institutional investors only.
+            </div>
+            <div class="copyright">
+                © 2025 Alter5. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Tracking Script -->
+    <script src="js/tracking.js"></script>
+
+    <!-- Page Interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // CTA button interaction - Download NDA and track event
+            const ctaButton = document.querySelector('.cta-button');
+            ctaButton?.addEventListener('click', async function() {
+                // Track CTA click event (already tracked by tracking.js)
+                
+                // Download NDA document
+                const link = document.createElement('a');
+                link.href = 'docs/NDA-Project-ZURICH-EN.docx';
+                link.download = 'NDA_Project_ZURICH_Alter5.docx';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Track NDA download event
+                if (window.postJSON) {
+                    const token = window.resolveToken ? window.resolveToken() : null;
+                    const email = window.fetchVisitorEmail ? await window.fetchVisitorEmail(token) : null;
+                    window.postJSON('/api/analytics-events', {
+                        eventType: 'download',
+                        visitorToken: token,
+                        visitor_email: email || '',
+                        data: { 
+                            file_type: 'nda',
+                            source: 'cta-button',
+                            page: 'equity_strategies_en.html',
+                            language: 'en'
+                        }
+                    });
+                }
+                
+                // Show confirmation message
+                alert('Thank you for your interest! The NDA has been downloaded. Our investment team will contact you shortly.');
+            });
+        });
+    </script>
+
+    <!-- Gabriela Report Modal -->
+    <div id="gabriela-modal" class="modal-overlay" onclick="closeGabrielaModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeGabrielaModal()">&times;</button>
+            
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="gabriela-icon" style="width: 32px; height: 32px; font-size: 16px; margin-right: 10px;">G</span>
+                    Disclaimer – Gabriela Report
+                </div>
+                <div class="modal-subtitle">AI-powered real estate investment analysis</div>
+            </div>
+            
+            <div class="modal-body">
+                <p>
+                    <strong>Gabriela Report</strong> is an analysis developed by our proprietary artificial intelligence model specialized in real estate investment analysis.
+                </p>
+                <p>
+                    Gabriela integrates data from statistical, financial, sociodemographic, macroeconomic and microeconomic sources, as well as actual market transactions, to deliver precise, evidence-based market insights.
+                </p>
+                <p>
+                    The engine is <strong>agnostic, transparent, and analytical</strong>: it evaluates investment hypotheses through probabilistic models and sensitivity scenarios, without incorporating bias or subjective interpretation.
+                </p>
+                <p>
+                    Reports generated by Gabriela <strong>do not constitute an investment recommendation or opinion</strong>, but rather an independent technical analysis grounded in verified data and quantitative methodologies.
+                </p>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-secondary" onclick="closeGabrielaModal()">
+                    <i class="fas fa-times"></i>
+                    Cancel
+                </button>
+                <a href="docs/gabriela-report-zurich-v2.pdf" class="modal-btn modal-btn-primary" id="gabriela-download-btn" download="Gabriela_Report_Project_Zurich.pdf" target="_blank" data-file_type="gabriela-report">
+                    <i class="fas fa-download"></i>
+                    Download Gabriela Report Project Zurich
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openGabrielaModal() {
+            document.getElementById('gabriela-modal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeGabrielaModal(event) {
+            if (!event || event.target.id === 'gabriela-modal') {
+                document.getElementById('gabriela-modal').classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeGabrielaModal();
+            }
+        });
+
+        // Track Gabriela Report download
+        document.addEventListener('DOMContentLoaded', function() {
+            const gabrielaDownloadBtn = document.getElementById('gabriela-download-btn');
+            if (gabrielaDownloadBtn) {
+                gabrielaDownloadBtn.addEventListener('click', async function() {
+                    // Track download event
+                    if (window.postJSON) {
+                        const token = window.resolveToken ? window.resolveToken() : null;
+                        const email = window.fetchVisitorEmail ? await window.fetchVisitorEmail(token) : null;
+                        window.postJSON('/api/analytics-events', {
+                            eventType: 'download',
+                            visitorToken: token,
+                            visitor_email: email || '',
+                            data: { 
+                                file_type: 'gabriela-report',
+                                source: 'gabriela-modal',
+                                page: 'equity_strategies_en.html',
+                                language: 'en'
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

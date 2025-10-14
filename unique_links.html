@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador de Enlaces Únicos | Project ZURICH</title>
+  <meta name="description" content="Genera enlaces únicos por inversor con token para trazabilidad y analytics" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background:#F3F4F6; color:#374151; margin:0; }
+    .header { background:#1F3A8A; color:#fff; padding:16px 0; position:sticky; top:0; z-index:10; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .header-content { display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-weight:700; display:flex; gap:10px; align-items:center; }
+    .card { background:#fff; border:1px solid #E5E7EB; border-radius:12px; padding:24px; margin:24px 0; }
+    .title { color:#1F3A8A; font-size:24px; font-weight:700; margin:8px 0 16px; }
+    .subtitle { color:#6B7280; margin-bottom:20px; }
+    label { font-size:13px; color:#6B7280; font-weight:600; display:block; margin:12px 0 6px; }
+    input[type="text"], input[type="url"], textarea, select { width:100%; padding:12px; border:1px solid #E5E7EB; border-radius:8px; background:#fff; }
+    textarea { min-height:140px; font-family:inherit; }
+    .grid { display:grid; gap:16px; }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .pages { display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .page-item { border:1px solid #E5E7EB; border-radius:10px; padding:12px; background:#FAFAFA; display:flex; gap:10px; align-items:center; }
+    .actions { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .btn { border:none; cursor:pointer; border-radius:8px; padding:12px 16px; font-weight:600; }
+    .btn-primary { background:#1F3A8A; color:#fff; }
+    .btn-primary:hover { background:#1E3A8A; }
+    .btn-secondary { background:#fff; color:#1F3A8A; border:2px solid #1F3A8A; }
+    .btn-secondary:hover { background:#1F3A8A; color:#fff; }
+    .btn-ghost { background:transparent; color:#1F3A8A; }
+    .result-table { width:100%; border-collapse: collapse; margin-top:16px; }
+    .result-table th, .result-table td { border:1px solid #E5E7EB; padding:10px; font-size:14px; vertical-align: top; }
+    .result-table th { background:#F9FAFB; color:#374151; text-align:left; }
+    .badge { display:inline-block; background:#10B981; color:#fff; font-size:11px; padding:2px 8px; border-radius:999px; }
+    .note { font-size:12px; color:#6B7280; }
+    .small { font-size:12px; }
+    .success { color:#10B981; font-weight:600; }
+    .error { color:#DC2626; font-weight:600; }
+    .footer { text-align:center; color:#6B7280; font-size:12px; padding:24px 0; }
+    @media(max-width: 768px){ .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo"><i class="fas fa-link"></i> Generador de Enlaces Únicos</div>
+      <div><a href="index.html" style="color:#fff; text-decoration:none;"><i class="fas fa-home"></i> Volver al Hub</a></div>
+    </div>
+  </header>
+  <main class="container">
+    <section class="card">
+      <h1 class="title">Crear enlaces por inversor</h1>
+      <p class="subtitle">Pega emails (uno por línea) o usa formato “email;nombre;empresa”. El sistema genera un token único y registra el par email↔token en la API. Luego te devuelve las URLs para cada página seleccionada.</p>
+
+      <div class="grid grid-2">
+        <div>
+          <label for="emails">Lista de contactos</label>
+          <textarea id="emails" placeholder="Ejemplos:\nana@fondo.com\npepe@familyoffice.es;Pepe Pérez;Family Office Madrid\nvc@capital.com;Victoria Campos;Capital Partners"></textarea>
+          <div class="note">Formatos válidos por línea: email OR email;nombre;empresa</div>
+        </div>
+        <div>
+          <label for="baseUrl">Dominio base</label>
+          <input type="url" id="baseUrl" placeholder="https://tu-dominio.vercel.app" />
+          <div class="note">Por defecto se usa el origen actual de esta página</div>
+          <label for="prefix" style="margin-top:16px;">Prefijo del token</label>
+          <input type="text" id="prefix" value="zrch_" />
+          <div class="note">Se usará para generar tokens: prefijo + timestamp + aleatorio</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:16px 0;">
+        <div class="actions" style="justify-content:space-between; margin-bottom:12px;">
+          <div style="font-weight:600; color:#1F3A8A;">Páginas destino</div>
+          <div class="actions small">
+            <button class="btn btn-ghost" id="selectAll">Seleccionar todo</button>
+            <button class="btn btn-ghost" id="clearAll">Limpiar</button>
+          </div>
+        </div>
+        <div class="pages" id="pages">
+          <label class="page-item"><input type="checkbox" value="index.html" checked /> <span>Investment Hub (index)</span></label>
+          <label class="page-item"><input type="checkbox" value="equity_investment.html" /> <span>Equity (ES)</span></label>
+          <label class="page-item"><input type="checkbox" value="equity_investment_en.html" /> <span>Equity (EN)</span></label>
+          <label class="page-item"><input type="checkbox" value="senior_financing_es.html" /> <span>Debt / Senior (ES)</span></label>
+          <label class="page-item"><input type="checkbox" value="senior_financing_en.html" /> <span>Debt / Senior (EN)</span></label>
+          <label class="page-item"><input type="checkbox" value="full_equity_es.html" checked /> <span>Full Equity (ES)</span></label>
+          <label class="page-item"><input type="checkbox" value="full_equity_en.html" checked /> <span>Full Equity (EN)</span></label>
+          <label class="page-item"><input type="checkbox" value="equity_strategies.html" checked /> <span>Equity Strategies (ES)</span></label>
+          <label class="page-item"><input type="checkbox" value="equity_strategies_en.html" checked /> <span>Equity Strategies (EN)</span></label>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top:10px;">
+        <button class="btn btn-primary" id="generate"><i class="fas fa-magic"></i> Generar y Registrar</button>
+        <button class="btn btn-secondary" id="preview"><i class="fas fa-eye"></i> Solo Previsualizar (no registrar)</button>
+        <button class="btn" id="exportCsv" style="margin-left:auto;"><i class="fas fa-file-csv"></i> Exportar CSV</button>
+      </div>
+
+      <div id="status" class="small" style="margin-top:10px;"></div>
+    </section>
+
+    <section class="card">
+      <div class="actions" style="justify-content:space-between;">
+        <h2 class="title" style="margin:0;">Resultados</h2>
+        <button class="btn" id="copyAll"><i class="fas fa-copy"></i> Copiar todo</button>
+      </div>
+      <table class="result-table" id="resultsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Email</th>
+            <th>Nombre</th>
+            <th>Empresa</th>
+            <th>Token</th>
+            <th>Enlaces</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+      <div class="note" style="margin-top:8px;">Tip: haz clic en los iconos de enlace para abrir cada URL en una pestaña nueva.</div>
+    </section>
+
+    <div class="footer">© 2025 Alter5 · Generador de enlaces únicos (uso interno)</div>
+  </main>
+
+  <script>
+    const API_VISITORS = '/api/visitors';
+
+    function $(s){ return document.querySelector(s); }
+    function $all(s){ return Array.from(document.querySelectorAll(s)); }
+
+    function savePrefs(){
+      const baseUrl = $('#baseUrl').value.trim();
+      const prefix = $('#prefix').value.trim();
+      const pages = $all('#pages input[type="checkbox"]').filter(cb=>cb.checked).map(cb=>cb.value);
+      try { localStorage.setItem('linkgen_prefs', JSON.stringify({ baseUrl, prefix, pages })); } catch(e){}
+    }
+    function loadPrefs(){
+      try{
+        const raw = localStorage.getItem('linkgen_prefs');
+        if (!raw) return;
+        const prefs = JSON.parse(raw);
+        if (prefs.baseUrl) $('#baseUrl').value = prefs.baseUrl;
+        if (prefs.prefix) $('#prefix').value = prefs.prefix;
+        if (Array.isArray(prefs.pages)){
+          $all('#pages input[type="checkbox"]').forEach(cb=>{ cb.checked = prefs.pages.includes(cb.value); });
+        }
+      }catch(e){}
+    }
+
+    function defaultBaseUrl(){
+      const inp = $('#baseUrl');
+      if (!inp.value) inp.value = window.location.origin;
+    }
+
+    function parseContacts(){
+      const lines = $('#emails').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+      const contacts = [];
+      for(const line of lines){
+        // email;name;company OR email
+        const parts = line.split(';').map(p=>p.trim());
+        const email = parts[0] || '';
+        if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) continue;
+        contacts.push({
+          email,
+          name: parts[1] || '',
+          company: parts[2] || ''
+        });
+      }
+      return contacts;
+    }
+
+    function genToken(prefix){
+      const ts = Date.now().toString(36);
+      const rnd = Math.random().toString(36).slice(2, 10);
+      return `${prefix}${ts}_${rnd}`;
+    }
+
+    function buildLinks(baseUrl, pages, token){
+      return pages.map(p => ({ page: p, url: `${baseUrl.replace(/\/$/, '')}/${p}?token=${encodeURIComponent(token)}` }));
+    }
+
+    async function registerVisitor(visitor){
+      // POST /api/tables/visitors
+      const res = await fetch(API_VISITORS, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(visitor)
+      });
+      if (!res.ok) throw new Error(`Error ${res.status}`);
+      return res.json();
+    }
+
+    function renderResults(rows){
+      const tbody = $('#resultsBody');
+      tbody.innerHTML = '';
+      rows.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        const linksHtml = row.links.map(l => `<div style="margin-bottom:6px;"><a href="${l.url}" target="_blank"><i class=\"fas fa-link\"></i> ${l.page}</a></div>`).join('');
+        tr.innerHTML = `
+          <td>${idx+1}</td>
+          <td>${row.email}</td>
+          <td>${row.name || ''}</td>
+          <td>${row.company || ''}</td>
+          <td><code>${row.token}</code></td>
+          <td>${linksHtml}</td>
+          <td>
+            <button class="btn btn-secondary small" data-copy="${encodeURIComponent(JSON.stringify(row))}"><i class="fas fa-copy"></i> Copiar fila</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Bind copy per row
+      $all('button[data-copy]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const json = decodeURIComponent(btn.getAttribute('data-copy'));
+          navigator.clipboard.writeText(JSON.stringify(JSON.parse(json), null, 2));
+        });
+      });
+    }
+
+    function asCSV(rows){
+      // Columns: email,name,company,token,page,url
+      const out = [];
+      out.push(['email','name','company','token','page','url'].join(','));
+      rows.forEach(r => {
+        r.links.forEach(l => {
+          out.push([r.email, r.name, r.company, r.token, l.page, l.url].map(v => '"'+String(v).replaceAll('"','""')+'"').join(','));
+        });
+      });
+      return out.join('\n');
+    }
+
+    function status(msg, type=''){
+      const el = $('#status');
+      el.textContent = msg;
+      el.className = `small ${type}`;
+    }
+
+    async function handleGenerate({ dryRun = false } = {}){
+      savePrefs();
+      const contacts = parseContacts();
+      if (contacts.length === 0){ status('No se han encontrado emails válidos.', 'error'); return; }
+      const pages = $all('#pages input[type="checkbox"]').filter(cb=>cb.checked).map(cb=>cb.value);
+      if (pages.length === 0){ status('Selecciona al menos una página.', 'error'); return; }
+      const baseUrl = $('#baseUrl').value.trim() || window.location.origin;
+      const prefix = $('#prefix').value.trim() || 'zrch_';
+
+      status('Generando tokens y construyendo enlaces...', '');
+
+      const rows = [];
+      let ok = 0, fails = 0;
+      for (const c of contacts){
+        const token = genToken(prefix);
+        const links = buildLinks(baseUrl, pages, token);
+        const row = { email: c.email, name: c.name, company: c.company, token, links };
+        if (!dryRun){
+          try{
+            await registerVisitor({ email: c.email, name: c.name, company: c.company, token, status: 'active' });
+            ok++;
+          }catch(e){ fails++; }
+        }
+        rows.push(row);
+      }
+
+      renderResults(rows);
+      if (dryRun) status(`Previsualización lista: ${rows.length} contactos procesados (sin registro).`, 'success');
+      else status(`Hecho: ${ok} registros OK, ${fails} errores.`, fails ? 'error' : 'success');
+
+      // Guardar CSV en cache para export
+      window.__rows = rows;
+    }
+
+    // Event bindings
+    document.addEventListener('DOMContentLoaded', () => {
+      defaultBaseUrl();
+      loadPrefs();
+
+      $('#generate').addEventListener('click', () => handleGenerate({ dryRun:false }));
+      $('#preview').addEventListener('click', () => handleGenerate({ dryRun:true }));
+
+      $('#selectAll').addEventListener('click', (e) => { e.preventDefault(); $all('#pages input[type="checkbox"]').forEach(cb=>cb.checked=true); savePrefs(); });
+      $('#clearAll').addEventListener('click', (e) => { e.preventDefault(); $all('#pages input[type="checkbox"]').forEach(cb=>cb.checked=false); savePrefs(); });
+
+      $('#exportCsv').addEventListener('click', () => {
+        const rows = window.__rows || [];
+        if (!rows.length) { status('Nada que exportar. Genera resultados primero.', 'error'); return; }
+        const csv = asCSV(rows);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `unique_links_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+
+      $('#copyAll').addEventListener('click', async () => {
+        const rows = window.__rows || [];
+        if (!rows.length) { status('Nada que copiar. Genera resultados primero.', 'error'); return; }
+        const csv = asCSV(rows);
+        await navigator.clipboard.writeText(csv);
+        status('CSV copiado al portapapeles.', 'success');
+      });
+
+      // Persist inputs
+      $('#baseUrl').addEventListener('change', savePrefs);
+      $('#prefix').addEventListener('change', savePrefs);
+      $all('#pages input[type="checkbox"]').forEach(cb => cb.addEventListener('change', savePrefs));
+    });
+  </script>
+</body>
+</html>
+<!-- sync -->

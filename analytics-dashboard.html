@@ -37,6 +37,7 @@
                         <option value="all">Todos los proyectos</option>
                         <option value="senior_financing">Financiación Senior</option>
                         <option value="equity_investment">Inversión Equity</option>
+                        <option value="equity_strategies">Estrategias Equity</option>
                     </select>
                     <select id="timeFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
                         <option value="7">Últimos 7 días</option>
@@ -252,52 +253,129 @@
                 }
             }
 
+            filterByProject(data) {
+                const projectFilter = document.getElementById('projectFilter').value;
+                if (projectFilter === 'all') return data;
+                
+                // Map project filter to page patterns
+                const pagePatterns = {
+                    'senior_financing': ['senior_financing'],
+                    'equity_investment': ['equity_investment'],
+                    'equity_strategies': ['equity_strategies']
+                };
+                
+                const patterns = pagePatterns[projectFilter] || [];
+                return data.filter(item => {
+                    const page = item.event_data?.page || item.page || '';
+                    return patterns.some(pattern => page.includes(pattern));
+                });
+            }
+
             async loadMainMetrics() {
-                // Simulated data - en producción vendría de Supabase
-                document.getElementById('totalVisitors').textContent = '23';
-                document.getElementById('visitorsChange').textContent = '+15% vs mes anterior';
-                
-                document.getElementById('totalDownloads').textContent = '47';
-                document.getElementById('downloadsChange').textContent = '+32% vs mes anterior';
-                
-                document.getElementById('totalNDARequests').textContent = '8';
-                document.getElementById('ndaChange').textContent = '+12% vs mes anterior';
-                
-                document.getElementById('avgTimeOnSite').textContent = '4:23';
-                document.getElementById('timeChange').textContent = '+8% vs mes anterior';
+                try {
+                    // Fetch real data from APIs
+                    const [visitorsRes, analyticsRes] = await Promise.all([
+                        fetch('/api/visitors'),
+                        fetch('/api/analytics-real')
+                    ]);
+                    
+                    const visitorsData = await visitorsRes.json();
+                    const analyticsData = await analyticsRes.json();
+                    
+                    // Extract arrays from API responses
+                    let visitors = visitorsData.data || visitorsData || [];
+                    let analytics = analyticsData.data || analyticsData || [];
+                    
+                    // Apply project filter
+                    analytics = this.filterByProject(analytics);
+                    
+                    // Calculate metrics
+                    const totalVisitors = visitors.length;
+                    const downloads = analytics.filter(e => e.event_type === 'download').length;
+                    const ndaRequests = analytics.filter(e => e.event_type === 'nda_request').length;
+                    
+                    // Calculate average time on site from session_end events
+                    const sessionEnds = analytics.filter(e => e.event_type === 'session_end');
+                    const avgTime = sessionEnds.length > 0 
+                        ? Math.floor(sessionEnds.reduce((sum, e) => sum + (e.event_data.total_time || 0), 0) / sessionEnds.length)
+                        : 0;
+                    const avgMinutes = Math.floor(avgTime / 60);
+                    const avgSeconds = avgTime % 60;
+                    
+                    // Update UI
+                    document.getElementById('totalVisitors').textContent = totalVisitors;
+                    document.getElementById('visitorsChange').textContent = `${visitors.length} registrados`;
+                    
+                    document.getElementById('totalDownloads').textContent = downloads;
+                    document.getElementById('downloadsChange').textContent = `${analytics.length} eventos totales`;
+                    
+                    document.getElementById('totalNDARequests').textContent = ndaRequests;
+                    document.getElementById('ndaChange').textContent = ndaRequests > 0 ? 'Solicitudes activas' : 'Sin solicitudes';
+                    
+                    document.getElementById('avgTimeOnSite').textContent = `${avgMinutes}:${avgSeconds.toString().padStart(2, '0')}`;
+                    document.getElementById('timeChange').textContent = `${sessionEnds.length} sesiones`;
+                    
+                    console.log('✅ Metrics loaded:', { totalVisitors, downloads, ndaRequests, avgTime });
+                } catch (error) {
+                    console.error('❌ Error loading metrics:', error);
+                    // Show error state
+                    document.getElementById('totalVisitors').textContent = '0';
+                    document.getElementById('visitorsChange').textContent = 'Error cargando datos';
+                }
             }
 
             async loadDownloadsChart() {
-                const ctx = document.getElementById('downloadsChart').getContext('2d');
-                
-                if (this.charts.downloads) {
-                    this.charts.downloads.destroy();
-                }
+                try {
+                    const analyticsRes = await fetch('/api/analytics-real');
+                    const analyticsData = await analyticsRes.json();
+                    let analytics = analyticsData.data || analyticsData || [];
+                    
+                    // Apply project filter
+                    analytics = this.filterByProject(analytics);
+                    
+                    // Count downloads by type
+                    const downloads = analytics.filter(e => e.event_type === 'download');
+                    const downloadsByType = {};
+                    
+                    downloads.forEach(event => {
+                        const fileType = event.event_data?.file_type || 'unknown';
+                        downloadsByType[fileType] = (downloadsByType[fileType] || 0) + 1;
+                    });
+                    
+                    const labels = Object.keys(downloadsByType);
+                    const data = Object.values(downloadsByType);
+                    const colors = ['var(--alter-blue)', 'var(--alter-green)', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4'];
+                    
+                    const ctx = document.getElementById('downloadsChart').getContext('2d');
+                    
+                    if (this.charts.downloads) {
+                        this.charts.downloads.destroy();
+                    }
 
-                this.charts.downloads = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Term Sheet', 'Teaser', 'Modelo Financiero', 'NDA'],
-                        datasets: [{
-                            data: [15, 20, 8, 4],
-                            backgroundColor: [
-                                'var(--alter-blue)',
-                                'var(--alter-green)',
-                                '#f59e0b',
-                                '#8b5cf6'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
+                    this.charts.downloads = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: labels.length > 0 ? labels : ['Sin datos'],
+                            datasets: [{
+                                data: data.length > 0 ? data : [1],
+                                backgroundColor: data.length > 0 ? colors.slice(0, labels.length) : ['#e5e7eb']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                    
+                    console.log('✅ Downloads chart loaded:', downloadsByType);
+                } catch (error) {
+                    console.error('❌ Error loading downloads chart:', error);
+                }
             }
 
             async loadVisitorsChart() {
@@ -348,98 +426,239 @@
             }
 
             async loadTopVisitors() {
-                const mockData = [
-                    { name: 'Juan García', email: 'j.garcia@***.com', company: 'InvestCorp', downloads: 5, time: '12:30', nda: 'Sí' },
-                    { name: 'María López', email: 'm.lopez@***.com', company: 'Capital Partners', downloads: 3, time: '8:45', nda: 'Pendiente' },
-                    { name: 'Pedro Martín', email: 'p.martin@***.com', company: 'Equity Fund', downloads: 4, time: '6:20', nda: 'Sí' }
-                ];
+                try {
+                    const [visitorsRes, analyticsRes] = await Promise.all([
+                        fetch('/api/visitors'),
+                        fetch('/api/analytics-real')
+                    ]);
+                    
+                    const visitorsData = await visitorsRes.json();
+                    const analyticsData = await analyticsRes.json();
+                    
+                    const visitors = visitorsData.data || visitorsData || [];
+                    const analytics = analyticsData.data || analyticsData || [];
+                    
+                    // Calculate downloads per visitor
+                    const visitorData = visitors.map(visitor => {
+                        const downloads = analytics.filter(e => 
+                            e.event_type === 'download' && e.visitor_token === visitor.token
+                        ).length;
+                        
+                        const ndaRequests = analytics.filter(e => 
+                            e.event_type === 'nda_request' && e.visitor_token === visitor.token
+                        ).length;
+                        
+                        const lastAccess = visitor.last_access ? new Date(visitor.last_access) : null;
+                        const timeStr = lastAccess ? lastAccess.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '-';
+                        
+                        return {
+                            name: visitor.name || 'Anónimo',
+                            email: visitor.email || '-',
+                            company: visitor.company || '-',
+                            downloads,
+                            time: timeStr,
+                            nda: ndaRequests > 0 ? 'Solicitado' : 'No'
+                        };
+                    });
+                    
+                    // Sort by downloads (descending)
+                    visitorData.sort((a, b) => b.downloads - a.downloads);
 
-                const tbody = document.getElementById('topVisitorsTable');
-                tbody.innerHTML = mockData.map(visitor => `
-                    <tr class="border-b border-gray-100">
-                        <td class="py-3">
-                            <div class="text-sm font-medium text-gray-900">${visitor.name}</div>
-                            <div class="text-sm text-gray-500">${visitor.company}</div>
-                        </td>
-                        <td class="py-3 text-sm text-gray-900">${visitor.downloads}</td>
-                        <td class="py-3 text-sm text-gray-900">${visitor.time}</td>
-                        <td class="py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${visitor.nda === 'Sí' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-                                ${visitor.nda}
-                            </span>
-                        </td>
-                    </tr>
-                `).join('');
+                    const tbody = document.getElementById('topVisitorsTable');
+                    if (visitorData.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-gray-500">No hay visitantes registrados</td></tr>';
+                    } else {
+                        tbody.innerHTML = visitorData.slice(0, 10).map(visitor => `
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3">
+                                    <div class="text-sm font-medium text-gray-900">${visitor.name}</div>
+                                    <div class="text-sm text-gray-500">${visitor.company}</div>
+                                </td>
+                                <td class="py-3 text-sm text-gray-900">${visitor.downloads}</td>
+                                <td class="py-3 text-sm text-gray-900">${visitor.time}</td>
+                                <td class="py-3">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${visitor.nda === 'Solicitado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                                        ${visitor.nda}
+                                    </span>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                    
+                    console.log('✅ Top visitors loaded:', visitorData.length);
+                } catch (error) {
+                    console.error('❌ Error loading top visitors:', error);
+                    const tbody = document.getElementById('topVisitorsTable');
+                    tbody.innerHTML = '<tr><td colspan="4" class="py-6 text-center text-red-500">Error cargando visitantes</td></tr>';
+                }
             }
 
             async loadTopFiles() {
-                const mockFiles = [
-                    { name: 'Project ZURICH - Term Sheet', downloads: 15, type: 'term-sheet' },
-                    { name: 'Investment Teaser', downloads: 20, type: 'teaser' },
-                    { name: 'Financial Model', downloads: 8, type: 'financial-model' },
-                    { name: 'NDA Agreement', downloads: 4, type: 'nda' }
-                ];
-
-                const container = document.getElementById('topFilesContainer');
-                container.innerHTML = mockFiles.map(file => `
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div class="flex items-center">
-                            <div class="w-2 h-2 rounded-full mr-3" style="background-color: ${this.getFileTypeColor(file.type)}"></div>
-                            <span class="text-sm font-medium text-gray-900">${file.name}</span>
-                        </div>
-                        <span class="text-sm font-semibold text-gray-600">${file.downloads}</span>
-                    </div>
-                `).join('');
+                try {
+                    const analyticsRes = await fetch('/api/analytics-real');
+                    const analyticsData = await analyticsRes.json();
+                    let analytics = analyticsData.data || analyticsData || [];
+                    
+                    // Apply project filter
+                    analytics = this.filterByProject(analytics);
+                    
+                    // Count downloads by file type
+                    const downloads = analytics.filter(e => e.event_type === 'download');
+                    const fileTypeMap = {
+                        'teaser': 'Investment Teaser',
+                        'term-sheet': 'Term Sheet',
+                        'financial-model': 'Financial Model',
+                        'nda': 'NDA Agreement',
+                        'unknown': 'Other Documents'
+                    };
+                    
+                    const downloadsByType = {};
+                    downloads.forEach(event => {
+                        const fileType = event.event_data?.file_type || 'unknown';
+                        const displayName = fileTypeMap[fileType] || fileType;
+                        if (!downloadsByType[fileType]) {
+                            downloadsByType[fileType] = { name: displayName, count: 0, type: fileType };
+                        }
+                        downloadsByType[fileType].count++;
+                    });
+                    
+                    // Convert to array and sort by count
+                    const filesArray = Object.values(downloadsByType).sort((a, b) => b.count - a.count);
+                    
+                    const container = document.getElementById('topFilesContainer');
+                    if (filesArray.length === 0) {
+                        container.innerHTML = '<div class="p-3 text-center text-gray-500">No hay descargas registradas</div>';
+                    } else {
+                        container.innerHTML = filesArray.map(file => `
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full mr-3" style="background-color: ${this.getFileTypeColor(file.type)}"></div>
+                                    <span class="text-sm font-medium text-gray-900">${file.name}</span>
+                                </div>
+                                <span class="text-sm font-semibold text-gray-600">${file.count}</span>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    console.log('✅ Top files loaded:', filesArray.length);
+                } catch (error) {
+                    console.error('❌ Error loading top files:', error);
+                    const container = document.getElementById('topFilesContainer');
+                    container.innerHTML = '<div class="p-3 text-center text-red-500">Error cargando archivos</div>';
+                }
             }
 
             async loadDetailedAnalysis() {
-                const mockAnalysis = [
-                    { 
-                        email: 'j.garcia@investcorp.com', 
-                        company: 'InvestCorp', 
-                        project: 'Senior', 
-                        lastAccess: '2024-01-15 14:30', 
-                        termSheet: 2, 
-                        teaser: 1, 
-                        financial: 1, 
-                        nda: 'Firmado', 
-                        totalTime: '25:30' 
-                    },
-                    { 
-                        email: 'm.lopez@capital.com', 
-                        company: 'Capital Partners', 
-                        project: 'Equity', 
-                        lastAccess: '2024-01-14 16:45', 
-                        termSheet: 1, 
-                        teaser: 2, 
-                        financial: 0, 
-                        nda: 'Pendiente', 
-                        totalTime: '18:22' 
-                    }
-                ];
+                try {
+                    const [visitorsRes, analyticsRes] = await Promise.all([
+                        fetch('/api/visitors'),
+                        fetch('/api/analytics-real')
+                    ]);
+                    
+                    const visitorsData = await visitorsRes.json();
+                    const analyticsData = await analyticsRes.json();
+                    
+                    const visitors = visitorsData.data || visitorsData || [];
+                    const analytics = analyticsData.data || analyticsData || [];
+                    
+                    // Build detailed analysis per visitor
+                    const analysis = visitors.map(visitor => {
+                        const visitorEvents = analytics.filter(e => e.visitor_token === visitor.token);
+                        
+                        // Determine project based on last page visited
+                        const pageVisits = visitorEvents.filter(e => e.event_type === 'page_visit');
+                        let project = 'Unknown';
+                        if (pageVisits.length > 0) {
+                            const lastPage = pageVisits[pageVisits.length - 1].event_data?.page || '';
+                            if (lastPage.includes('senior')) project = 'Senior';
+                            else if (lastPage.includes('equity')) project = 'Equity';
+                            else if (lastPage.includes('full')) project = 'Full Equity';
+                            else project = 'Hub';
+                        }
+                        
+                        // Count downloads by type
+                        const downloads = visitorEvents.filter(e => e.event_type === 'download');
+                        const termSheet = downloads.filter(d => d.event_data?.file_type === 'term-sheet').length;
+                        const teaser = downloads.filter(d => d.event_data?.file_type === 'teaser').length;
+                        const financial = downloads.filter(d => d.event_data?.file_type === 'financial-model').length;
+                        
+                        // Check NDA status
+                        const ndaRequests = visitorEvents.filter(e => e.event_type === 'nda_request');
+                        const nda = ndaRequests.length > 0 ? 'Solicitado' : 'No';
+                        
+                        // Calculate total time
+                        const sessionEnds = visitorEvents.filter(e => e.event_type === 'session_end');
+                        const totalSeconds = sessionEnds.reduce((sum, e) => sum + (e.event_data?.total_time || 0), 0);
+                        const totalMinutes = Math.floor(totalSeconds / 60);
+                        const totalSecs = totalSeconds % 60;
+                        const totalTime = `${totalMinutes}:${totalSecs.toString().padStart(2, '0')}`;
+                        
+                        // Last access formatted
+                        const lastAccess = visitor.last_access 
+                            ? new Date(visitor.last_access).toLocaleString('es-ES', { 
+                                year: 'numeric', month: '2-digit', day: '2-digit', 
+                                hour: '2-digit', minute: '2-digit' 
+                              })
+                            : '-';
+                        
+                        return {
+                            email: visitor.email || '-',
+                            company: visitor.company || '-',
+                            project,
+                            lastAccess,
+                            termSheet,
+                            teaser,
+                            financial,
+                            nda,
+                            totalTime
+                        };
+                    });
+                    
+                    // Sort by last access (most recent first)
+                    analysis.sort((a, b) => {
+                        if (a.lastAccess === '-') return 1;
+                        if (b.lastAccess === '-') return -1;
+                        return new Date(b.lastAccess) - new Date(a.lastAccess);
+                    });
 
-                const tbody = document.getElementById('detailedAnalysisTable');
-                tbody.innerHTML = mockAnalysis.map(row => `
-                    <tr class="border-b border-gray-100 hover:bg-gray-50">
-                        <td class="py-3 text-sm text-gray-900">${row.email}</td>
-                        <td class="py-3 text-sm text-gray-900">${row.company}</td>
-                        <td class="py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.project === 'Senior' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}">
-                                ${row.project}
-                            </span>
-                        </td>
-                        <td class="py-3 text-sm text-gray-900">${row.lastAccess}</td>
-                        <td class="py-3 text-sm text-center text-gray-900">${row.termSheet}</td>
-                        <td class="py-3 text-sm text-center text-gray-900">${row.teaser}</td>
-                        <td class="py-3 text-sm text-center text-gray-900">${row.financial}</td>
-                        <td class="py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.nda === 'Firmado' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-                                ${row.nda}
-                            </span>
-                        </td>
-                        <td class="py-3 text-sm text-gray-900">${row.totalTime}</td>
-                    </tr>
-                `).join('');
+                    const tbody = document.getElementById('detailedAnalysisTable');
+                    if (analysis.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="9" class="py-6 text-center text-gray-500">No hay datos de análisis disponibles</td></tr>';
+                    } else {
+                        tbody.innerHTML = analysis.map(row => `
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-3 text-sm text-gray-900">${row.email}</td>
+                                <td class="py-3 text-sm text-gray-900">${row.company}</td>
+                                <td class="py-3">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                        row.project === 'Senior' ? 'bg-blue-100 text-blue-800' : 
+                                        row.project === 'Equity' ? 'bg-green-100 text-green-800' : 
+                                        row.project === 'Full Equity' ? 'bg-purple-100 text-purple-800' :
+                                        'bg-gray-100 text-gray-800'
+                                    }">
+                                        ${row.project}
+                                    </span>
+                                </td>
+                                <td class="py-3 text-sm text-gray-900">${row.lastAccess}</td>
+                                <td class="py-3 text-sm text-center text-gray-900">${row.termSheet}</td>
+                                <td class="py-3 text-sm text-center text-gray-900">${row.teaser}</td>
+                                <td class="py-3 text-sm text-center text-gray-900">${row.financial}</td>
+                                <td class="py-3">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.nda === 'Solicitado' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                                        ${row.nda}
+                                    </span>
+                                </td>
+                                <td class="py-3 text-sm text-gray-900">${row.totalTime}</td>
+                            </tr>
+                        `).join('');
+                    }
+                    
+                    console.log('✅ Detailed analysis loaded:', analysis.length);
+                } catch (error) {
+                    console.error('❌ Error loading detailed analysis:', error);
+                    const tbody = document.getElementById('detailedAnalysisTable');
+                    tbody.innerHTML = '<tr><td colspan="9" class="py-6 text-center text-red-500">Error cargando análisis detallado</td></tr>';
+                }
             }
 
             startRealTimeUpdates() {
@@ -452,32 +671,108 @@
                 this.updateRealTimeMetrics();
             }
 
-            updateRealTimeMetrics() {
-                // Simular datos en tiempo real
-                document.getElementById('activeVisitors').textContent = Math.floor(Math.random() * 8) + 1;
-                document.getElementById('recentDownloads').textContent = Math.floor(Math.random() * 5);
-                document.getElementById('recentNDAs').textContent = Math.floor(Math.random() * 3);
-
-                // Log de eventos recientes
-                this.updateRecentEvents();
+            async updateRealTimeMetrics() {
+                try {
+                    const analyticsRes = await fetch('/api/analytics-real');
+                    const analyticsData = await analyticsRes.json();
+                    const analytics = analyticsData.data || analyticsData || [];
+                    
+                    const now = Date.now();
+                    const oneHourAgo = now - (60 * 60 * 1000);
+                    const fiveMinutesAgo = now - (5 * 60 * 1000);
+                    
+                    // Filter events from last hour
+                    const recentEvents = analytics.filter(e => {
+                        const eventTime = new Date(e.timestamp).getTime();
+                        return eventTime > oneHourAgo;
+                    });
+                    
+                    // Count active visitors (visited in last 5 minutes)
+                    const activeVisitorTokens = new Set();
+                    analytics.filter(e => {
+                        const eventTime = new Date(e.timestamp).getTime();
+                        return eventTime > fiveMinutesAgo;
+                    }).forEach(e => {
+                        if (e.visitor_token) {
+                            activeVisitorTokens.add(e.visitor_token);
+                        }
+                    });
+                    
+                    // Count downloads in last hour
+                    const recentDownloads = recentEvents.filter(e => e.event_type === 'download').length;
+                    
+                    // Count NDAs in last hour
+                    const recentNDAs = recentEvents.filter(e => 
+                        e.event_type === 'nda_request' || 
+                        (e.event_type === 'download' && e.event_data?.file_type === 'nda')
+                    ).length;
+                    
+                    // Update UI
+                    document.getElementById('activeVisitors').textContent = activeVisitorTokens.size;
+                    document.getElementById('recentDownloads').textContent = recentDownloads;
+                    document.getElementById('recentNDAs').textContent = recentNDAs;
+                    
+                    // Update recent events log
+                    this.updateRecentEvents(analytics);
+                    
+                } catch (error) {
+                    console.error('❌ Error updating real-time metrics:', error);
+                    document.getElementById('activeVisitors').textContent = '-';
+                    document.getElementById('recentDownloads').textContent = '-';
+                    document.getElementById('recentNDAs').textContent = '-';
+                }
             }
 
-            updateRecentEvents() {
-                const events = [
-                    { time: '14:32', event: 'Descarga: Term Sheet', user: 'j.garcia@***.com' },
-                    { time: '14:28', event: 'Solicitud NDA', user: 'm.lopez@***.com' },
-                    { time: '14:15', event: 'Nuevo visitante', user: 'p.martin@***.com' },
-                    { time: '14:02', event: 'Descarga: Teaser', user: 'a.rodriguez@***.com' }
-                ];
+            updateRecentEvents(analytics) {
+                if (!analytics || analytics.length === 0) {
+                    const container = document.getElementById('recentEventsLog');
+                    container.innerHTML = '<div class="text-sm text-gray-500">No hay eventos recientes</div>';
+                    return;
+                }
+                
+                // Get last 10 events
+                const recentEvents = analytics
+                    .filter(e => e.event_type === 'download' || e.event_type === 'nda_request' || e.event_type === 'page_visit')
+                    .slice(0, 10)
+                    .map(e => {
+                        const time = new Date(e.timestamp).toLocaleTimeString('es-ES', { 
+                            hour: '2-digit', 
+                            minute: '2-digit' 
+                        });
+                        
+                        let eventText = '';
+                        if (e.event_type === 'download') {
+                            const fileType = e.event_data?.file_type || 'documento';
+                            eventText = `Descarga: ${fileType}`;
+                        } else if (e.event_type === 'nda_request') {
+                            eventText = 'Solicitud NDA';
+                        } else if (e.event_type === 'page_visit') {
+                            const page = e.event_data?.page || '';
+                            eventText = `Visita: ${page}`;
+                        }
+                        
+                        // Mask email for privacy
+                        let userEmail = e.visitor_email || 'Anónimo';
+                        if (userEmail && userEmail.includes('@')) {
+                            const parts = userEmail.split('@');
+                            userEmail = parts[0].substring(0, 1) + '***@' + parts[1];
+                        }
+                        
+                        return { time, event: eventText, user: userEmail };
+                    });
 
                 const container = document.getElementById('recentEventsLog');
-                container.innerHTML = events.map(event => `
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-gray-900">${event.event}</span>
-                        <span class="text-gray-500">${event.time}</span>
-                    </div>
-                    <div class="text-xs text-gray-400 mb-2">${event.user}</div>
-                `).join('');
+                if (recentEvents.length === 0) {
+                    container.innerHTML = '<div class="text-sm text-gray-500">No hay eventos recientes</div>';
+                } else {
+                    container.innerHTML = recentEvents.map(event => `
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-900">${event.event}</span>
+                            <span class="text-gray-500">${event.time}</span>
+                        </div>
+                        <div class="text-xs text-gray-400 mb-2">${event.user}</div>
+                    `).join('');
+                }
             }
 
             getFileTypeColor(type) {
@@ -515,4 +810,4 @@
         });
     </script>
 </body>
-</html>
+</html><!-- sync -->

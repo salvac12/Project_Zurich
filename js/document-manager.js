@@ -232,33 +232,43 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.includes('equity_investment')) {
         const language = window.location.pathname.includes('_en') ? 'en' : 'es';
         
-        // Small delay to ensure DOM is ready
+        // We use native anchors with href+download on equity pages. Do NOT override.
         setTimeout(() => {
-            console.log(`Detected equity investment page, language: ${language}`);
-            
-            // Connect existing buttons instead of creating new ones
-            connectExistingButtons(language);
-        }, 500);
+            console.log(`Detected equity investment page, language: ${language} — using native anchors (no override)`);
+        }, 100);
     }
     
     // Connect buttons for senior financing pages  
     if (window.location.pathname.includes('senior_financing') || window.location.pathname.includes('project-zurich-equity')) {
         const language = window.location.pathname.includes('_en') ? 'en' : 'es';
         
+        // Senior pages also rely on native anchors with download; do not override.
         setTimeout(() => {
-            connectExistingButtons(language);
-        }, 500);
+            console.log(`Detected senior page, language: ${language} — using native anchors (no override)`);
+        }, 100);
     }
 });
 
 // Connect existing buttons to real documents
 function connectExistingButtons(language) {
     console.log('Connecting existing buttons to document downloads...');
+
+    // If the page already has direct download anchors, do not override.
+    const hasDirectAnchors = document.querySelector('a[download]');
+    if (hasDirectAnchors) {
+        console.log('Direct download anchors detected; skipping connectExistingButtons.');
+        return;
+    }
     
     // Find existing doc-button elements (the blue buttons shown in the images)
     const docButtons = document.querySelectorAll('.doc-button');
     
     docButtons.forEach(button => {
+        // Skip anchors that already handle direct downloads via href+download
+        if (button.tagName === 'A' && button.hasAttribute('download')) {
+            console.log('Skipping direct download button anchor');
+            return;
+        }
         const buttonText = button.textContent.trim().toLowerCase();
         let documentType = '';
         
@@ -289,6 +299,11 @@ function connectExistingButtons(language) {
     // Also connect navigation links in header
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
+        // Skip anchors that already handle direct downloads via href+download
+        if (link.tagName === 'A' && link.hasAttribute('download')) {
+            console.log('Skipping direct download nav link anchor');
+            return;
+        }
         const linkText = link.textContent.trim().toLowerCase();
         let documentType = '';
         

@@ -29,7 +29,7 @@
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
+            background: linear-gradient(135deg, #103971 0%, #3B82F6 100%);
             min-height: 100vh;
         }
         
@@ -54,16 +54,19 @@
         }
         
         .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
         }
         
-        .logo i {
-            font-size: 28px;
+        .logo:hover {
+            opacity: 0.85;
+        }
+        
+        .logo img {
+            height: 45px;
+            width: auto;
         }
         
         .header-nav {
@@ -74,6 +77,27 @@
             align-items: center;
         }
         
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .header-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
@@ -143,7 +167,7 @@
             text-align: center;
             font-size: 36px;
             font-weight: 700;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 50px;
         }
         
@@ -174,7 +198,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #1F3A8A, #10B981);
+            background: linear-gradient(90deg, #103971, #10B981);
         }
         
         .investment-card:hover {
@@ -198,8 +222,12 @@
             background: linear-gradient(45deg, #10B981, #059669);
         }
         
+        .equity-strategies-card .card-icon {
+            background: linear-gradient(45deg, #F59E0B, #D97706);
+        }
+        
         .debt-card .card-icon {
-            background: linear-gradient(45deg, #1F3A8A, #3B82F6);
+            background: linear-gradient(45deg, #103971, #3B82F6);
         }
         
         .admin-card .card-icon {
@@ -209,7 +237,7 @@
         .card-title {
             font-size: 22px;
             font-weight: 600;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 15px;
         }
         
@@ -232,7 +260,7 @@
         .metric-value {
             font-size: 18px;
             font-weight: 700;
-            color: #1F3A8A;
+            color: #103971;
         }
         
         .metric-label {
@@ -244,7 +272,7 @@
         .card-button {
             width: 100%;
             padding: 12px 24px;
-            background: #1F3A8A;
+            background: #103971;
             color: white;
             border: none;
             border-radius: 8px;
@@ -263,15 +291,15 @@
         
         .card-button-secondary {
             background: transparent !important;
-            border: 2px solid #1F3A8A !important;
-            color: #1F3A8A !important;
+            border: 2px solid #103971 !important;
+            color: #103971 !important;
             margin-top: 10px;
             font-size: 14px;
             padding: 10px 20px !important;
         }
         
         .card-button-secondary:hover {
-            background: #1F3A8A !important;
+            background: #103971 !important;
             color: white !important;
             transform: translateY(-2px);
         }
@@ -302,7 +330,7 @@
         .additional-title {
             font-size: 24px;
             font-weight: 600;
-            color: #1F3A8A;
+            color: #103971;
             margin-bottom: 30px;
             text-align: center;
         }
@@ -322,13 +350,13 @@
         }
         
         .page-item:hover {
-            border-color: #1F3A8A;
+            border-color: #103971;
             transform: translateY(-2px);
         }
         
         .page-link {
             text-decoration: none;
-            color: #1F3A8A;
+            color: #103971;
             font-weight: 600;
             font-size: 16px;
             display: flex;
@@ -396,15 +424,17 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-cube"></i>
-                    ALTER 5
-                </div>
+                <a href="https://www.alter-5.com" target="_blank" class="logo">
+                    <img src="images/alter5-logo-full.png" alt="Alter5 Logo">
+                </a>
                 <div class="header-nav">
                     <span>Investment Portfolio Hub</span>
                     <span style="margin-left: 20px; padding: 4px 8px; background: rgba(255,255,255,0.2); border-radius: 4px; font-size: 12px;">
                         🇪🇸 ES | 🇬🇧 EN Available
                     </span>
+                </div>
+                <div class="header-actions">
+                    <a href="admin-simple.html" class="header-link"><i class="fas fa-cog"></i> Panel de Administración</a>
                 </div>
             </div>
         </div>
@@ -415,7 +445,7 @@
         <div class="container">
             <h1 class="hero-title">Project ZURICH</h1>
             <h2 class="hero-subtitle">Investment Opportunities Hub</h2>
-            <div style="background: #FFD700; color: #1F3A8A; padding: 10px; border-radius: 5px; margin: 10px 0; font-weight: bold; text-align: center;">
+            <div style="background: #FFD700; color: #103971; padding: 10px; border-radius: 5px; margin: 10px 0; font-weight: bold; text-align: center;">
                 ✅ NEW VERSION ACTIVE - September 19, 2024 11:35 UTC
             </div>
             <p class="hero-description">
@@ -455,10 +485,10 @@
                     <div class="card-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3 class="card-title">Equity</h3>
+                    <h3 class="card-title">Equity apalancado</h3>
                     <p class="card-description">
-                        Inversión de EUR 21M "Build to Sale" de corto plazo (32 meses) en SOCIMI. 
-                        Vivienda asequible en zona prime con ventajas fiscales y retorno objetivo del 13.5% TIR.
+                        Inversión de EUR 21M en SOCIMI. Estrategia "Build to Sale" con horizonte de corto plazo (32-40 meses) 
+                        Vivienda asequible en zona prime con ventajas fiscales y retorno objetivo del 10-12% TIR.
                     </p>
                     <div class="card-metrics">
                         <div class="metric">
@@ -466,7 +496,7 @@
                             <div class="metric-label">Inversión</div>
                         </div>
                         <div class="metric">
-                            <div class="metric-value">13.5%</div>
+                            <div class="metric-value">10-12%</div>
                             <div class="metric-label">TIR Objetivo</div>
                         </div>
                         <div class="metric">
@@ -506,10 +536,71 @@
                             <div class="metric-label">Años</div>
                         </div>
                     </div>
-                    <a href="project-zurich-equity.html" class="card-button">
+                    <a href="senior_financing_es.html" class="card-button">
                         🇪🇸 Ver en Español
                     </a>
                     <a href="senior_financing_en.html" class="card-button card-button-secondary">
+                        🇬🇧 View in English
+                    </a>
+                </div>
+                <!-- Full Equity Card -->
+                <div class="investment-card equity-card">
+                    <div class="card-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="card-title">Equity No apalancado (BTR)</h3>
+                    <p class="card-description">
+                        Inversión full equity en BTR asequible (Valdebebas). 15 años regulados, SOCIMI y liberalización posterior con opciones de salida.
+                    </p>
+                    <div class="card-metrics">
+                        <div class="metric">
+                            <div class="metric-value">€59M</div>
+                            <div class="metric-label">Importe</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">15</div>
+                            <div class="metric-label">Años</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">251</div>
+                            <div class="metric-label">Viviendas</div>
+                        </div>
+                    </div>
+                    <a href="full_equity_es.html" class="card-button">
+                        🇪🇸 Ver en Español
+                    </a>
+                    <a href="full_equity_en.html" class="card-button card-button-secondary">
+                        🇬🇧 View in English
+                    </a>
+                </div>
+                
+                <!-- Equity Strategies Card -->
+                <div class="investment-card equity-strategies-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-network"></i>
+                    </div>
+                    <h3 class="card-title">Estrategias de Inversión Equity</h3>
+                    <p class="card-description">
+                        Dos estrategias equity diferenciadas: Build to Sale (corto plazo 32-36 meses) y Build to Rent (largo plazo 15 años). Seleccione según su horizonte de inversión.
+                    </p>
+                    <div class="card-metrics">
+                        <div class="metric">
+                            <div class="metric-value">2</div>
+                            <div class="metric-label">Estrategias</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">€20M-59M</div>
+                            <div class="metric-label">Rango</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">251</div>
+                            <div class="metric-label">Viviendas</div>
+                        </div>
+                    </div>
+                    <a href="equity_strategies.html" class="card-button">
+                        🇪🇸 Ver en Español
+                    </a>
+                    <a href="equity_strategies_en.html" class="card-button card-button-secondary">
                         🇬🇧 View in English
                     </a>
                 </div>
@@ -554,6 +645,14 @@
                         </a>
                         <p class="page-description">Listado completo de todas las páginas</p>
                     </div>
+                    <div class="page-item">
+                        <a href="unique_links.html" class="page-link">
+                            <i class="fas fa-link"></i>
+                            Generador de Enlaces Únicos
+                            <span class="badge">TOOLS</span>
+                        </a>
+                        <p class="page-description">Crea tokens y URLs personalizadas por inversor</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -572,7 +671,61 @@
         </div>
     </footer>
 
+    <script src="js/tracking.js"></script>
+
     <script>
+        // Password protection for index page
+        (function() {
+            const CORRECT_PASSWORD = 'Zurich2025'; // Cambia esta contraseña
+            const PASSWORD_KEY = 'zurich_auth';
+            const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 horas
+            
+            function checkAuth() {
+                try {
+                    const authData = localStorage.getItem(PASSWORD_KEY);
+                    if (authData) {
+                        const { timestamp } = JSON.parse(authData);
+                        const now = Date.now();
+                        if (now - timestamp < SESSION_DURATION) {
+                            return true; // Autenticado y sesión válida
+                        }
+                        localStorage.removeItem(PASSWORD_KEY); // Sesión expirada
+                    }
+                } catch(e) {}
+                return false;
+            }
+            
+            function promptPassword() {
+                const password = prompt('🔒 Acceso Restringido\n\nIntroduce la contraseña para acceder a Project ZURICH:');
+                
+                if (password === null) {
+                    // Usuario canceló
+                    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Inter,sans-serif;"><div style="text-align:center;"><h1 style="color:#2c5f7d;">🔒 Acceso Denegado</h1><p>Se requiere contraseña para acceder.</p></div></div>';
+                    return false;
+                }
+                
+                if (password === CORRECT_PASSWORD) {
+                    // Guardar autenticación
+                    try {
+                        localStorage.setItem(PASSWORD_KEY, JSON.stringify({
+                            timestamp: Date.now()
+                        }));
+                    } catch(e) {}
+                    return true;
+                } else {
+                    alert('❌ Contraseña incorrecta');
+                    return promptPassword(); // Volver a preguntar
+                }
+            }
+            
+            // Verificar autenticación al cargar
+            if (!checkAuth()) {
+                if (!promptPassword()) {
+                    return; // Bloquear carga
+                }
+            }
+        })();
+
         document.addEventListener('DOMContentLoaded', function() {
             // Add smooth scrolling
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -605,4 +758,4 @@
         });
     </script>
 </body>
-</html>
+</html><!-- sync -->

@@ -1,0 +1,516 @@
+🚀 API Handler initialized { supabase: 'ENABLED', url: 'https://kgwoiuaovzinkzzxqlos.s...' }
+🚀 Local server started!
+📍 Server running at: http://localhost:35000
+
+📄 Pages:
+   Home: http://localhost:35000/index.html
+   Generate Links: http://localhost:35000/unique_links.html
+   Analytics: http://localhost:35000/analytics-dashboard.html
+
+🔌 API Endpoints:
+   Test: http://localhost:35000/api/handler
+   Visitors: http://localhost:35000/api/visitors
+   Analytics: http://localhost:35000/api/analytics-events
+
+✅ Supabase configured: true
+
+Press Ctrl+C to stop the server
+GET /api/handler
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/handler', url: '/api/handler' }
+❌ Route not found: /api/handler
+GET /favicon.ico
+GET /unique_links.html
+POST /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'POST', path: '/api/visitors', url: '/api/visitors' }
+➕ POST /api/visitors { email: 'test1@ejemplo.es' }
+✅ Visitor created: test1@ejemplo.es
+GET /equity_investment.html
+GET /images/project-zurich-new.jpg
+GET /js/tracking.js
+GET /js/document-manager.js
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/visitors',
+  url: '/api/visitors?limit=1000'
+}
+📊 GET /api/visitors
+✅ Retrieved visitors: 1
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'page_visit' }
+✅ Event created: page_visit
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'download' }
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'session_end' }
+✅ Event created: download
+✅ Event created: session_end
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'download' }
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'session_end' }
+✅ Event created: session_end
+✅ Event created: download
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'download' }
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'session_end' }
+✅ Event created: download
+✅ Event created: session_end
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'cta_click' }
+✅ Event created: cta_click
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'session_end' }
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'session_end' }
+✅ Event created: session_end
+✅ Event created: session_end
+GET /
+GET /js/tracking.js
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/visitors',
+  url: '/api/visitors?limit=1000'
+}
+📊 GET /api/visitors
+✅ Retrieved visitors: 1
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'page_visit' }
+✅ Event created: page_visit
+GET /analytics-dashboard.html
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'session_end' }
+POST /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'POST',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+➕ POST /api/analytics-events { type: 'session_end' }
+GET /css/alter5-colors.css
+GET /js/config.js
+GET /js/supabase-client.js
+✅ Event created: session_end
+✅ Event created: session_end
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved visitors: 1
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-real
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-real',
+  url: '/api/analytics-real'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+✅ Retrieved visitors: 1
+GET /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/analytics-events
+→ Routing to API handler
+📨 API Request: {
+  method: 'GET',
+  path: '/api/analytics-events',
+  url: '/api/analytics-events'
+}
+📊 GET /api/analytics-events
+✅ Retrieved events: 13
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+✅ Retrieved visitors: 1
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+✅ Retrieved visitors: 1
+POST /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'POST', path: '/api/visitors', url: '/api/visitors' }
+➕ POST /api/visitors { email: 'manual@test.com' }
+✅ Visitor created: manual@test.com
+GET /api/visitors
+→ Routing to API handler
+📨 API Request: { method: 'GET', path: '/api/visitors', url: '/api/visitors' }
+📊 GET /api/visitors
+✅ Retrieved visitors: 2

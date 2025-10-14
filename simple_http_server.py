@@ -8,7 +8,7 @@ import sys
 # Cambiar al directorio correcto
 os.chdir('/home/user/webapp')
 
-PORT = 8080
+PORT = 8000
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format, *args):

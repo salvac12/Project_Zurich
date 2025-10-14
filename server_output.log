@@ -1,0 +1,44 @@
+127.0.0.1 - - [20/Sep/2025 14:46:35] "HEAD / HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 14:50:07] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 14:50:07] "GET /images/project-zurich-new.jpg HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 14:50:07] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 14:50:08] code 404, message File not found
+10.12.26.178 - - [20/Sep/2025 14:50:08] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [20/Sep/2025 14:56:03] "HEAD /equity_investment.html HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 14:56:48] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 14:56:48] "GET /images/project-zurich-new.jpg HTTP/1.1" 304 -
+10.12.26.178 - - [20/Sep/2025 14:56:48] "GET /js/document-manager.js HTTP/1.1" 304 -
+127.0.0.1 - - [20/Sep/2025 15:00:15] "HEAD /equity_investment.html HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 15:01:00] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 15:01:00] "GET /js/document-manager.js HTTP/1.1" 304 -
+10.12.26.178 - - [20/Sep/2025 15:01:00] "GET /images/project-zurich-new.jpg HTTP/1.1" 304 -
+10.12.26.178 - - [20/Sep/2025 15:01:19] "GET /debt_investment.html HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 15:02:15] "GET /equity_investment.html HTTP/1.1" 304 -
+127.0.0.1 - - [20/Sep/2025 15:04:49] "HEAD /equity_investment.html HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 15:11:31] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.26.178 - - [20/Sep/2025 15:11:32] "GET /images/project-zurich-new.jpg HTTP/1.1" 304 -
+10.12.26.178 - - [20/Sep/2025 15:11:32] "GET /js/document-manager.js HTTP/1.1" 304 -
+127.0.0.1 - - [20/Sep/2025 15:14:09] "HEAD /equity_investment.html HTTP/1.1" 200 -
+10.12.17.206 - - [20/Sep/2025 21:25:54] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.17.206 - - [20/Sep/2025 21:25:54] "GET /images/project-zurich-new.jpg HTTP/1.1" 200 -
+10.12.17.206 - - [20/Sep/2025 21:25:54] "GET /js/document-manager.js HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:04:58] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:04:58] "GET /js/document-manager.js HTTP/1.1" 304 -
+10.12.69.88 - - [21/Sep/2025 09:04:58] "GET /images/project-zurich-new.jpg HTTP/1.1" 304 -
+10.12.69.88 - - [21/Sep/2025 09:05:19] "GET /debt_investment.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:06:08] code 404, message File not found
+10.12.69.88 - - [21/Sep/2025 09:06:08] "GET /https:/8000-i7gwq3lrzp9gaumnguh72-6532622b.e2b.dev/equity_investment.html HTTP/1.1" 404 -
+10.12.69.88 - - [21/Sep/2025 09:06:14] "GET /equity_investment.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:06:55] code 404, message File not found
+10.12.69.88 - - [21/Sep/2025 09:06:55] "GET /senior_finan HTTP/1.1" 404 -
+10.12.69.88 - - [21/Sep/2025 09:07:01] code 404, message File not found
+10.12.69.88 - - [21/Sep/2025 09:07:01] "GET /senior_financing.html HTTP/1.1" 404 -
+127.0.0.1 - - [21/Sep/2025 09:07:56] "HEAD /index-investment-hub.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:10:06] "GET /index-investment-hub.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:10:27] "GET /index.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:10:34] "GET /equity_investment_en.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:10:35] "GET /project-zurich-equity.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:10:35] "GET /senior_financing_en.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:30:29] "GET /index-investment-hub-en.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:30:38] "GET /equity_investment_en.html HTTP/1.1" 200 -
+10.12.69.88 - - [21/Sep/2025 09:30:45] "GET /project-zurich-equity.html HTTP/1.1" 200 -

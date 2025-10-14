@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project ZURICH - Inversión Equity | Alter5</title>
     <meta name="description" content="Inversión de EUR 21M Build to Sale de corto plazo (32 meses) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="version" content="no-turquoise-v3-<?php echo time(); ?>">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,7 +104,6 @@
             background-color: #ffffff;
             padding: 30px;
             border-radius: 8px;
-            border-left: 4px solid #1F3A8A;
         }
         
         .project-description p {
@@ -181,7 +184,7 @@
         
         .doc-buttons {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
         
@@ -221,85 +224,13 @@
         
         .stat-box {
             background-color: #ffffff;
-            border: 1px solid #BFDBFE;
+            border: 1px solid #E5E7EB;
             border-radius: 8px;
             padding: 20px;
             text-align: center;
         }
         
-        /* NDA Modal */
-        .nda-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .nda-modal.show {
-            display: flex;
-        }
-        
-        .nda-modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        .nda-modal-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #6B7280;
-            cursor: pointer;
-        }
-        
-        .nda-modal-close:hover {
-            color: #1F3A8A;
-        }
-        
-        .nda-modal h3 {
-            color: #1F3A8A;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        
-        .nda-modal p {
-            color: #374151;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        
-        .nda-request-btn {
-            background: linear-gradient(135deg, #1F3A8A 0%, #3B82F6 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .nda-request-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(31, 58, 138, 0.3);
-        }
+
         
         .stat-value {
             font-size: 24px;
@@ -421,96 +352,7 @@
             line-height: 1.5;
         }
         
-        /* Investment parameters */
-        .investment-params {
-            margin: 60px 0;
-            background-color: #F9FAFB;
-            padding: 40px;
-            border-radius: 12px;
-        }
-        
-        .params-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-        
-        .param-item {
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid #10B981;
-        }
-        
-        .param-label {
-            font-size: 12px;
-            color: #6B7280;
-            text-transform: uppercase;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-        
-        .param-value {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1F3A8A;
-            margin-bottom: 5px;
-        }
-        
-        .param-note {
-            font-size: 12px;
-            color: #9CA3AF;
-        }
-        
-        /* ESG section */
-        .esg-section {
-            margin: 60px 0;
-            background-color: #ECFDF5;
-            padding: 40px;
-            border-radius: 12px;
-        }
-        
-        .esg-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .esg-item {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-        }
-        
-        .esg-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #10B981;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .esg-icon i {
-            color: white;
-            font-size: 20px;
-        }
-        
-        .esg-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1F3A8A;
-            margin-bottom: 15px;
-        }
-        
-        .esg-description {
-            color: #6B7280;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+
         
         /* Next steps */
         .next-steps {
@@ -586,7 +428,7 @@
         
         .cta-disclaimer {
             font-size: 14px;
-            color: #BFDBFE;
+            color: #9CA3AF;
             font-style: italic;
         }
         
@@ -606,6 +448,87 @@
         .copyright {
             font-size: 12px;
             color: #9CA3AF;
+        }
+        
+        /* Transaction details */
+        .transaction-details {
+            margin: 60px 0;
+        }
+        
+        .transaction-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .transaction-item {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .transaction-label {
+            font-size: 12px;
+            color: #6B7280;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .transaction-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F3A8A;
+        }
+        
+        /* Risk mitigation */
+        .risk-mitigation {
+            margin: 60px 0;
+        }
+        
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .risk-item {
+            background-color: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .risk-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .risk-icon i {
+            font-size: 24px;
+            color: #1F3A8A;
+        }
+        
+        .risk-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F3A8A;
+            margin-bottom: 15px;
+        }
+        
+        .risk-description {
+            font-size: 14px;
+            color: #6B7280;
+            line-height: 1.6;
         }
         
         /* Responsive */
@@ -634,111 +557,20 @@
                 grid-template-columns: 1fr;
             }
             
-            .params-grid {
+            .transaction-grid {
                 grid-template-columns: 1fr;
             }
             
-            .esg-grid {
+            .risk-grid {
                 grid-template-columns: 1fr;
             }
             
             .steps-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
-            .docs-grid {
-                grid-template-columns: 1fr;
-            }
         }
         
-        /* Documentation Section */
-        .documentation-section {
-            background: #F8FAFC;
-            padding: 60px 40px;
-            margin-bottom: 60px;
-        }
 
-        .docs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .doc-item {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            border: 1px solid #E2E8F0;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .doc-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .doc-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background: linear-gradient(45deg, #1F3A8A, #3B82F6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 24px;
-            color: white;
-        }
-
-        .doc-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1F3A8A;
-            margin-bottom: 10px;
-        }
-
-        .doc-description {
-            color: #64748B;
-            font-size: 14px;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .document-downloads {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .document-download-btn {
-            background: #1F3A8A !important;
-            color: white !important;
-            border: none !important;
-            padding: 10px 16px !important;
-            border-radius: 6px !important;
-            cursor: pointer !important;
-            font-size: 14px !important;
-            transition: all 0.2s !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            text-decoration: none !important;
-            width: 100% !important;
-            justify-content: center !important;
-        }
-
-        .document-download-btn:hover {
-            background: #1E3A8A !important;
-            transform: translateY(-2px) !important;
-        }
-
-        .file-size {
-            font-size: 12px;
-            opacity: 0.8;
-        }
     </style>
 </head>
 <body>
@@ -776,7 +608,7 @@
             <!-- Hero Section -->
             <div class="hero-section">
                 <div class="project-description">
-                    <p><strong>Inversión de EUR 21M "Build to Sale" de corto plazo (32 meses) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid.</strong></p>
+                    <p>Inversión de EUR 21M "Build to Sale" de corto plazo (32 meses) en SOCIMI para proyecto de construcción de vivienda asequible en zona prime de Madrid.</p>
                     
                     <p>Oportunidad de invertir hasta un máximo de 20.2M€ en la fase de construcción y estabilización de un edificio residencial de alquiler asequible en Valdebebas, una de las zonas con mayor crecimiento y revalorización de Madrid.</p>
                     
@@ -824,7 +656,11 @@
                         <i class="fas fa-file-pdf"></i>
                         TEASER
                     </button>
-                    <button class="doc-button" id="financial-model-btn">
+                    <button class="doc-button">
+                        <i class="fas fa-file-alt"></i>
+                        TERM-SHEET
+                    </button>
+                    <button class="doc-button">
                         <i class="fas fa-chart-line"></i>
                         MODELO FINANCIERO
                     </button>
@@ -915,80 +751,81 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Investment Parameters -->
-            <div class="investment-params">
-                <h2 class="section-title">Parámetros de Inversión</h2>
-                <div class="params-grid">
-                    <div class="param-item">
-                        <div class="param-label">APORTACIÓN DE EQUITY</div>
-                        <div class="param-value">EUR 20.2M</div>
-                        <div class="param-note">Máximo solicitado</div>
+
+            <!-- Transaction Details -->
+            <div class="transaction-details">
+                <h2 class="section-title">Detalles de la Transacción</h2>
+                <div class="transaction-grid">
+                    <div class="transaction-item">
+                        <div class="transaction-label">PROMOTOR</div>
+                        <div class="transaction-value">SPV ("AssetCo") agrupando todos los activos</div>
                     </div>
-                    <div class="param-item">
-                        <div class="param-label">VEHÍCULO DE INVERSIÓN</div>
-                        <div class="param-value">SOCIMI</div>
-                        <div class="param-note">Ventaja fiscal en plusvalía</div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">MONTO DE EQUITY</div>
+                        <div class="transaction-value">€21,000,000</div>
                     </div>
-                    <div class="param-item">
-                        <div class="param-label">HORIZONTE</div>
-                        <div class="param-value">32 meses</div>
-                        <div class="param-note">Construcción + estabilización</div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">ESTRUCTURA</div>
+                        <div class="transaction-value">Inversión de equity con período de construcción 32 meses</div>
                     </div>
-                    <div class="param-item">
-                        <div class="param-label">TIR OBJETIVO</div>
-                        <div class="param-value">13.5%</div>
-                        <div class="param-note">Rentabilidad anual</div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">LOAN TO COST</div>
+                        <div class="transaction-value">71%</div>
                     </div>
-                    <div class="param-item">
-                        <div class="param-label">YIELD PROTEGIDO</div>
-                        <div class="param-value">6%</div>
-                        <div class="param-note">Durante período de protección</div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">TIR OBJETIVO</div>
+                        <div class="transaction-value">13.5%</div>
                     </div>
-                    <div class="param-item">
-                        <div class="param-label">OCUPACIÓN ESPERADA</div>
-                        <div class="param-value">>97%</div>
-                        <div class="param-note">Producto comparable</div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">MARGEN DE SEGURIDAD</div>
+                        <div class="transaction-value">Alto colchón de equity</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">PLAZO</div>
+                        <div class="transaction-value">32 meses</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-label">SALIDA</div>
+                        <div class="transaction-value">Venta a inversor institucional</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Mitigation Factors -->
+            <div class="risk-mitigation">
+                <h2 class="section-title">Factores de Mitigación de Riesgo</h2>
+                <div class="risk-grid">
+                    <div class="risk-item">
+                        <div class="risk-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="risk-title">Alta Cobertura de Equity</div>
+                        <div class="risk-description">El vehículo de inversión (SOCIMI) aporta aproximadamente €20M de equity, absorbiendo las primeras pérdidas y asegurando alineación de intereses.</div>
+                    </div>
+                    <div class="risk-item">
+                        <div class="risk-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="risk-title">Ubicación Estratégica</div>
+                        <div class="risk-description">Valdebebas combina infraestructura moderna, excelente conectividad y estructuralmente mayor demanda que oferta.</div>
+                    </div>
+                    <div class="risk-item">
+                        <div class="risk-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <div class="risk-title">Riesgo Urbanístico Eliminado</div>
+                        <div class="risk-description">Terrenos adquiridos con licencia otorgada y proyecto aprobado de acuerdo con la Ley 3/2024 (conversión de suelo de oficinas a residencial protegido).</div>
+                    </div>
+                    <div class="risk-item">
+                        <div class="risk-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="risk-title">Flujos de Caja Predecibles</div>
+                        <div class="risk-description">Alquiler asequible con ocupación esperada >97% durante el período de protección.</div>
                     </div>
                 </div>
             </div>
             
-            <!-- ESG Section -->
-            <div class="esg-section">
-                <h2 class="section-title">Criterios ESG Integrados</h2>
-                <div class="esg-grid">
-                    <div class="esg-item">
-                        <div class="esg-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="esg-title">Social (S)</div>
-                        <div class="esg-description">
-                            Vivienda asequible regulada en mercado tensionado. Precio de alquiler 20-30% por debajo del mercado libre, contribuyendo a la reducción del déficit habitacional.
-                        </div>
-                    </div>
-                    <div class="esg-item">
-                        <div class="esg-icon">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <div class="esg-title">Medioambiental (E)</div>
-                        <div class="esg-description">
-                            Diseño bajo estándares de eficiencia energética y sostenibilidad. Certificaciones energéticas A/B y puntos de recarga para vehículos eléctricos.
-                        </div>
-                    </div>
-                    <div class="esg-item">
-                        <div class="esg-icon">
-                            <i class="fas fa-balance-scale"></i>
-                        </div>
-                        <div class="esg-title">Gobernanza (G)</div>
-                        <div class="esg-description">
-                            Inversión canalizada través de SOCIMI con estructura transparente. Reporting periódico incluyendo métricas ESG y de impacto social.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-
-
             <!-- Next Steps -->
             <div class="next-steps">
                 <h2 class="section-title">Próximos Pasos</h2>
@@ -1068,53 +905,7 @@
                 alert('¡Gracias por su interés! Nuestro equipo de inversión se pondrá en contacto con usted en breve.');
             });
         });
-        
-        // NDA Modal functionality
-        const financialModelBtn = document.getElementById('financial-model-btn');
-        const ndaModal = document.getElementById('nda-modal');
-        const ndaModalClose = document.getElementById('nda-modal-close');
-        const ndaRequestBtn = document.getElementById('nda-request-btn');
-        
-        if (financialModelBtn) {
-            financialModelBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                ndaModal.classList.add('show');
-            });
-        }
-        
-        if (ndaModalClose) {
-            ndaModalClose.addEventListener('click', function() {
-                ndaModal.classList.remove('show');
-            });
-        }
-        
-        if (ndaRequestBtn) {
-            ndaRequestBtn.addEventListener('click', function() {
-                alert('Su solicitud de NDA ha sido enviada. Nuestro equipo se pondrá en contacto con usted en breve.');
-                ndaModal.classList.remove('show');
-            });
-        }
-        
-        // Close modal when clicking outside
-        ndaModal?.addEventListener('click', function(e) {
-            if (e.target === ndaModal) {
-                ndaModal.classList.remove('show');
-            }
-        });
     </script>
-
-    <!-- NDA Modal -->
-    <div id="nda-modal" class="nda-modal">
-        <div class="nda-modal-content">
-            <button id="nda-modal-close" class="nda-modal-close">&times;</button>
-            <h3>🔒 Acceso al Modelo Financiero</h3>
-            <p>Para acceder al modelo financiero es necesario firmar el NDA (Acuerdo de Confidencialidad).</p>
-            <p>Una vez firmado, tendrá acceso completo a toda la información financiera detallada del proyecto.</p>
-            <button id="nda-request-btn" class="nda-request-btn">
-                📋 Solicitar NDA
-            </button>
-        </div>
-    </div>
 
 </body>
 </html>
